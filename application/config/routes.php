@@ -54,3 +54,6 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['Admin'] = 'Admin/login';
+$route['Admin/admin_user_log'] = 'Admin/change_content/1/11';
+$route['Admin/admin_sum_exec'] = 'Admin/change_content/1/12';
+$route['Admin/admin_list_file'] = 'Admin/change_content/1/13';

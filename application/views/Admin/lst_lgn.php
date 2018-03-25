@@ -15,6 +15,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/datatables/dataTables.bootstrap.css">
   <!-- jvectormap -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
   <!-- Theme style -->
@@ -44,82 +46,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Summary Executive        
+        Login List        
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Admin</a></li>
-        <li class="active">Summary Executive</li>
+        <li class="active">Login List</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
        <?php
+                   
                    $box=array('class'=>'');
                    $header_box = array('class'=>'with-border','title'=>'','tools'=>array(array('widget'=>'collapse','icon'=>'fa fa-minus'),array('widget'=>'remove','icon'=>'fa fa-times')));
+
+                   $frm = new html_form();
+                   $form_group = new form_group("Jenis User",$frm->addSelectList("jns_user",array(1=>"Admin",2=>"Mahasiswa",3=>"Dosen"),true,null,null,array('class'=>'form-control','id'=>'jns_user')));
+                   $content2 = array(array($form_group->display())); 
                    
+                   $row = array('jml'=>1);
+                   $col = array('jml'=>1,'class'=>array('col-xs-12'));
+                   $divrowcol = new div_row_col($row,$col,$content2);
+                   $body1=$divrowcol->display();
+
+                   $header_box['title']='Filter';                   
+                   $tempbox=new box($box,$header_box,$body1,$frm->addInput('submit',"Filter","Filter",array('class'=>'btn btn-info pull-right','id'=>'filter'))); 
+                   $content1=array(array($tempbox->display()));
+
                    $box1=array('class'=>'box-danger box-solid');
                    $header_box1 = array('class'=>'','title'=>'Loading...');
                    $overlay = array('class'=>'overlay','icon'=>'fa fa-refresh fa-spin');
                    $body6 = 'Loading Data';                    
                    $box_loading=new box($box1,$header_box1,$body6,'',$overlay); 
-                   
-                   $body3="<div id='chartContainer' style='height: 300px; width: 100%'>".$box_loading->display()."</div>";  
-                   $header_box['title']='Jumlah Mahasiswa Aktif Sem. Berjalan';                   
-                   $tempbox=new box($box,$header_box,$body3); 
-                   $content2=array(array($tempbox->display()));
 
-                   $body4="<div id='chartContainer1' style='height: 300px; width: 100%'>".$box_loading->display()."</div>";   
-                   $header_box['title']='Jumlah Mahasiswa Aktif 20081-sekarang';                   
-                   $tempbox=new box($box,$header_box,$body4); 
-                   $content2[]=array($tempbox->display()); 
+                   $body2='<div id="data">'.$box_loading->display().'<div>'; 
 
-                   $body5="<div id='chartContainer2' style='height: 300px; width: 100%'>".$box_loading->display()."</div>"; ;  
-                   $header_box['title']='Status Mahasiswa';                   
-                   $tempbox=new box($box,$header_box,$body5); 
-                   $content2[]=array($tempbox->display()); 
-
-
-                   $row = array('jml'=>3);
-                   $col = array('jml'=>1,'class'=>array('col-xs-12'));
-                   $divrowcol = new div_row_col($row,$col,$content2);
-                   $body1=$divrowcol->display();              
-
-                   
-                   $header_box['title']='Rekap Status Mahasiswa';                   
-                   $tempbox=new box($box,$header_box,$body1); 
-                   $content1=array(array($tempbox->display()));
-
-                   
-                   $body3="<div id='chartContainer3' style='height: 300px; width: 100%'>".$box_loading->display()."</div>";   
-                   $header_box['title']='Jumlah Penerimaan Perbulan';                   
-                   $tempbox=new box($box,$header_box,$body3); 
-                   $content2=array(array($tempbox->display()));
-
-                   $body4="<div id='chartContainer4' style='height: 300px; width: 100%'>".$box_loading->display()."</div>";   
-                   $header_box['title']='Jumlah Penerimaan Perangkatan';                   
-                   $tempbox=new box($box,$header_box,$body4); 
-                   $content2[]=array($tempbox->display()); 
-
-                   $body5="<div id='chartContainer5' style='height: 300px; width: 100%'>".$box_loading->display()."</div>";   
-                   $header_box['title']='Jumlah Penerimaan Perakun';                   
-                   $tempbox=new box($box,$header_box,$body5); 
-                   $content2[]=array($tempbox->display()); 
-
-
-                   $row = array('jml'=>3);
-                   $col = array('jml'=>1,'class'=>array('col-xs-12'));
-                   $divrowcol = new div_row_col($row,$col,$content2);
-                   $body2=$divrowcol->display(); 
-
-                   $header_box['title']='Rekap Keuangan';
+                   $header_box['title']='Login List';
                    $tempbox=new box($box,$header_box,$body2); 
                    $content1[]=array($tempbox->display());
 
                    $row = array('jml'=>2);
                    $col = array('jml'=>1,'class'=>array('col-xs-12'));
                    $divrowcol = new div_row_col($row,$col,$content1);
-                   echo $divrowcol->display();
+                   echo $divrowcol->display();   
        ?>    
     </section>
     <!-- /.content -->
@@ -152,6 +122,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- jvectormap -->
 <script src="<?php echo base_url();?>assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="<?php echo base_url();?>assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<!-- DataTables -->
+<script src="<?php echo base_url();?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url();?>assets/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <!-- SlimScroll 1.3.0 -->
 <script src="<?php echo base_url();?>assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- ChartJS 1.0.1 -->
@@ -161,16 +134,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- AdminLTE for demo purposes 
 <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>-->
 <script type="text/javascript" src="<?php echo base_url();?>assets/dist/js/siamipa.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/dist/js/Admin/frm_sum_exec.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/plugins/canvasjs/jquery.canvasjs.min.js"></script>
+
 <script type="text/javascript">
+ 
+  function filter()
+  {
+     var kode = $("#jns_user").val();
+     $("#data").html('<?php echo $box_loading->display(); ?>');
+     var vmyajax = new myajax();
+     vmyajax.url = "filter_log";
+     vmyajax.data = "tg=" + kode;
+     vmyajax.dataType = 'html';
+     vmyajax.success = function success(data) {
+          $("#data").html(data);
+          $("#lst_lg").dataTable();
+      }
+     vmyajax.getdata();
+  } 
+
+
  $(function () {
-          fgambarchart("chartContainer", 1);
-          fgambarchart("chartContainer1", 2);
-          fgambarchart("chartContainer2", 3);
-          fgambarchart1("chartContainer3", 4);
-          fgambarchart1("chartContainer4", 5);
-          fgambarchart1("chartContainer5", 6);
+     filter();
+     $("#filter").click(function () {
+       filter();
+     });
  }); 
 
 

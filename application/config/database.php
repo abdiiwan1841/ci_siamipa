@@ -79,7 +79,7 @@ $query_builder = TRUE;
 	$password = '123456';
 	$database = 'siafmipa_copy';
 
-if ($_SERVER['HTTP_HOST']=='fmipa-unibba.org') {
+if ($_SERVER['HTTP_HOST']=='siatest.fmipa-unibba.org') {
     $dsn='mysql:host=localhost;dbname=fmipaun_siafmipa';
 	$hostname = 'localhost';
 	$username = 'fmipaun_cecep';

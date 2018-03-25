@@ -17,10 +17,7 @@ class Staff_model extends CI_Model {
       $this->numrows = $this->query->num_rows();
       if($this->query->num_rows()>0)
       {
-        foreach($this->query->result_array() as $row)
-        {
-           $hsl[]=$row;
-        }
+        $hsl=$this->query->result_array();
       }
       return $hsl; 
    } 
