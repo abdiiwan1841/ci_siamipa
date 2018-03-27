@@ -70,28 +70,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
-$active_group = 'default';
+$active_group = 'admin';
 $query_builder = TRUE;
 
     $dsn='mysql:host=localhost;dbname=siafmipa_copy';
 	$hostname = 'localhost';
-	$username = 'root';
-	$password = '123456';
+	$admin_username = 'admin_siamipa';
+	$admin_password = 'adminsiamipa';
 	$database = 'siafmipa_copy';
 
-if ($_SERVER['HTTP_HOST']=='siatest.fmipa-unibba.org') {
+if ($_SERVER['HTTP_HOST']=='testsia.fmipa-unibba.org') {
     $dsn='mysql:host=localhost;dbname=fmipaun_siafmipa';
 	$hostname = 'localhost';
-	$username = 'fmipaun_cecep';
-	$password = 'cecep1982';
+	$admin_username = 'fmipaun_cecep';
+	$admin_password = 'cecep1982';
 	$database = 'fmipaun_siafmipa';	
 }
 
-$db['default'] = array(
+$db['admin'] = array(
 	'dsn'	=> $dsn,
 	'hostname' => $hostname,
-	'username' => $username,
-	'password' => $password,
+	'username' => $admin_username,
+	'password' => $admin_password,
 	'database' => $database,
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',

@@ -54,7 +54,7 @@ function mydatatable() {
 	this.aoColumnDefs = [];
 	this.aaSortingFixed = [];
 	this.aaSorting = [];
-	this.dom = '';
+	this.dom = "<'row'<'col-sm-6'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>";
 	this.buttons = [];
 	this.bProcessing = false;
     this.bServerSide = false;
@@ -62,6 +62,8 @@ function mydatatable() {
 	this.sServerMethod= null;
 	this.fnServerParams=null;
 	this.oLanguage = {};
+	this.src_open = 'details_open.png';
+	this.src_close = 'details_close.png';
 	this.settemplate = function () {
 		switch (this.template) {
 		case 1:
@@ -97,31 +99,7 @@ function mydatatable() {
 			};
 			this.aoColumnDefs = [{
 					"bVisible" : false,
-					"aTargets" : [0]
-				}, {
-					"fnRender" : function (oObj, sVal) {
-
-						switch (title) {
-						case 0:
-							var txt = "";
-							if (sVal.substr(4, 1) == 1) {
-								txt = "Semester Ganjil";
-							} else {
-								txt = "Semester Genap";
-							}
-							txt = txt + " " + sVal.substr(0, 4);
-							return txt;
-							break;
-						case 1:
-							return "Semester " + sVal;
-							break;
-						case 2:
-							return "Angkatan " + sVal;
-							break;
-						}
-					},
-					"aTargets" : [0]
-				}
+					"aTargets" : [0]}
 			];
 			this.aaSortingFixed = [[0, 'asc']];
 			this.aaSorting = [[1, 'asc']];
@@ -154,6 +132,8 @@ function mydatatable() {
 	this.togle = function () {
 		var nCloneTh = document.createElement('th');
 		var nCloneTd = document.createElement('td');
+		var src_open = this.src_open;
+		var src_close = this.src_close;
 		nCloneTd.innerHTML = '<img src="details_open.png">';
 		nCloneTd.className = "center";
 
@@ -167,15 +147,15 @@ function mydatatable() {
 
 		var idxdetail = this.idxdetail;
 		
-		$('#' + this.id + '  tbody td img').live('click', function () {
+		$('#' + this.id + ' tbody').on('click','td img', function () {
 			var nTr = $(this).parents('tr')[0];
 			if (oTable.fnIsOpen(nTr)) {
 
-				this.src = "details_open.png";
+				this.src = src_open;
 				oTable.fnClose(nTr);
 			} else {
 
-				this.src = "details_close.png";
+				this.src = src_close; 
 
 				var aData = oTable.fnGetData(nTr);
 				

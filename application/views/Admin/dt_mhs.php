@@ -13,6 +13,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- bootstrap datepicker -->
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/datepicker/datepicker3.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- DataTables -->
@@ -47,11 +49,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        List File        
+        Data Mahasiswa        
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>Admin</a></li>
-        <li class="active">List File</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>Mahasiswa</a></li>
+        <li class="active">Data Mahasiswa</li>
       </ol>
     </section>
 
@@ -70,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                    $body2='<div id="data">'.$box_loading->display().'<div>'; 
 
-                   $header_box['title']='List File';
+                   $header_box['title']='Data Mahasiswa';
                    $tempbox=new box($box,$header_box,$body2); 
                    $content1[]=array($tempbox->display());
 
@@ -78,7 +80,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                    $col = array('jml'=>1,'class'=>array('col-xs-12'));
                    $divrowcol = new div_row_col($row,$col,$content1);
                    echo $divrowcol->display();   
-       ?>    
+       ?> 
+
+ <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+       <div id='modal'>
+         
+       </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal --> 
+
     </section>
     <!-- /.content -->
   </div>
@@ -110,6 +123,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- jvectormap -->
 <script src="<?php echo base_url();?>assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="<?php echo base_url();?>assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<!-- bootstrap datepicker -->
+<script src="<?php echo base_url();?>assets/plugins/datepicker/bootstrap-datepicker.js"></script>
+<!-- InputMask -->
+<script src="<?php echo base_url();?>assets/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="<?php echo base_url();?>assets/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="<?php echo base_url();?>assets/plugins/input-mask/jquery.inputmask.extensions.js"></script>
 <!-- DataTables -->
 <script src="<?php echo base_url();?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?php echo base_url();?>assets/plugins/datatables/dataTables.bootstrap.min.js"></script>
@@ -123,78 +142,88 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- AdminLTE for demo purposes 
 <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>-->
 <script type="text/javascript" src="<?php echo base_url();?>assets/dist/js/siamipa.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
 <script type="text/javascript">
  
-  function get_lst_file()
+
+
+
+
+  function get_dt_mhs()
   {
      $("#data").html('<?php echo $box_loading->display(); ?>');
      var vmyajax = new myajax();
-     vmyajax.url = "get_lst_file";
+     vmyajax.url = "get_dt_mhs";
      vmyajax.dataType = 'html';
      vmyajax.success = function success(data) {
           $("#data").html(data);
-         var vmydatatable = new mydatatable;
-              vmydatatable.id = 'lstfile';
-              vmydatatable.template = 0;
-              vmydatatable.title = 0;
+              //$("#lst_mhs").dataTable();
+              var vmydatatable = new mydatatable;
+              vmydatatable.id = 'lst_mhs';
+              vmydatatable.template = 1;
+              vmydatatable.title = 2;
               vmydatatable.bPaginate = true;
               vmydatatable.bInfo = true;
               vmydatatable.bFilter = true;
-              vmydatatable.dom =   "<'row'<'col-sm-4'B><'col-sm-4'l><'col-sm-4'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>";
+               vmydatatable.dom =   "<'row'<'col-sm-4'B><'col-sm-4'l><'col-sm-4'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>";
               vmydatatable.buttons =  [
             {
-                text: 'Delete Selected File',
+                text: 'Input Data Mahasiswa',
                 action: function ( e, dt, node, config ) {
                      var vmyajax = new myajax();
-                     vmyajax.url = "delete_selected_file";
-                     vmyajax.success = function success(data) {
-                          get_lst_file();          
+                     vmyajax.url = "frm_dt_mhs";
+                     vmyajax.data = 'idx=1';
+                     vmyajax.success = function success(data) {                 
+                          $("#modal").html(data);
+                          $('#datepicker').datepicker({
+                            format: 'dd-mm-yyyy',
+                            autoclose: true
+                          });
+                          $("[data-mask]").inputmask();
+
+                          $('#myModal').modal();
+                          $("#myModal").on("hidden.bs.modal", function () {
+                            get_dt_mhs();                            
+                          });           
+
+                          $("#dtmhs").validate();
+                          $("#dtmhs").submit(function(e) {
+                              //prevent Default functionality
+                              e.preventDefault();
+                              var isvalid = $("#dtmhs").valid();
+                              if (isvalid) {
+                                  var vmyajax = new myajax();
+                                  vmyajax.url = "insert_dt_mhs";
+                                  vmyajax.data = $("#dtmhs").serialize();
+                                  vmyajax.dataType = 'json';  
+                                  vmyajax.success = function success(data) {
+                                    if(data.msg==''){
+                                         $(".modal").modal("hide");
+                                    }else{ 
+                                      $('#ketdtmhs').html(data.msg);
+                                    }
+                                      
+                                  }
+                                  vmyajax.getdata();
+
+                              }        
+                          });
                      }                   
                      vmyajax.getdata();
                 }
             }
-        ];             
-              vmydatatable.settemplate();       
-              vmydatatable.create();
+        ]; 
+              vmydatatable.settemplate(); 
+              vmydatatable.footerfilter();      
+              oTable=vmydatatable.create();
      }
      vmyajax.getdata();
   } 
 
- function deletefile(idx)
- {
-     var vmyajax = new myajax();
-     vmyajax.url = "delete_file";
-     vmyajax.data = 'idx='+idx;
-     vmyajax.dataType = 'html';
-     vmyajax.success = function success(data) {
-          get_lst_file();          
-     }
-     vmyajax.getdata();
- }
-
- function pilih_file(idx)
- {
-     var cek=0;
-     if($('#'+idx).is(':checked'))
-     {
-        cek=1;
-     }
-
-     var vmyajax = new myajax();
-     vmyajax.url = "select_file";
-     vmyajax.data = 'idx='+idx+'&cek='+cek;
-     vmyajax.dataType = 'html';     
-     vmyajax.getdata();
- }
-
- function downloadfile(idx)
- {
-   window.location = "download_file/"+idx;
- }
+ 
 
  $(function () {
-   get_lst_file();  
+   get_dt_mhs();  
  }); 
 
 

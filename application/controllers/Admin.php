@@ -5,7 +5,7 @@ class Admin extends CI_Controller {
 
 	public function login()
 	{
-		$this->load->view('Admin\login');
+		$this->load->view('Admin/login');
 	}
 
 	public function change_content($idx_p,$idx_c)
@@ -26,9 +26,21 @@ class Admin extends CI_Controller {
                     	default:
                     		# code...
                     		break;
-                    }
-        		   
+                    }        		   
         		break;
+
+            case 7:
+                    switch ($idx_c) {
+                        case 72 :
+                          $this->dt_mhs();
+                        break;
+                      
+                      
+                      default:
+                        # code...
+                        break;
+                    }              
+            break;
         	
         	default:
         		# code...
@@ -112,12 +124,12 @@ class Admin extends CI_Controller {
 	          $data['nm_user']=$this->session->userdata('nm_user');
 	          $data['hak']=$this->session->userdata('hak');
 	          $data['menu_active']=array('1','12');
-			  $this->load->view('Admin\dashboard',$data);
+			  $this->load->view('Admin/dashboard',$data);
 			}else{
-	           redirect('Admin\logout');
+	           redirect('Admin/logout');
 			}
 		}else{
-			redirect('Admin\login');
+			redirect('Admin/login');
 		}	  
 	}
 
@@ -130,12 +142,12 @@ class Admin extends CI_Controller {
              $data['nm_user']=$this->session->userdata('nm_user');
              $data['hak']=$this->session->userdata('hak');
              $data['menu_active']=array('1','11');
-             $this->load->view('Admin\lst_lgn',$data);
+             $this->load->view('Admin/lst_lgn',$data);
       }else{
-             redirect('Admin\logout');
+             redirect('Admin/logout');
       }
     }else{
-      redirect('Admin\login');
+      redirect('Admin/login');
     }
   }
 
@@ -148,12 +160,30 @@ class Admin extends CI_Controller {
              $data['nm_user']=$this->session->userdata('nm_user');
              $data['hak']=$this->session->userdata('hak');
              $data['menu_active']=array('1','13');
-             $this->load->view('Admin\lst_file',$data);
+             $this->load->view('Admin/lst_file',$data);
       }else{
-             redirect('Admin\logout');
+             redirect('Admin/logout');
       }
     }else{
-      redirect('Admin\login');
+      redirect('Admin/login');
+    }
+  }
+
+  private function dt_mhs()
+  {
+     $id = $this->session->userdata('id');
+        $user = $this->session->userdata('user');
+        if($this->Log_model->islogin($user,1)){
+          if($this->Log_model->logintime($id)){
+             $data['nm_user']=$this->session->userdata('nm_user');
+             $data['hak']=$this->session->userdata('hak');
+             $data['menu_active']=array('7','72');
+             $this->load->view('Admin/dt_mhs',$data);
+      }else{
+             redirect('Admin/logout');
+      }
+    }else{
+      redirect('Admin/login');
     }
   }
 
@@ -170,9 +200,9 @@ class Admin extends CI_Controller {
 
 		   $this->session->sess_destroy();
    
-           redirect('Admin\login');
+           redirect('Admin/login');
 		}else{
-           redirect('Admin\login');
+           redirect('Admin/login');
 		}  
 	}
 
@@ -259,6 +289,85 @@ class Admin extends CI_Controller {
      } 
   }
 
+  public function get_dt_mhs()
+  {
+     if($this->input->is_ajax_request()){       
+       
+       $tbstat = array("id" => "lst_mhs",'width'=>'100%');  
+       $header = array(array('tahunmsmhs','NIM','Nama','Jenis Kelamin','Kelas','Baru/Pindahan','Aksi'));
+       $isi_data = array();
+       
+       $data = $this->Msmhs_model->getdata('');        
+       if($this->Msmhs_model->numrows>0){        
+        foreach($data as $row)
+        {          
+            $tmp=array();            
+            $tmp[]=array('Angkatan '.$row['tahunmsmhs'],array());
+            $tmp[]=array($row['nimhsmsmhs'],array());
+            $tmp[]=array($row['nmmhsmsmhs'],array());
+            $tmp[]=array($row['kdjekmsmhs']=='P' ? 'Perempuan' : 'Laki-Laki',array());
+            $tmp[]=array($row['shiftmsmhs']=='R' ? 'Reguler' : 'Non Reguler',array());
+            $tmp[]=array($row['bpmsmhs']==0 ? 'Baru' : 'Pindahan' ,array()); 
+            $tmp[]=array('<div class="btn-group">
+                  <button type="button" class="btn btn-default btn-sm" onclick="view('."'".$row['nimhsmsmhs']."'".')" ><i class="fa fa-search"></i></button>
+                  <button type="button" class="btn btn-default btn-sm" onclick="edit('."'".$row['nimhsmsmhs']."'".')" ><i class="fa fa-edit"></i></button>
+                  <button type="button" class="btn btn-default btn-sm" onclick="delete('."'".$row['nimhsmsmhs']."'".')" ><i class="fa fa-trash"></i></button>                  
+                </div>',array());            
+            $isi_data[]=$tmp;          
+        } 
+       } 
+
+       $txt = "<tr>";
+          $txt = $txt."<th></th>";                   
+          $txt = $txt."<th><input type='hidden' name='search_angkatan' value='Search angkatan' class='search_init' /><input type='text' name='search_nim' value='NIM' class='search_init' style='width:45px' /></th>";
+          $txt = $txt."<th><input type='text' name='search_nm' value='Nama' class='search_init' style='width:140px'/></th>";
+          $txt = $txt."<th></th>";
+          $txt = $txt."<th></th>";
+          $txt = $txt."<th></th>";                  
+          $txt = $txt."</tr>";
+       
+       $tbl = new mytable($tbstat,$header,$isi_data,$txt); 
+       echo $tbl->display();
+     } 
+  }
+
+  public function insert_dt_mhs()
+  {
+    if($this->input->is_ajax_request()){
+      
+      $data['nimhsmsmhs'] = $this->input->post('nim');      
+      if(!$this->Msmhs_model->nim_ada($data['nimhsmsmhs']))
+      {
+          $data['kdpstmsmhs']='44201';
+          $data['nmmhsmsmhs'] = $this->input->post('nama');
+          $data['tahunmsmhs'] = $this->input->post('thnmsk');
+          $data['tplhrmsmhs'] = $this->input->post('tempat');
+          $data['smawlmsmhs'] = $this->input->post('thnmsk').$this->input->post('sem');
+          $data['shiftmsmhs'] = $this->input->post('kelas');
+          $data['kdjekmsmhs'] = $this->input->post('kelamin');
+          
+          if(!empty($this->input->post('datepicker'))){
+             $data['tglhrmsmhs'] =date('Y-m-d', strtotime($this->input->post('datepicker'))); ;
+          }
+
+          $data['agamamsmhs'] = $this->input->post('agama'); 
+          $data['almmsmhs'] = $this->input->post('alamat');
+          $data['emailmsmhs'] = $this->input->post('email');
+          $data['smamsmhs'] = $this->input->post('penddk');
+          $data['statmsmhs'] = $this->input->post('status');
+          $data['tlpmsmhs'] = $this->input->post('tlp');
+          $data['bpmsmhs'] = $this->input->post('bp');
+          $data['pass'] = $this->input->post('nim');
+          $data['link_forlap'] = $this->input->post('link_forlap');
+
+          $this->Msmhs_model->insertdata($data);  
+        echo json_encode(array('msg'=>''));  
+      }else{
+        echo json_encode(array('msg'=>'<div class="callout callout-danger"><h4>Pemberitahuan</h4><p>Mahasiswa dengan NIM='.$data['nimhsmsmhs'].' sudah ada !!!</p> </div>'));
+      }  
+    }
+  }
+
   public function delete_file()
   {
      if($this->input->is_ajax_request()){
@@ -304,6 +413,25 @@ class Admin extends CI_Controller {
      } 
   }
 
+  public function frm_dt_mhs()
+  {
+     if($this->input->is_ajax_request()){
+        $idx = $this->input->post('idx');
+        switch ($idx) {
+            case 1:
+              $data['judul']='Input Data Mahasiswa';
+              break;
+            
+            default:
+              # code...
+              break;
+          }  
+            
+        
+        echo $this->load->view('Admin/frm_dt_mhs',$data,true);
+     } 
+  }
+
   public function download_file($idx)
   {
     $id = $this->session->userdata('id');
@@ -319,11 +447,13 @@ class Admin extends CI_Controller {
             }
           }  
       }else{
-             redirect('Admin\logout');
+             redirect('Admin/logout');
       }
     }else{
-      redirect('Admin\login');
+      redirect('Admin/login');
     }
   }
+
+
 
 }

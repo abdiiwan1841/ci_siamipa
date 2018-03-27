@@ -185,7 +185,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                   ->setheader('01');                                  
         if(in_array('71', $menu_active)){ $mymenu->setactive(); }
                                   $mymenu->addmenuassubmenu('7');
-                 $mymenu->new_menu('72','Data Mahasiswa',base_url().'Admin/#')
+                 $mymenu->new_menu('72','Data Mahasiswa',base_url().'Admin/admin_dt_mhs')
                                   ->add_righticon('fa fa-circle-o')
                                   ->setheader('01');                                  
         if(in_array('72', $menu_active)){ $mymenu->setactive(); }
