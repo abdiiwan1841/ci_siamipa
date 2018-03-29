@@ -58,3 +58,4 @@ $route['Admin/admin_user_log'] = 'Admin/change_content/1/11';
 $route['Admin/admin_sum_exec'] = 'Admin/change_content/1/12';
 $route['Admin/admin_list_file'] = 'Admin/change_content/1/13';
 $route['Admin/admin_dt_mhs'] = 'Admin/change_content/7/72';
+$route['Admin/admin_dt_dosen'] = 'Admin/change_content/8/81';

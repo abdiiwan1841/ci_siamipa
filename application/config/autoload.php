@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url','file','directory','download','mymenu','box','div_row_col','mythnsem','html_form','form_group','mytable');
+$autoload['helper'] = array('url','file','directory','download','mymenu','box','div_row_col','mythnsem','html_form','form_group','mytable','desc');
 
 /*
 | -------------------------------------------------------------------
@@ -132,4 +132,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('Log_model','Staff_model','vw_rekapstatmhs_model','vw_rekapkeu_model','Msmhs_model');
+$autoload['model'] = array('Log_model','Staff_model','vw_rekapstatmhs_model','vw_rekapkeu_model','Msmhs_model','Dosen_model');

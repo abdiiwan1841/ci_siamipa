@@ -99,6 +99,8 @@ class mythnsem
      if(empty($thnsem))
 	 {
       return $this->txtthnsem_;
+     }elseif ($thnsem=='00000') {
+     	return 'Non Semester';
      }else{
        return $txt.$this->gettxtsem($thnsem).' '.$this->getthn($thnsem);
      } 	 
