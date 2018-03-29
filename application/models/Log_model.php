@@ -3,6 +3,7 @@
 class Log_model extends CI_Model {
 
    public $numrows;
+   public $log_id;
    public function getdata($where)
    {      
       $this->db->select('*');
@@ -24,6 +25,9 @@ class Log_model extends CI_Model {
    function islogin($user,$idx)
    {
      $data = $this->getdata("USER='".$user."' AND (NOT ISNULL(lg_time) AND DATE(lg_time)=DATE(NOW())) AND ISNULL(out_time) AND tg=".$idx);
+      if($this->numrows>0){ 
+        $this->log_id = $data[0]['season_id'];
+      }
      return $this->numrows>0;
    }
 

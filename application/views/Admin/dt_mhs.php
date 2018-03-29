@@ -1,5 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
+                   $box1=array('class'=>'box-danger box-solid');
+                   $header_box1 = array('class'=>'','title'=>'Loading...');
+                   $overlay = array('class'=>'overlay','icon'=>'fa fa-refresh fa-spin');
+                   $body6 = 'Loading Data';                    
+                   $box_loading=new box($box1,$header_box1,$body6,'',$overlay); 
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,83 +40,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-</head>
-<body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
-<?php   
-    $this->load->view('Admin/header');
-    $this->load->view('Admin/sidebar');  
-?>
-  
- 
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        Data Mahasiswa        
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>Mahasiswa</a></li>
-        <li class="active">Data Mahasiswa</li>
-      </ol>
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-       <?php
-                   
-                   $box=array('class'=>'');
-                   $header_box = array('class'=>'with-border','title'=>'','tools'=>array(array('widget'=>'collapse','icon'=>'fa fa-minus'),array('widget'=>'remove','icon'=>'fa fa-times')));
-
-                   $box1=array('class'=>'box-danger box-solid');
-                   $header_box1 = array('class'=>'','title'=>'Loading...');
-                   $overlay = array('class'=>'overlay','icon'=>'fa fa-refresh fa-spin');
-                   $body6 = 'Loading Data';                    
-                   $box_loading=new box($box1,$header_box1,$body6,'',$overlay); 
-
-                   $body2='<div id="data">'.$box_loading->display().'<div>'; 
-
-                   $header_box['title']='Data Mahasiswa';
-                   $tempbox=new box($box,$header_box,$body2); 
-                   $content1[]=array($tempbox->display());
-
-                   $row = array('jml'=>1);
-                   $col = array('jml'=>1,'class'=>array('col-xs-12'));
-                   $divrowcol = new div_row_col($row,$col,$content1);
-                   echo $divrowcol->display();   
-       ?> 
-
- <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-       <div id='modal'>
-         
-       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal --> 
-
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 1.0.0
-    </div>
-    <strong>Copyright &copy; 2018 <a href="#">Cecep Suwanda</a>.</strong> All rights
-    reserved.
-  </footer>
-
-  
-
-</div>
-<!-- ./wrapper -->
-
-<!-- jQuery 2.2.3 -->
+  <!-- jQuery 2.2.3 -->
 <script src="<?php echo base_url();?>assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url();?>assets/bootstrap/js/bootstrap.min.js"></script>
@@ -144,10 +75,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo base_url();?>assets/dist/js/siamipa.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
 <script type="text/javascript">
- 
-
-
-
 
   function get_dt_mhs()
   {
@@ -220,6 +147,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      vmyajax.getdata();
   } 
 
+ function edit(nim)
+ {
+     var vmyajax = new myajax();
+     vmyajax.url = "frm_dt_mhs";
+     vmyajax.data = 'idx=2'+'&nim='+nim;
+     vmyajax.dataType = 'html';
+     vmyajax.success = function success(data) {
+       $("#modal").html(data);
+       $('#datepicker').datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true
+        });
+       $("[data-mask]").inputmask();
+
+       $('#myModal').modal();
+       $("#myModal").on("hidden.bs.modal", function () {
+              get_dt_mhs();                            
+        });
+
+        $("#dtmhs").validate();
+                          $("#dtmhs").submit(function(e) {
+                              //prevent Default functionality
+                              e.preventDefault();
+                              var isvalid = $("#dtmhs").valid();
+                              if (isvalid) {
+                                  var vmyajax = new myajax();
+                                  vmyajax.url = "save_dt_mhs";
+                                  vmyajax.data = $("#dtmhs").serialize();
+                                  vmyajax.dataType = 'json';  
+                                  vmyajax.success = function success(data) {
+                                    if(data.msg==''){
+                                         $(".modal").modal("hide");
+                                    }else{ 
+                                      $('#ketdtmhs').html(data.msg);
+                                    }
+                                      
+                                  }
+                                  vmyajax.getdata();
+
+                              }        
+                          });           
+     }
+     vmyajax.getdata();
+ }
  
 
  $(function () {
@@ -228,5 +199,78 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 </script>
+
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+<?php   
+    $this->load->view('Admin/header');
+    $this->load->view('Admin/sidebar');  
+?>
+  
+ 
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Data Mahasiswa        
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Mahasiswa</a></li>
+        <li class="active">Data Mahasiswa</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+       <?php
+                   
+                   $box=array('class'=>'');
+                   $header_box = array('class'=>'with-border','title'=>'','tools'=>array(array('widget'=>'collapse','icon'=>'fa fa-minus'),array('widget'=>'remove','icon'=>'fa fa-times')));                   
+
+                   $body2='<div id="data">'.$box_loading->display().'<div>'; 
+
+                   $header_box['title']='Data Mahasiswa';
+                   $tempbox=new box($box,$header_box,$body2); 
+                   $content1[]=array($tempbox->display());
+
+                   $row = array('jml'=>1);
+                   $col = array('jml'=>1,'class'=>array('col-xs-12'));
+                   $divrowcol = new div_row_col($row,$col,$content1);
+                   echo $divrowcol->display();   
+       ?> 
+
+ <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+       <div id='modal'>
+         
+       </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal --> 
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 1.0.0
+    </div>
+    <strong>Copyright &copy; 2018 <a href="#">Cecep Suwanda</a>.</strong> All rights
+    reserved.
+  </footer>
+
+  
+
+</div>
+<!-- ./wrapper -->
+
+
 </body>
 </html>

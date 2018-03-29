@@ -12,6 +12,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          
          <?php 
         
+            
+
          $row = array('jml'=>1);
          $col = array('jml'=>2,'class'=>array('col-md-6','col-md-6'));
 
@@ -22,8 +24,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         'data-msg'=>'NIM Harus Diisi !!!',
                         'required'=>'required',
                         'width'=>'100%');
+         
+         echo $from->addInput('hidden',"old_nim",$nimhsmsmhs,null);
 
-         $input = $from->addInput('text','nim','',$attr); 
+         $input = $from->addInput('text','nim',$nimhsmsmhs,$attr); 
          $form_group = new form_group('NIM',$input);
          $nim= $form_group->display();
 
@@ -33,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          $attr['style']='text-transform:uppercase;';
          $attr['onkeyup']='javascript:this.value=this.value.toUpperCase();';
          
-         $input = $from->addInput('text','nama','',$attr); 
+         $input = $from->addInput('text','nama',$nmmhsmsmhs,$attr); 
          $form_group = new form_group('Nama',$input);
          $nama= $form_group->display();
          
@@ -49,21 +53,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          unset($attr['onkeyup']);
          unset($attr['required']);
          
-         $input = $from->addInput('text','alamat','',$attr); 
+         $input = $from->addInput('text','alamat',$almmsmhs,$attr); 
          $form_group = new form_group('Alamat',$input);
          echo $form_group->display(); 
 
          $attr['id']='tlp'; 
          $attr['placeholder']='Nomor Telpon ...';
          
-         $input = $from->addInput('text','tlp','',$attr); 
+         $input = $from->addInput('text','tlp',$tlpmsmhs,$attr); 
          $form_group = new form_group('Nomor Telpon',$input);
          $tlp=$form_group->display();            
 
          $attr['id']='email'; 
          $attr['placeholder']='e-mail ...';
          
-         $input = $from->addInput('text','email','',$attr); 
+         $input = $from->addInput('text','email',$emailmsmhs,$attr); 
          $form_group = new form_group('e-mail',$input);
          $email = $form_group->display(); 
          
@@ -74,14 +78,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          $attr['id']='agama'; 
          $attr['placeholder']='agama ...';
 
-         $input = $from->addSelectList("agama",array('0'=>'Islam','1'=>'Kristen Protestan','2'=>'Kristen Katolik','3'=>'Hindu','4'=>'Budha'),true,null,null,$attr);
+         $input = $from->addSelectList("agama",array('0'=>'Islam','1'=>'Kristen Protestan','2'=>'Kristen Katolik','3'=>'Hindu','4'=>'Budha'),true,intval($agamamsmhs),null,$attr);
          $form_group = new form_group('Agama',$input);
          $agama = $form_group->display(); 
 
          $attr['id']='status'; 
          $attr['placeholder']='status ...';
 
-         $input = $from->addSelectList("status",array('0'=>'Lajang','1'=>'Menikah'),true,null,null,$attr);
+         $input = $from->addSelectList("status",array('0'=>'Lajang','1'=>'Menikah'),true,intval($statmsmhs),null,$attr);
          $form_group = new form_group('Status Pernikahan',$input);
          $status= $form_group->display();
 
@@ -91,7 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          $attr['id']='penddk'; 
          $attr['placeholder']='Pendidikan Terakhir ...';
          
-         $input = $from->addInput('text','penddk','',$attr); 
+         $input = $from->addInput('text','penddk',$smamsmhs,$attr); 
          $form_group = new form_group('Pendidikan Terakhir',$input);
          echo $form_group->display();  
 
@@ -100,7 +104,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
          $attr['id']='kelamin';      
          $attr['placeholder']='';    
-         $input = $from->addSelectList("kelamin",array('L'=>'L - Laki-Laki','P'=>'P - Perempuan'),true,null,null,$attr);
+         $input = $from->addSelectList("kelamin",array('L'=>'L - Laki-Laki','P'=>'P - Perempuan'),true,$kdjekmsmhs,null,$attr);
          $form_group = new form_group('Jenis Kelamin',$input);
          $jk=$form_group->display();
 
@@ -108,7 +112,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          $attr['id']='tempat'; 
          $attr['placeholder']='Tempat Lahir ...';
          
-         $input = $from->addInput('text','tempat','',$attr); 
+         $input = $from->addInput('text','tempat',$tplhrmsmhs,$attr); 
          $form_group = new form_group('Tempat Lahir',$input);
          $input_tempat=$form_group->display();  
 
@@ -117,7 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          $attr['data-inputmask']='"mask": "99-99-9999"';
          $attr['data-mask']='data-mask'; 
                                 
-         $input = $from->addInput('text','datepicker','',$attr); 
+         $input = $from->addInput('text','datepicker',$tglhrmsmhs,$attr); 
          $form_group = new form_group('Tanggal Lahir',$input);
          $input_tgl=$form_group->display();
 
@@ -131,13 +135,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          unset($attr['data-inputmask']);
          unset($attr['data-mask']); 
                                 
-         $input = $from->addSelectList("bp",array('0'=>'Baru','1'=>'Pindahan'),true,null,null,$attr);
+         $input = $from->addSelectList("bp",array('0'=>'Baru','1'=>'Pindahan'),true,intval($bpmsmhs),null,$attr);
          $form_group = new form_group('Baru/Pindahan',$input);
          $bp=$form_group->display();
          
 
          $attr['id']='kelas';          
-         $input = $from->addSelectList("kelas",array('R'=>'R - Reguler','N'=>'N - Non Reguler'),true,null,null,$attr);
+         $input = $from->addSelectList("kelas",array('R'=>'R - Reguler','N'=>'N - Non Reguler'),true,$shiftmsmhs,null,$attr);
          $form_group = new form_group('Kelas',$input);
          $kelas = $form_group->display();
 
@@ -148,7 +152,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          $attr['data-msg']='Tahun Masuk Harus Diisi !!!';
          $attr['required']='required';
          
-         $input = $from->addInput('text','thnmsk','',$attr); 
+         $input = $from->addInput('text','thnmsk',$tahunmsmhs,$attr); 
          $form_group = new form_group('Tahun Masuk',$input);
          $thn=$form_group->display();
 
@@ -159,17 +163,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          unset($attr['data-msg']);
          unset($attr['required']);
                                 
-         $input = $from->addSelectList("sem",array('1'=>'Ganjil','2'=>'Genap'),true,null,null,$attr);
+         $input = $from->addSelectList("sem",array('1'=>'Ganjil','2'=>'Genap'),true,intval($smawlmsmhs),null,$attr);
          $form_group = new form_group('Masuk di Semester',$input);
          $sem= $form_group->display(); 
          
-         $divrowcol = new div_row_col($row,$col,array(array($kelas,$thn,$sem)));
+         $col = array('jml'=>4,'class'=>array('col-md-3','col-md-3','col-md-3','col-md-3'));
+         $divrowcol = new div_row_col($row,$col,array(array($bp,$kelas,$thn,$sem)));
          echo $divrowcol->display();
 
          $attr['id']='link_forlap'; 
          $attr['placeholder']='Link Forlap ...';
          
-         $input = $from->addInput('text','link_forlap','',$attr); 
+         $input = $from->addInput('text','link_forlap',$link_forlap,$attr); 
          $form_group = new form_group('Link Forlap',$input);
          echo $form_group->display();
 

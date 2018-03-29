@@ -81,13 +81,26 @@ class Admin extends CI_Controller {
           
           
           if($this->Staff_model->isuserexist($user,$pass)){
-          	if(!$this->Log_model->islogin($user,$idx)){
-          		  				  
+          	
+               $islogin=$this->Log_model->islogin($user,$idx);
+          		 $login = !$islogin; 
+               if($islogin){  
+                  $id=$this->Log_model->log_id;
+                  $login=!$this->Log_model->logintime($id); 
+                  
+                  $today = date("Y-m-d H:i:s");
+                  $fieldarray = array('season_id' => $id,'out_time'=> $today,'user' => $user);
+                  $this->Log_model->updatedata($fieldarray);
+                  
+                }
+                				  
+              
+                if($login){
                   $alamat=$this->getaddress($lati,$longi);			  
-				  $today = date("Y-m-d H:i:s");
-				  $tg = $idx;
-				  $hak = $this->Staff_model->gethak($user);
-				  $nm_user = $this->Staff_model->getnm($user);
+				          $today = date("Y-m-d H:i:s");
+				          $tg = $idx;
+				          $hak = $this->Staff_model->gethak($user);
+				          $nm_user = $this->Staff_model->getnm($user);
 			  
                   $newdata = array(
                      'id'  => uniqid(),
@@ -98,13 +111,15 @@ class Admin extends CI_Controller {
                   );
                   $this->session->set_userdata($newdata); 
 				  
-				  $fieldarray = array('lg_time' => $today,'user' => $user,'tg' => $tg,'net_id'=>$_SERVER['REMOTE_ADDR'],'season_id'=>$this->session->userdata('id'),'longitude'=>$longi,'altitude'=>$lati,'alamat'=>$alamat);		  
-				  $this->Log_model->insertdata($fieldarray);                  
+				          $fieldarray = array('lg_time' => $today,'user' => $user,'tg' => $tg,'net_id'=>$_SERVER['REMOTE_ADDR'],'season_id'=>$this->session->userdata('id'),'longitude'=>$longi,'altitude'=>$lati,'alamat'=>$alamat);		  
+				          $this->Log_model->insertdata($fieldarray);                  
                   
                   echo '';
-            }else{					
-				 echo "<div class='callout callout-danger'><h4>Pemberitahuan</h4><p>Belum logout tidak bisa login !!!</p> </div>";				
-		    }
+                }else{         
+                 echo "<div class='callout callout-danger'><h4>Pemberitahuan</h4><p>Belum logout tidak bisa login !!!</p> </div>";
+                }
+            
+
           }else{
           	echo "<div class='callout callout-danger'><h4>Pemberitahuan</h4><p>Username atau Password Keliru !!!</p> </div>";
           }
@@ -368,6 +383,50 @@ class Admin extends CI_Controller {
     }
   }
 
+  public function save_dt_mhs()
+  {
+    if($this->input->is_ajax_request()){
+      
+      $data['old_nim'] = $this->input->post('old_nim');
+      $data['nimhsmsmhs'] = $this->input->post('nim');      
+      $issave = true;
+      if($data['old_nim']!=$data['nimhsmsmhs'])
+      {
+       $issave=!$this->Msmhs_model->nim_ada($data['nimhsmsmhs']);      
+      }
+
+      if($issave){
+          $data['kdpstmsmhs']='44201';
+          $data['nmmhsmsmhs'] = $this->input->post('nama');
+          $data['tahunmsmhs'] = $this->input->post('thnmsk');
+          $data['tplhrmsmhs'] = $this->input->post('tempat');
+          $data['smawlmsmhs'] = $this->input->post('thnmsk').$this->input->post('sem');
+          $data['shiftmsmhs'] = $this->input->post('kelas');
+          $data['kdjekmsmhs'] = $this->input->post('kelamin');
+          
+          if(!empty($this->input->post('datepicker'))){
+             $data['tglhrmsmhs'] =date('Y-m-d', strtotime($this->input->post('datepicker'))); ;
+          }
+
+          $data['agamamsmhs'] = $this->input->post('agama'); 
+          $data['almmsmhs'] = $this->input->post('alamat');
+          $data['emailmsmhs'] = $this->input->post('email');
+          $data['smamsmhs'] = $this->input->post('penddk');
+          $data['statmsmhs'] = $this->input->post('status');
+          $data['tlpmsmhs'] = $this->input->post('tlp');
+          $data['bpmsmhs'] = $this->input->post('bp');
+          $data['pass'] = $this->input->post('nim');
+          $data['link_forlap'] = $this->input->post('link_forlap');
+
+          $this->Msmhs_model->updatedata($data);  
+        echo json_encode(array('msg'=>''));  
+        }else{
+            echo json_encode(array('msg'=>'<div class="callout callout-danger"><h4>Pemberitahuan</h4><p>Mahasiswa dengan NIM='.$data['nimhsmsmhs'].' sudah ada !!!</p> </div>'));
+        }  
+      
+    }
+  }
+
   public function delete_file()
   {
      if($this->input->is_ajax_request()){
@@ -417,10 +476,41 @@ class Admin extends CI_Controller {
   {
      if($this->input->is_ajax_request()){
         $idx = $this->input->post('idx');
+        $mythnsem = new mythnsem;
+              $data['nimhsmsmhs'] = '';      
+              $data['nmmhsmsmhs'] = '';
+              $data['tahunmsmhs'] = '';
+              $data['tplhrmsmhs'] = '';
+              $data['smawlmsmhs'] = '';
+              $data['shiftmsmhs'] = 'R';
+              $data['kdjekmsmhs'] = 'L';
+              $data['tglhrmsmhs'] = '';
+              $data['agamamsmhs'] = '0'; 
+              $data['almmsmhs'] = '';
+              $data['emailmsmhs'] = '';
+              $data['smamsmhs'] = '';
+              $data['statmsmhs']= '0';
+              $data['tlpmsmhs'] ='';
+              $data['bpmsmhs']  = '0';
+              $data['link_forlap'] = '';
+
         switch ($idx) {
             case 1:
+              
               $data['judul']='Input Data Mahasiswa';
               break;
+
+            case 2:
+              $nim = $this->input->post('nim');
+              $tmp = $this->Msmhs_model->getdata("nimhsmsmhs='$nim'");
+              if(!empty($tmp)){
+                 $data=$tmp[0];
+                 $data['tglhrmsmhs'] = date("d-m-Y", strtotime($data['tglhrmsmhs']));
+                 $data['smawlmsmhs'] = $mythnsem->getsem($data['smawlmsmhs']);
+
+              }              
+              $data['judul']='Edit Data Mahasiswa';
+              break;  
             
             default:
               # code...

@@ -33,6 +33,21 @@ class Msmhs_model extends CI_Model {
    {
       $this->db->insert('msmhs',$data);
    }
+
+   public function updatedata($data)
+   {
+     
+     foreach ($data as $key => $value) {
+       if($key!='old_nim'){
+        $this->db->set($key, $value);
+       } 
+     }
+       
+
+     $this->db->where('nimhsmsmhs',$data['old_nim']);
+     $this->db->update('msmhs');
+
+   }
  
 
 }

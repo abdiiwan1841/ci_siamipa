@@ -1,5 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
+                   $box1=array('class'=>'box-danger box-solid');
+                   $header_box1 = array('class'=>'','title'=>'Loading...');
+                   $overlay = array('class'=>'overlay','icon'=>'fa fa-refresh fa-spin');
+                   $body6 = 'Loading Data';                    
+                   $box_loading=new box($box1,$header_box1,$body6,'',$overlay); 
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,72 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-</head>
-<body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
-<?php   
-    $this->load->view('Admin/header');
-    $this->load->view('Admin/sidebar');  
-?>
-  
- 
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        List File        
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>Admin</a></li>
-        <li class="active">List File</li>
-      </ol>
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-       <?php
-                   
-                   $box=array('class'=>'');
-                   $header_box = array('class'=>'with-border','title'=>'','tools'=>array(array('widget'=>'collapse','icon'=>'fa fa-minus'),array('widget'=>'remove','icon'=>'fa fa-times')));
-
-                   $box1=array('class'=>'box-danger box-solid');
-                   $header_box1 = array('class'=>'','title'=>'Loading...');
-                   $overlay = array('class'=>'overlay','icon'=>'fa fa-refresh fa-spin');
-                   $body6 = 'Loading Data';                    
-                   $box_loading=new box($box1,$header_box1,$body6,'',$overlay); 
-
-                   $body2='<div id="data">'.$box_loading->display().'<div>'; 
-
-                   $header_box['title']='List File';
-                   $tempbox=new box($box,$header_box,$body2); 
-                   $content1[]=array($tempbox->display());
-
-                   $row = array('jml'=>1);
-                   $col = array('jml'=>1,'class'=>array('col-xs-12'));
-                   $divrowcol = new div_row_col($row,$col,$content1);
-                   echo $divrowcol->display();   
-       ?>    
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 1.0.0
-    </div>
-    <strong>Copyright &copy; 2018 <a href="#">Cecep Suwanda</a>.</strong> All rights
-    reserved.
-  </footer>
-
-  
-
-</div>
-<!-- ./wrapper -->
-
-<!-- jQuery 2.2.3 -->
+  <!-- jQuery 2.2.3 -->
 <script src="<?php echo base_url();?>assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url();?>assets/bootstrap/js/bootstrap.min.js"></script>
@@ -199,5 +141,67 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 </script>
+
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+<?php   
+    $this->load->view('Admin/header');
+    $this->load->view('Admin/sidebar');  
+?>
+  
+ 
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        List File        
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Admin</a></li>
+        <li class="active">List File</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+       <?php
+                   
+                   $box=array('class'=>'');
+                   $header_box = array('class'=>'with-border','title'=>'','tools'=>array(array('widget'=>'collapse','icon'=>'fa fa-minus'),array('widget'=>'remove','icon'=>'fa fa-times')));                  
+
+                   $body2='<div id="data">'.$box_loading->display().'<div>'; 
+
+                   $header_box['title']='List File';
+                   $tempbox=new box($box,$header_box,$body2); 
+                   $content1[]=array($tempbox->display());
+
+                   $row = array('jml'=>1);
+                   $col = array('jml'=>1,'class'=>array('col-xs-12'));
+                   $divrowcol = new div_row_col($row,$col,$content1);
+                   echo $divrowcol->display();   
+       ?>    
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 1.0.0
+    </div>
+    <strong>Copyright &copy; 2018 <a href="#">Cecep Suwanda</a>.</strong> All rights
+    reserved.
+  </footer>
+
+  
+
+</div>
+<!-- ./wrapper -->
+
+
 </body>
 </html>

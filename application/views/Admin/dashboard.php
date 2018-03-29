@@ -29,6 +29,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+
+  <!-- jQuery 2.2.3 -->
+<script src="<?php echo base_url();?>assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="<?php echo base_url();?>assets/bootstrap/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="<?php echo base_url();?>assets/plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="<?php echo base_url();?>assets/dist/js/app.min.js"></script>
+<!-- Sparkline -->
+<script src="<?php echo base_url();?>assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+<!-- jvectormap -->
+<script src="<?php echo base_url();?>assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="<?php echo base_url();?>assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<!-- SlimScroll 1.3.0 -->
+<script src="<?php echo base_url();?>assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- ChartJS 1.0.1 -->
+<script src="<?php echo base_url();?>assets/plugins/chartjs/Chart.min.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) 
+<script src="<?php echo base_url();?>assets/dist/js/pages/dashboard2.js"></script>-->
+<!-- AdminLTE for demo purposes 
+<script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>-->
+<script type="text/javascript" src="<?php echo base_url();?>assets/dist/js/siamipa.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/dist/js/Admin/frm_sum_exec.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/plugins/canvasjs/jquery.canvasjs.min.js"></script>
+<script type="text/javascript">
+ $(function () {
+          fgambarchart("chartContainer", 1);
+          fgambarchart("chartContainer1", 2);
+          fgambarchart("chartContainer2", 3);
+          fgambarchart1("chartContainer3", 4);
+          fgambarchart1("chartContainer4", 5);
+          fgambarchart1("chartContainer5", 6);
+ }); 
+
+
+</script> 
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -139,41 +177,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery 2.2.3 -->
-<script src="<?php echo base_url();?>assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="<?php echo base_url();?>assets/bootstrap/js/bootstrap.min.js"></script>
-<!-- FastClick -->
-<script src="<?php echo base_url();?>assets/plugins/fastclick/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="<?php echo base_url();?>assets/dist/js/app.min.js"></script>
-<!-- Sparkline -->
-<script src="<?php echo base_url();?>assets/plugins/sparkline/jquery.sparkline.min.js"></script>
-<!-- jvectormap -->
-<script src="<?php echo base_url();?>assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="<?php echo base_url();?>assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-<!-- SlimScroll 1.3.0 -->
-<script src="<?php echo base_url();?>assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<!-- ChartJS 1.0.1 -->
-<script src="<?php echo base_url();?>assets/plugins/chartjs/Chart.min.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) 
-<script src="<?php echo base_url();?>assets/dist/js/pages/dashboard2.js"></script>-->
-<!-- AdminLTE for demo purposes 
-<script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>-->
-<script type="text/javascript" src="<?php echo base_url();?>assets/dist/js/siamipa.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/dist/js/Admin/frm_sum_exec.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/plugins/canvasjs/jquery.canvasjs.min.js"></script>
-<script type="text/javascript">
- $(function () {
-          fgambarchart("chartContainer", 1);
-          fgambarchart("chartContainer1", 2);
-          fgambarchart("chartContainer2", 3);
-          fgambarchart1("chartContainer3", 4);
-          fgambarchart1("chartContainer4", 5);
-          fgambarchart1("chartContainer5", 6);
- }); 
 
-
-</script>
 </body>
 </html>
