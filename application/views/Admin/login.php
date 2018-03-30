@@ -110,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 </head>
-<body class="hold-transition login-page">
+<Body class="hold-transition login-page">
 
 <div class="login-box">
   <div class="login-logo">
@@ -149,5 +149,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <!-- /.login-box-body -->
 </div>
 <!-- /.login-box -->
-</body>
+
+<script type="text/javascript">
+   $("#ifrm").remove();
+</script>  
+
+</Body>
 </html>

@@ -59,3 +59,23 @@ $route['Admin/admin_sum_exec'] = 'Admin/change_content/1/12';
 $route['Admin/admin_list_file'] = 'Admin/change_content/1/13';
 $route['Admin/admin_dt_mhs'] = 'Admin/change_content/7/72';
 $route['Admin/admin_dt_dosen'] = 'Admin/change_content/8/81';
+
+$route['Admin/gambarchart'] = 'Admin_menu_dashboard/gambarchart';
+$route['Admin/get_lst_file'] = 'Admin_menu_dashboard/get_lst_file';
+$route['Admin/delete_selected_file'] = 'Admin_menu_dashboard/delete_selected_file';
+$route['Admin/delete_file'] = 'Admin_menu_dashboard/delete_file';
+$route['Admin/select_file'] = 'Admin_menu_dashboard/select_file';
+
+$route['Admin/get_dt_mhs'] = 'Admin_menu_mhs/get_dt_mhs';
+$route['Admin/frm_dt_mhs'] = 'Admin_menu_mhs/frm_dt_mhs';
+$route['Admin/insert_dt_mhs'] = 'Admin_menu_mhs/insert_dt_mhs';
+$route['Admin/save_dt_mhs'] = 'Admin_menu_mhs/save_dt_mhs';
+$route['Admin/view_dt_mhs'] = 'Admin_menu_mhs/view_dt_mhs';
+$route['Admin/delete_dt_mhs'] = 'Admin_menu_mhs/delete_dt_mhs';
+
+$route['Admin/get_dt_dosen'] = 'Admin_menu_dsn/get_dt_dosen';
+$route['Admin/frm_dt_dosen'] = 'Admin_menu_dsn/frm_dt_dosen';
+$route['Admin/insert_dt_dosen'] = 'Admin_menu_dsn/insert_dt_dosen';
+$route['Admin/save_dt_dosen'] = 'Admin_menu_dsn/save_dt_dosen';
+$route['Admin/view_dt_dosen'] = 'Admin_menu_dsn/view_dt_dosen';
+$route['Admin/delete_dt_dosen'] = 'Admin_menu_dsn/delete_dt_dosen';
