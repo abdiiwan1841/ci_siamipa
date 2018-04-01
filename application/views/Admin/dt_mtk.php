@@ -76,59 +76,66 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
 <script type="text/javascript">
 
-  function get_dt_mhs()
+  function get_dt_mtk()
   {
      $("#data").html('<?php echo $box_loading->display(); ?>');
      var vmyajax = new myajax();
-     vmyajax.url = "get_dt_mhs";
+     vmyajax.url = "get_dt_mtk";
      vmyajax.dataType = 'html';
      vmyajax.success = function success(data) {
           $("#data").html(data);
               //$("#lst_mhs").dataTable();
               var vmydatatable = new mydatatable;
-              vmydatatable.id = 'lst_mhs';
+              vmydatatable.id = 'lst_mtk';
               vmydatatable.template = 1;
-              vmydatatable.title = 2;
+              vmydatatable.title = 1;
               vmydatatable.bPaginate = true;
               vmydatatable.bInfo = true;
               vmydatatable.bFilter = true;
+              vmydatatable.settemplate();
+              vmydatatable.footerfilter();
          <?php  if($hak==1){ ?>     
               vmydatatable.dom =   "<'row'<'col-sm-4'B><'col-sm-4'l><'col-sm-4'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>";
               vmydatatable.buttons =  [
             {
-                text: 'Input Data Mahasiswa',
+                text: 'Input Matakuliah',
                 action: function ( e, dt, node, config ) {
                      var vmyajax = new myajax();
-                     vmyajax.url = "frm_dt_mhs";
+                     vmyajax.url = "frm_dt_mtk";
                      vmyajax.data = 'idx=1';
                      vmyajax.success = function success(data) {                 
-                          $("#modal").html(data);
-                          $('#datepicker').datepicker({
-                            format: 'dd-mm-yyyy',
-                            autoclose: true
-                          });
-                          $("[data-mask]").inputmask();
+                          $("#modal").html(data);                         
+                          
+                          var vmydatatable = new mydatatable;
+                          vmydatatable.id = 'lst_prasyarat';
+                          vmydatatable.template = 1;
+                          vmydatatable.title = 1;
+                          vmydatatable.bPaginate = true;
+                          vmydatatable.bInfo = true;
+                          vmydatatable.bFilter = true;
+                          vmydatatable.settemplate();              
+                          oTable=vmydatatable.create();
 
                           $('#myModal').modal();
                           $("#myModal").on("hidden.bs.modal", function () {
-                            get_dt_mhs();                            
+                              get_dt_mtk();                            
                           });           
 
-                          $("#dtmhs").validate();
-                          $("#dtmhs").submit(function(e) {
+                          $("#dtmtk").validate();
+                          $("#dtmtk").submit(function(e) {
                               //prevent Default functionality
                               e.preventDefault();
-                              var isvalid = $("#dtmhs").valid();
+                              var isvalid = $("#dtmtk").valid();
                               if (isvalid) {
                                   var vmyajax = new myajax();
-                                  vmyajax.url = "insert_dt_mhs";
-                                  vmyajax.data = $("#dtmhs").serialize();
+                                  vmyajax.url = "insert_dt_mtk";
+                                  vmyajax.data = $("#dtmtk").serialize();
                                   vmyajax.dataType = 'json';  
                                   vmyajax.success = function success(data) {
                                     if(data.msg==''){
-                                         $(".modal").modal("hide");
+                                        $(".modal").modal("hide");
                                     }else{ 
-                                      $('#ketdtmhs').html(data.msg);
+                                      $('#ketmtk').html(data.msg);
                                     }
                                       
                                   }
@@ -150,40 +157,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      vmyajax.getdata();
   } 
  <?php  if($hak==1){ ?> 
- function edit(nim)
+ function edit(kode)
  {
      var vmyajax = new myajax();
-     vmyajax.url = "frm_dt_mhs";
-     vmyajax.data = 'idx=2'+'&nim='+nim;
+     vmyajax.url = "frm_dt_mtk";
+     vmyajax.data = 'idx=2'+'&kode='+kode;
      vmyajax.dataType = 'html';
      vmyajax.success = function success(data) {
        $("#modal").html(data);
-       $('#datepicker').datepicker({
-            format: 'dd-mm-yyyy',
-            autoclose: true
-        });
-       $("[data-mask]").inputmask();
+
+       var vmydatatable = new mydatatable;
+                          vmydatatable.id = 'lst_prasyarat';
+                          vmydatatable.template = 1;
+                          vmydatatable.title = 1;
+                          vmydatatable.bPaginate = true;
+                          vmydatatable.bInfo = true;
+                          vmydatatable.bFilter = true;                          
+                          vmydatatable.settemplate();              
+                          oTable=vmydatatable.create();     
 
        $('#myModal').modal();
        $("#myModal").on("hidden.bs.modal", function () {
-              get_dt_mhs();                            
+              get_dt_mtk();                            
         });
 
-        $("#dtmhs").validate();
-                          $("#dtmhs").submit(function(e) {
+        $("#dtmtk").validate();
+                          $("#dtmtk").submit(function(e) {
                               //prevent Default functionality
                               e.preventDefault();
-                              var isvalid = $("#dtmhs").valid();
+                              var isvalid = $("#dtmtk").valid();
                               if (isvalid) {
                                   var vmyajax = new myajax();
-                                  vmyajax.url = "save_dt_mhs";
-                                  vmyajax.data = $("#dtmhs").serialize();
+                                  vmyajax.url = "save_dt_mtk";
+                                  vmyajax.data = $("#dtmtk").serialize();
                                   vmyajax.dataType = 'json';  
                                   vmyajax.success = function success(data) {
                                     if(data.msg==''){
-                                         $(".modal").modal("hide");
+                                        $(".modal").modal("hide");
                                     }else{ 
-                                      $('#ketdtmhs').html(data.msg);
+                                      $('#ketdtmtk').html(data.msg);
                                     }
                                       
                                   }
@@ -195,38 +207,61 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      vmyajax.getdata();
  }
 
- function view(nim)
+ function view(kode)
  {
      var vmyajax = new myajax();
-     vmyajax.url = "view_dt_mhs";
-     vmyajax.data = 'idx=1'+'&nim='+nim;
+     vmyajax.url = "view_dt_mtk";
+     vmyajax.data = 'idx=1'+'&kode='+kode;
      vmyajax.dataType = 'html';
      vmyajax.success = function success(data) {
        $("#modal").html(data);
-       $('#myModal').modal();                 
+       $('#myModal').modal();
+                          var vmydatatable = new mydatatable;
+                          vmydatatable.id = 'lst_prasyarat';
+                          vmydatatable.template = 1;
+                          vmydatatable.title = 1;
+                          vmydatatable.bPaginate = false;
+                          vmydatatable.bInfo = false;
+                          vmydatatable.bFilter = false;
+                          vmydatatable.dom ='';
+                          vmydatatable.settemplate();              
+                          oTable=vmydatatable.create(); 
+
+
     }
      vmyajax.getdata();
  }
 
-function del(nim)
+function del(kode)
  {
      var vmyajax = new myajax();
-     vmyajax.url = "view_dt_mhs";
-     vmyajax.data = 'idx=2'+'&nim='+nim;
+     vmyajax.url = "view_dt_mtk";
+     vmyajax.data = 'idx=2'+'&kode='+kode;
      vmyajax.dataType = 'html';
      vmyajax.success = function success(data) {
        $("#modal").html(data);
        $('#myModal').modal(); 
        $("#myModal").on("hidden.bs.modal", function () {
-              get_dt_mhs();                            
+              get_dt_mtk();                            
         });
-                         $("#dtmhs").submit(function(e) {
+                        var vmydatatable = new mydatatable;
+                          vmydatatable.id = 'lst_prasyarat';
+                          vmydatatable.template = 1;
+                          vmydatatable.title = 1;
+                          vmydatatable.bPaginate = false;
+                          vmydatatable.bInfo = false;
+                          vmydatatable.bFilter = false;
+                          vmydatatable.dom ='';
+                          vmydatatable.settemplate();              
+                          oTable=vmydatatable.create(); 
+
+                         $("#dtmtk").submit(function(e) {
                               //prevent Default functionality
                               e.preventDefault();
-                              
+                                                            
                                   var vmyajax = new myajax();
-                                  vmyajax.url = "delete_dt_mhs";
-                                  vmyajax.data = $("#dtmhs").serialize();
+                                  vmyajax.url = "delete_dt_mtk";
+                                  vmyajax.data = $("#dtmtk").serialize();
                                   vmyajax.dataType = 'html';  
                                   vmyajax.success = function success(data) {
                                      $(".modal").modal("hide");                                     
@@ -241,7 +276,7 @@ function del(nim)
   <?php } ?>
 
  $(function () {
-   get_dt_mhs();  
+   get_dt_mtk();  
  }); 
 
 
@@ -263,11 +298,11 @@ function del(nim)
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Data Mahasiswa        
+        Matakuliah        
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>Mahasiswa</a></li>
-        <li class="active">Data Mahasiswa</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>Kurikulum</a></li>
+        <li class="active">Matakuliah</li>
       </ol>
     </section>
 
@@ -280,7 +315,7 @@ function del(nim)
 
                    $body2='<div id="data">'.$box_loading->display().'<div>'; 
 
-                   $header_box['title']='Data Mahasiswa';
+                   $header_box['title']='Matakuliah';
                    $tempbox=new box($box,$header_box,$body2); 
                    $content1[]=array($tempbox->display());
 

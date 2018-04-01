@@ -195,7 +195,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                   ->setheader('01');                                  
         if(in_array('73', $menu_active)){ $mymenu->setactive(); }
                                   $mymenu->addmenuassubmenu('7');
-                 $mymenu->new_menu('74','Status Mahasiswa',base_url().'Admin/#')
+                 $mymenu->new_menu('74','Status Mahasiswa',base_url().'Admin/admin_dt_stat_mhs')
                                   ->add_righticon('fa fa-circle-o')
                                   ->setheader('01');                                  
         if(in_array('74', $menu_active)){ $mymenu->setactive(); }
@@ -262,7 +262,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               ->setheader('01');
         if(in_array('9', $menu_active)){ $mymenu->setactive(); }
         $mymenu->addmenutomainmenu();
-                 $mymenu->new_menu('91','Matakuliah',base_url().'Admin/#')
+                 $mymenu->new_menu('91','Matakuliah',base_url().'Admin/admin_dt_mtk')
                                   ->add_righticon('fa fa-circle-o')
                                   ->setheader('01');                                  
         if(in_array('91', $menu_active)){ $mymenu->setactive(); }

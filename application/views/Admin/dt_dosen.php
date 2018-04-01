@@ -216,8 +216,7 @@ function del(kode)
                          $("#dtdosen").submit(function(e) {
                               //prevent Default functionality
                               e.preventDefault();
-                              var isvalid = $("#dtdosen").valid();
-                              if (isvalid) {
+                              
                                   var vmyajax = new myajax();
                                   vmyajax.url = "delete_dt_dosen";
                                   vmyajax.data = $("#dtdosen").serialize();
@@ -226,7 +225,7 @@ function del(kode)
                                      $(".modal").modal("hide");                                     
                                   }
                                   vmyajax.getdata();
-                              }        
+                              
                           });                
     }
      vmyajax.getdata();

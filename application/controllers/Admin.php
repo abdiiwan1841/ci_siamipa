@@ -134,7 +134,9 @@ class Admin extends CI_Controller {
                         case 72 :
                           $this->dt_mhs();
                         break;
-                      
+                        case 74 :
+                          $this->dt_stat_mhs();
+                        break;
                       
                       default:
                         # code...
@@ -152,8 +154,20 @@ class Admin extends CI_Controller {
                       default:
                         # code...
                         break;
-                    }              
-            break;
+                    }
+             break;
+             case 9:
+                    switch ($idx_c) {
+                        case 91 :
+                          $this->dt_mtk();
+                        break;
+                      
+                      
+                      default:
+                        # code...
+                        break;
+                    }
+             break;             
         	
         	default:
         		# code...
@@ -247,6 +261,26 @@ class Admin extends CI_Controller {
     }
   }
 
+  private function dt_stat_mhs()
+  {
+     $id = $this->session->userdata('id');
+        $user = $this->session->userdata('user');
+        if($this->Log_model->islogin($user,1)){
+          if($this->Log_model->logintime($id)){
+             $data['nm_user']=$this->session->userdata('nm_user');
+             $data['hak']=$this->session->userdata('hak');
+             $data['menu_active']=array('7','74');
+             $mythnsem = new mythnsem(); 
+             $data['lst_sem']=$mythnsem->getlstthnsem();
+             $this->load->view('Admin/dt_stat_mhs',$data);
+      }else{
+             redirect('Admin/logout');
+      }
+    }else{
+      redirect('Admin/login');
+    }
+  }
+
   private function dt_dosen()
   {
      $id = $this->session->userdata('id');
@@ -257,6 +291,24 @@ class Admin extends CI_Controller {
              $data['hak']=$this->session->userdata('hak');
              $data['menu_active']=array('8','81');
              $this->load->view('Admin/dt_dosen',$data);
+      }else{
+             redirect('Admin/logout');
+      }
+    }else{
+      redirect('Admin/login');
+    }
+  }  
+
+   private function dt_mtk()
+  {
+     $id = $this->session->userdata('id');
+        $user = $this->session->userdata('user');
+        if($this->Log_model->islogin($user,1)){
+          if($this->Log_model->logintime($id)){
+             $data['nm_user']=$this->session->userdata('nm_user');
+             $data['hak']=$this->session->userdata('hak');
+             $data['menu_active']=array('9','91');
+             $this->load->view('Admin/dt_mtk',$data);
       }else{
              redirect('Admin/logout');
       }
