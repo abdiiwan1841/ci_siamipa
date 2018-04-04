@@ -132,4 +132,38 @@ class Stat_mhs_model extends CI_Model {
       $this->db->insert('stat_mhs',$data);
    }
 
+   public function updatedata($data)
+   {
+     $this->db->set('statstat_mhs', $data['statstat_mhs']);
+     $this->db->where('thnsmsstat_mhs',$data['thnsmsstat_mhs']);
+     $this->db->where('nimstat_mhs',$data['nimstat_mhs']);
+     $this->db->update('stat_mhs');
+
+   }
+
+   public function deletedata($data)
+   {
+     $this->db->where('thnsmsstat_mhs',$data['thnsmsstat_mhs']);
+     $this->db->where('nimstat_mhs',$data['nimstat_mhs']);
+     $this->db->delete('stat_mhs');     
+   }
+
+   public function deletealldata($thn)
+   {
+     $this->db->where('thnsmsstat_mhs',$thn);     
+     $this->db->delete('stat_mhs');     
+   }
+
+   public function importdata($tb,$field,$field1,$where)
+   {
+    if(!empty($where)){
+      $query = "INSERT INTO $tb ($field) select $field1 from stat_mhs where $where";
+    }else
+    {
+      $query = "INSERT INTO $tb ($field) select $field1 from stat_mhs";
+    }
+    $this->db->query($query);     
+   }
+
+
 }

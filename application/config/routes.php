@@ -79,6 +79,12 @@ $route['Admin/delete_dt_mhs'] = 'Admin_menu_mhs/delete_dt_mhs';
 $route['Admin/filter_stat_mhs'] = 'Admin_menu_mhs/filter_stat_mhs';
 $route['Admin/frm_add'] = 'Admin_menu_mhs/frm_add';
 $route['Admin/insert_stat_mhs'] = 'Admin_menu_mhs/insert_stat_mhs';
+$route['Admin/frm_edit'] = 'Admin_menu_mhs/frm_edit';
+$route['Admin/save_stat_mhs'] = 'Admin_menu_mhs/save_stat_mhs';
+$route['Admin/frm_del'] = 'Admin_menu_mhs/frm_del';
+$route['Admin/delete_stat_mhs'] = 'Admin_menu_mhs/delete_stat_mhs';
+$route['Admin/import'] = 'Admin_menu_mhs/import';
+$route['Admin/cetak/(:any)'] = 'Admin_menu_mhs/ctk_excel/$1';
 
 $route['Admin/get_dt_dosen'] = 'Admin_menu_dsn/get_dt_dosen';
 $route['Admin/frm_dt_dosen'] = 'Admin_menu_dsn/frm_dt_dosen';

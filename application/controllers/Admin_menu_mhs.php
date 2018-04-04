@@ -438,8 +438,116 @@ class Admin_menu_mhs extends CI_Controller {
    }  
   }
 
+  public function frm_edit()
+  {
+   if($this->input->is_ajax_request()){
+        
+     $frm = new HTML_Form(); 
+      
+   $tbstat = array("id" => "lst_stat");
+   $header = array(array('Angkatan','NIM','Nama','Status'));
+   $data_table  = array();        
+     
+    $thnsms = $this->input->post('sem'); 
+    $mythnsem = new mythnsem;
+    $tmp=$mythnsem->getlstthnsem('',$thnsms);
+    $tmp=implode(',', array_keys($tmp));
+    $txt_filter =rtrim($tmp, ',');
+      
+    $data = $this->Msmhs_model->getdata("smawlmsmhs in ($txt_filter) and nimhsmsmhs in (select nimstat_mhs from stat_mhs where thnsmsstat_mhs=$thnsms)");
+    
+    if($this->Msmhs_model->numrows>0)
+    {
+        foreach($data as $row)
+        {
+         $temp_data=array();
+         $temp_data[]=array($row["tahunmsmhs"], array());
+         $temp_data[]=array($row["nimhsmsmhs"], array());
+         $temp_data[]=array($row["nmmhsmsmhs"], array());
+         $tmp=$this->Stat_mhs_model->getstatmhs($thnsms,$row["nimhsmsmhs"],-1);
+         $idx=$row["nimhsmsmhs"];
+         $temp_data[]=array($frm->addSelectList("stat[$idx]",array(1=>"Aktif",2=>"Cuti",3=>"DO",4=>"Keluar",5=>"Lulus",6=>"Non Aktif"),true,intval($tmp),null,array('id'=>'stat')),array('align'=>'center'));
+         $data_table[]=$temp_data;
+        }   
+    }    
+   
+     $tbl = new mytable($tbstat,$header,$data_table,"");
+     $json_data['form']=$frm->startForm(null,'post','entrystatmhs').$tbl->display().$frm->endForm();
+     $json_data['btn']=$frm->addInput('submit',"save","Save",array('class'=>'btn btn-info pull-left','id'=>'edit_save'));
+     echo json_encode($json_data);
+   }
+ }
 
-  
+  public function frm_del()
+  {
+   if($this->input->is_ajax_request()){
+    
+   $frm = new HTML_Form();   
+   
+   $tbstat = array("id" => "lst_stat");
+   $header = array(array('Angkatan','NIM','Nama','Status','Hapus'));
+   $data_table  = array();          
+    
+    $thnsms = $this->input->post('sem'); 
+    $mythnsem = new mythnsem;
+    $tmp=$mythnsem->getlstthnsem('',$thnsms);
+    $tmp=implode(',', array_keys($tmp));
+    $txt_filter =rtrim($tmp, ',');
+      
+    $data = $this->Msmhs_model->getdata("smawlmsmhs in ($txt_filter) and nimhsmsmhs in (select nimstat_mhs from stat_mhs where thnsmsstat_mhs=$thnsms)");
+    
+    if($this->Msmhs_model->numrows>0)
+    {
+        foreach($data as $row)
+    {
+     $temp_data=array();
+     $temp_data[]=array($row["tahunmsmhs"],array());
+     $temp_data[]=array($row["nimhsmsmhs"],array());
+       $temp_data[]=array($row["nmmhsmsmhs"],array());
+     $tmp=$this->Stat_mhs_model->getstatmhs($thnsms,$row["nimhsmsmhs"]);
+     $temp_data[]=array($tmp,array());
+     $temp_data[]=array($frm->addInput('checkbox',"plh[]",$row["nimhsmsmhs"]), array('align'=>'center'));
+     $data_table[]=$temp_data;
+    }   
+    }
+       
+   $tbl = new mytable($tbstat,$header,$data_table,"");
+     $json_data['form']=$frm->startForm(null,'post','entrystatmhs').$tbl->display().$frm->endForm();
+     $json_data['btn']=$frm->addInput('submit',"del","Delete",array('class'=>'btn btn-info pull-left','id'=>'del_save'));
+     echo json_encode($json_data);
+   }
+  } 
+
+  public function import()
+  {
+   if($this->input->is_ajax_request()){
+     $thnsms = $this->input->post('sem');
+     $this->Stat_mhs_model->deletealldata($thnsms);
+     $mythnsem = new mythnsem;
+     $thnsms_1=$mythnsem->substhnsem($thnsms,1);
+     $this->Stat_mhs_model->importdata("stat_mhs","thnsmsstat_mhs,nimstat_mhs,statstat_mhs", $thnsms.",nimstat_mhs,statstat_mhs","thnsmsstat_mhs=".$thnsms_1);
+   }
+ }
+
+  public function delete_stat_mhs()
+  {
+    if($this->input->is_ajax_request()){
+       $thnsms = $this->input->post('sem');
+       $plh = $this->input->post('plh');
+
+       if(!empty($plh))
+       {
+         echo 'hapus';
+         foreach ($plh as $nim) {
+           $data = array('thnsmsstat_mhs'=>$thnsms,
+                         'nimstat_mhs'=>$nim
+                        );
+            $this->Stat_mhs_model->deletedata($data);
+          } 
+       }
+
+    }
+  }
 
   public function insert_stat_mhs()
   {
@@ -459,6 +567,54 @@ class Admin_menu_mhs extends CI_Controller {
        }
 
     }
+  }
+
+  public function save_stat_mhs()
+  {
+    if($this->input->is_ajax_request()){
+       $thnsms = $this->input->post('sem');
+       $stat = $this->input->post('stat');
+
+       if(!empty($stat))
+       {
+         foreach ($stat as $nim => $v) {
+           $data = array('thnsmsstat_mhs'=>$thnsms,
+                         'nimstat_mhs'=>$nim,
+                         'statstat_mhs'=>$v
+                        );
+            $this->Stat_mhs_model->updatedata($data);
+          } 
+       }
+
+    }
   } 
+
+  public function ctk_excel($thnsms)
+  {   
+    $mythnsem = new mythnsem;
+   
+    //$thnsms = $this->input->post('sem');
+    $tmp=$mythnsem->getlstthnsem('',$thnsms);
+    $tmp=implode(',', array_keys($tmp));
+    $txt_filter =rtrim($tmp, ',');
+    
+    $datalstmhs = $this->Msmhs_model->getdata("smawlmsmhs in ($txt_filter)");   
+    $datasumstat = $this->Stat_mhs_model->getAngkatan($txt_filter);
+         
+      $tmp= dirname((dirname(dirname(__FILE__))))."/assets/cetak/Admin/stat_mhs/status mahasiswa ".$thnsms.".xls";
+      $this->load->library('ctkstat');
+      $this->ctkstat->ctk_stat($datalstmhs,$datasumstat,$thnsms);
+      //$this->ctkstat->save($tmp);
+      
+      $filename="status mahasiswa ".$thnsms.".xls"; //save our workbook as this file name
+      header('Content-Type: application/vnd.ms-excel'); //mime type
+      header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+      header('Cache-Control: max-age=0'); //no cache
+      $this->ctkstat->download();
+
+
+      //$tmp= base_url()."/assets/cetak/Admin/stat_mhs/status mahasiswa ".$thnsms.".xls";     
+      //echo $tmp;  
+  }
 
 }

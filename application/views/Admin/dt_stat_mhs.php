@@ -138,6 +138,100 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       }
      vmyajax.getdata();
      });
+
+     $("#edit").click(function () {
+       var sem = $("#sem").val();
+       $("#data").html('<?php echo $box_loading->display(); ?>');
+       var vmyajax = new myajax();
+       vmyajax.url = "frm_edit";
+       vmyajax.data = "sem=" + sem;
+       vmyajax.dataType = 'JSON';
+       vmyajax.success = function success(data) {
+          $("#data").html(data.form);
+          $("#btn").html(data.btn);
+          vmydatatable = new mydatatable;
+          vmydatatable.id = 'lst_stat';
+          vmydatatable.template = 1;
+          vmydatatable.title = 2;
+          vmydatatable.settemplate();
+          oTable=vmydatatable.create();
+          $("#edit_save").click(function () {
+            $("#btn").html('');
+            var sem = $("#sem").val();
+            var vmyajax = new myajax();
+                 vmyajax.url = "save_stat_mhs";
+                 vmyajax.data = $(":input",oTable.fnGetNodes()).serialize()+"&sem=" + sem;
+                 vmyajax.dataType = 'html';
+                 vmyajax.success = function success(data) {
+                      filter();
+                  }
+                 vmyajax.getdata();
+          });
+          
+      }
+     vmyajax.getdata();
+     });
+
+     $("#del").click(function () {
+       var sem = $("#sem").val();
+       $("#data").html('<?php echo $box_loading->display(); ?>');
+       var vmyajax = new myajax();
+       vmyajax.url = "frm_del";
+       vmyajax.data = "sem=" + sem;
+       vmyajax.dataType = 'JSON';
+       vmyajax.success = function success(data) {
+          $("#data").html(data.form);
+          $("#btn").html(data.btn);
+          vmydatatable = new mydatatable;
+          vmydatatable.id = 'lst_stat';
+          vmydatatable.template = 1;
+          vmydatatable.title = 2;
+          vmydatatable.settemplate();
+          oTable=vmydatatable.create();
+          $("#del_save").click(function () {
+            $("#btn").html('');
+            var sem = $("#sem").val();
+            var vmyajax = new myajax();
+                 vmyajax.url = "delete_stat_mhs";
+                 vmyajax.data = $(":input",oTable.fnGetNodes()).serialize()+"&sem=" + sem;
+                 vmyajax.dataType = 'html';
+                 vmyajax.success = function success(data) {
+                      filter();
+                  }
+                 vmyajax.getdata();
+          });
+          
+      }
+     vmyajax.getdata();
+     });
+
+     $("#import").click(function () {
+       var sem = $("#sem").val();
+       $("#data").html('<?php echo $box_loading->display(); ?>');
+       var vmyajax = new myajax();
+       vmyajax.url = "import";
+       vmyajax.data = "sem=" + sem;
+       vmyajax.dataType = 'html';
+       vmyajax.success = function success(data) {
+          filter();         
+      }
+     vmyajax.getdata();
+     });
+
+     $("#ctk").click(function () {
+       var sem = $("#sem").val();
+       window.location = "cetak/"+sem;
+       /*$("#data").html('<?php echo $box_loading->display(); ?>');
+       var vmyajax = new myajax();
+       vmyajax.url = "cetak";
+       vmyajax.data = "sem=" + sem;
+       vmyajax.dataType = 'html';
+       vmyajax.success = function success(data) {
+          window.open(data, 'Download'); 
+          filter();        
+      }
+     vmyajax.getdata();*/
+     });
  }); 
 
 
@@ -186,7 +280,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $frm->addInput('submit',"Add","Add",array('class'=>'btn btn-info pull-left','id'=>'add')).
                     $frm->addInput('submit',"Edit","Edit",array('class'=>'btn btn-info pull-left','id'=>'edit')).
                     $frm->addInput('submit',"Delete","Delete",array('class'=>'btn btn-info pull-left','id'=>'del')).
-                    $frm->addInput('submit',"salin","TA-1 -> TA",array('class'=>'btn btn-info pull-left','id'=>'salin')).
+                    $frm->addInput('submit',"Import","TA-1 -> TA",array('class'=>'btn btn-info pull-left','id'=>'import')).
                     $frm->addInput('submit',"Filter","Filter",array('class'=>'btn btn-info pull-right','id'=>'filter')).
                     $frm->addInput('submit',"ctk","Cetak Ke Excel",array('class'=>'btn btn-info pull-left','id'=>'ctk'))
                   ); 
