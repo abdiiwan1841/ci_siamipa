@@ -58,6 +58,7 @@ $route['Admin/admin_user_log'] = 'Admin/change_content/1/11';
 $route['Admin/admin_sum_exec'] = 'Admin/change_content/1/12';
 $route['Admin/admin_list_file'] = 'Admin/change_content/1/13';
 $route['Admin/admin_dt_mhs'] = 'Admin/change_content/7/72';
+$route['Admin/admin_dt_konversi'] = 'Admin/change_content/7/73';
 $route['Admin/admin_dt_stat_mhs'] = 'Admin/change_content/7/74';
 $route['Admin/admin_dt_dosen'] = 'Admin/change_content/8/81';
 $route['Admin/admin_dt_mtk'] = 'Admin/change_content/9/91';
@@ -75,6 +76,10 @@ $route['Admin/insert_dt_mhs'] = 'Admin_menu_mhs/insert_dt_mhs';
 $route['Admin/save_dt_mhs'] = 'Admin_menu_mhs/save_dt_mhs';
 $route['Admin/view_dt_mhs'] = 'Admin_menu_mhs/view_dt_mhs';
 $route['Admin/delete_dt_mhs'] = 'Admin_menu_mhs/delete_dt_mhs';
+
+$route['Admin/get_dt_konversi'] = 'Admin_menu_mhs/get_dt_konversi';
+$route['Admin/edt_dt_pindahan'] = 'Admin_menu_mhs/edt_dt_pindahan';
+
 
 $route['Admin/filter_stat_mhs'] = 'Admin_menu_mhs/filter_stat_mhs';
 $route['Admin/frm_add'] = 'Admin_menu_mhs/frm_add';

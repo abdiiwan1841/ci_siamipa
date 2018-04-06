@@ -75,6 +75,53 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo base_url();?>assets/dist/js/siamipa.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
 <script type="text/javascript">
+  var oTable;  
+
+  function initmodal()
+  {
+    $('#myModal').modal();
+    $("#myModal").on("hidden.bs.modal", function () {
+        get_dt_mtk();                            
+    });
+  }
+
+  function initdatatable(istrue)
+  {
+    var vmydatatable = new mydatatable;
+    vmydatatable.id = 'lst_prasyarat';
+    vmydatatable.template = 1;
+    vmydatatable.title = 1;
+    vmydatatable.bPaginate = istrue;
+    vmydatatable.bInfo = istrue;
+    vmydatatable.bFilter = istrue;
+    //vmydatatable.scrollX =true;
+    vmydatatable.settemplate();              
+    oTable=vmydatatable.create();
+  }
+
+  function submit_button(url_ajax)
+  {
+    $("#dtmtk").submit(function(e) {
+    //prevent Default functionality
+      e.preventDefault();
+      var isvalid = $("#dtmtk").valid();
+      if (isvalid) {
+          var vmyajax = new myajax();
+          vmyajax.url = url_ajax;
+          vmyajax.data = $("#dtmtk").serialize();
+          vmyajax.dataType = 'json';  
+          vmyajax.success = function success(data) {
+             if(data.msg==''){
+                  $(".modal").modal("hide");
+             }else{ 
+                  $('#ketmtk').html(data.msg);
+             }
+          }
+          vmyajax.getdata();
+      }        
+    });
+  }
+
 
   function get_dt_mtk()
   {
@@ -106,43 +153,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                      vmyajax.success = function success(data) {                 
                           $("#modal").html(data);                         
                           
-                          var vmydatatable = new mydatatable;
-                          vmydatatable.id = 'lst_prasyarat';
-                          vmydatatable.template = 1;
-                          vmydatatable.title = 1;
-                          vmydatatable.bPaginate = true;
-                          vmydatatable.bInfo = true;
-                          vmydatatable.bFilter = true;
-                          vmydatatable.settemplate();              
-                          oTable=vmydatatable.create();
-
-                          $('#myModal').modal();
-                          $("#myModal").on("hidden.bs.modal", function () {
-                              get_dt_mtk();                            
-                          });           
+                          initdatatable(true);
+                          initmodal();          
 
                           $("#dtmtk").validate();
-                          $("#dtmtk").submit(function(e) {
-                              //prevent Default functionality
-                              e.preventDefault();
-                              var isvalid = $("#dtmtk").valid();
-                              if (isvalid) {
-                                  var vmyajax = new myajax();
-                                  vmyajax.url = "insert_dt_mtk";
-                                  vmyajax.data = $("#dtmtk").serialize();
-                                  vmyajax.dataType = 'json';  
-                                  vmyajax.success = function success(data) {
-                                    if(data.msg==''){
-                                        $(".modal").modal("hide");
-                                    }else{ 
-                                      $('#ketmtk').html(data.msg);
-                                    }
-                                      
-                                  }
-                                  vmyajax.getdata();
-
-                              }        
-                          });
+                          submit_button("insert_dt_mtk");                          
                      }                   
                      vmyajax.getdata();
                 }
@@ -166,43 +181,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      vmyajax.success = function success(data) {
        $("#modal").html(data);
 
-       var vmydatatable = new mydatatable;
-                          vmydatatable.id = 'lst_prasyarat';
-                          vmydatatable.template = 1;
-                          vmydatatable.title = 1;
-                          vmydatatable.bPaginate = true;
-                          vmydatatable.bInfo = true;
-                          vmydatatable.bFilter = true;                          
-                          vmydatatable.settemplate();              
-                          oTable=vmydatatable.create();     
-
-       $('#myModal').modal();
-       $("#myModal").on("hidden.bs.modal", function () {
-              get_dt_mtk();                            
-        });
+       initdatatable(true);
+       initmodal();
 
         $("#dtmtk").validate();
-                          $("#dtmtk").submit(function(e) {
-                              //prevent Default functionality
-                              e.preventDefault();
-                              var isvalid = $("#dtmtk").valid();
-                              if (isvalid) {
-                                  var vmyajax = new myajax();
-                                  vmyajax.url = "save_dt_mtk";
-                                  vmyajax.data = $("#dtmtk").serialize();
-                                  vmyajax.dataType = 'json';  
-                                  vmyajax.success = function success(data) {
-                                    if(data.msg==''){
-                                        $(".modal").modal("hide");
-                                    }else{ 
-                                      $('#ketdtmtk').html(data.msg);
-                                    }
-                                      
-                                  }
-                                  vmyajax.getdata();
-
-                              }        
-                          });           
+        submit_button("save_dt_mtk");                               
      }
      vmyajax.getdata();
  }
@@ -215,19 +198,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      vmyajax.dataType = 'html';
      vmyajax.success = function success(data) {
        $("#modal").html(data);
+       initdatatable(false); 
        $('#myModal').modal();
-                          var vmydatatable = new mydatatable;
-                          vmydatatable.id = 'lst_prasyarat';
-                          vmydatatable.template = 1;
-                          vmydatatable.title = 1;
-                          vmydatatable.bPaginate = false;
-                          vmydatatable.bInfo = false;
-                          vmydatatable.bFilter = false;
-                          vmydatatable.dom ='';
-                          vmydatatable.settemplate();              
-                          oTable=vmydatatable.create(); 
-
-
+       
     }
      vmyajax.getdata();
  }
@@ -240,20 +213,8 @@ function del(kode)
      vmyajax.dataType = 'html';
      vmyajax.success = function success(data) {
        $("#modal").html(data);
-       $('#myModal').modal(); 
-       $("#myModal").on("hidden.bs.modal", function () {
-              get_dt_mtk();                            
-        });
-                        var vmydatatable = new mydatatable;
-                          vmydatatable.id = 'lst_prasyarat';
-                          vmydatatable.template = 1;
-                          vmydatatable.title = 1;
-                          vmydatatable.bPaginate = false;
-                          vmydatatable.bInfo = false;
-                          vmydatatable.bFilter = false;
-                          vmydatatable.dom ='';
-                          vmydatatable.settemplate();              
-                          oTable=vmydatatable.create(); 
+       initdatatable(false);
+       initmodal();       
 
                          $("#dtmtk").submit(function(e) {
                               //prevent Default functionality
@@ -309,24 +270,26 @@ function del(kode)
     <!-- Main content -->
     <section class="content">
        <?php
+                   $row = array('jml'=>1);
+                   $col = array('jml'=>1,'class'=>array('col-xs-12'));                   
+                   $content = array(array('<div id="data">'.$box_loading->display().'<div>'));                   
+                   $divrowcol = new div_row_col($row,$col,$content);
                    
                    $box=array('class'=>'');
                    $header_box = array('class'=>'with-border','title'=>'','tools'=>array(array('widget'=>'collapse','icon'=>'fa fa-minus'),array('widget'=>'remove','icon'=>'fa fa-times')));                   
 
-                   $body2='<div id="data">'.$box_loading->display().'<div>'; 
+                   $body2=$divrowcol->display(); 
 
                    $header_box['title']='Matakuliah';
                    $tempbox=new box($box,$header_box,$body2); 
                    $content1[]=array($tempbox->display());
-
-                   $row = array('jml'=>1);
-                   $col = array('jml'=>1,'class'=>array('col-xs-12'));
+                   
                    $divrowcol = new div_row_col($row,$col,$content1);
                    echo $divrowcol->display();   
        ?> 
 
  <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
        <div id='modal'>
          

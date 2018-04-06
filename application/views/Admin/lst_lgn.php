@@ -78,7 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      vmyajax.dataType = 'html';
      vmyajax.success = function success(data) {
           $("#data").html(data);
-          $("#lst_lg").dataTable();
+          $("#lst_lg").dataTable({scrollX: true});
       }
      vmyajax.getdata();
   } 

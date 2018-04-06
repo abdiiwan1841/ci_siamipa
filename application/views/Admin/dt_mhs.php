@@ -103,6 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                      vmyajax.data = 'idx=1';
                      vmyajax.success = function success(data) {                 
                           $("#modal").html(data);
+                          
                           $('#datepicker').datepicker({
                             format: 'dd-mm-yyyy',
                             autoclose: true

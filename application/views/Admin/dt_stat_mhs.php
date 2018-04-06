@@ -65,172 +65,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- AdminLTE for demo purposes 
 <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>-->
 <script type="text/javascript" src="<?php echo base_url();?>assets/dist/js/siamipa.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/dist/js/Admin/frm_stat_mhs.js"></script>
 
 <script type="text/javascript">
- 
-  function filter()
+    function filter()
   {
      var sem = $("#sem").val();
      $("#data").html('<?php echo $box_loading->display(); ?>');
      $("#data1").html('<?php echo $box_loading->display(); ?>');
-     var vmyajax = new myajax();
-     vmyajax.url = "filter_stat_mhs";
-     vmyajax.data = "sem=" + sem;
-     vmyajax.dataType = 'JSON';
-     vmyajax.success = function success(data) {
-          $("#data").html(data.stat);
-          $("#data1").html(data.sum);
-          $("#txt").html(data.txt);
-          $("#txt1").html(data.txt);
-          $("#btn").html('');
-          vmydatatable = new mydatatable;
-          vmydatatable.id = 'lst_stat';
-          vmydatatable.template = 1;
-          vmydatatable.title = 2;
-          vmydatatable.settemplate();
-          vmydatatable.create();
-
-          vmydatatable = new mydatatable;
-          vmydatatable.id = 'lst_summary';
-          vmydatatable.bFilter = true;
-          vmydatatable.bPaginate = true;
-          vmydatatable.bInfo = true;
-          vmydatatable.create();
-      }
-     vmyajax.getdata();
-  } 
-
+     call_ajax("filter_stat_mhs","sem=" + sem,'JSON',filter_call);     
+  }
 
  $(function () {
      filter();
      $("#filter").click(function () {
        filter();
      });
+  <?php if($hak==1){ ?>   
      $("#add").click(function () {
        var sem = $("#sem").val();
        $("#data").html('<?php echo $box_loading->display(); ?>');
-       var vmyajax = new myajax();
-       vmyajax.url = "frm_add";
-       vmyajax.data = "sem=" + sem;
-       vmyajax.dataType = 'JSON';
-       vmyajax.success = function success(data) {
-          $("#data").html(data.form);
-          $("#btn").html(data.btn);
-          vmydatatable = new mydatatable;
-          vmydatatable.id = 'lst_stat';
-          vmydatatable.template = 1;
-          vmydatatable.title = 2;
-          vmydatatable.settemplate();
-          oTable=vmydatatable.create();
-          $("#add_save").click(function () {
-            $("#btn").html('');
-            var sem = $("#sem").val();
-            var vmyajax = new myajax();
-                 vmyajax.url = "insert_stat_mhs";
-                 vmyajax.data = $(":input",oTable.fnGetNodes()).serialize()+"&sem=" + sem;
-                 vmyajax.dataType = 'html';
-                 vmyajax.success = function success(data) {
-                      filter();
-                  }
-                 vmyajax.getdata();
-          });
-          
-      }
-     vmyajax.getdata();
+       call_ajax('frm_add',"sem=" + sem,'JSON',add_call);       
      });
 
      $("#edit").click(function () {
        var sem = $("#sem").val();
        $("#data").html('<?php echo $box_loading->display(); ?>');
-       var vmyajax = new myajax();
-       vmyajax.url = "frm_edit";
-       vmyajax.data = "sem=" + sem;
-       vmyajax.dataType = 'JSON';
-       vmyajax.success = function success(data) {
-          $("#data").html(data.form);
-          $("#btn").html(data.btn);
-          vmydatatable = new mydatatable;
-          vmydatatable.id = 'lst_stat';
-          vmydatatable.template = 1;
-          vmydatatable.title = 2;
-          vmydatatable.settemplate();
-          oTable=vmydatatable.create();
-          $("#edit_save").click(function () {
-            $("#btn").html('');
-            var sem = $("#sem").val();
-            var vmyajax = new myajax();
-                 vmyajax.url = "save_stat_mhs";
-                 vmyajax.data = $(":input",oTable.fnGetNodes()).serialize()+"&sem=" + sem;
-                 vmyajax.dataType = 'html';
-                 vmyajax.success = function success(data) {
-                      filter();
-                  }
-                 vmyajax.getdata();
-          });
-          
-      }
-     vmyajax.getdata();
+       call_ajax('frm_edit',"sem=" + sem,'JSON',edit_call);
      });
 
      $("#del").click(function () {
        var sem = $("#sem").val();
        $("#data").html('<?php echo $box_loading->display(); ?>');
-       var vmyajax = new myajax();
-       vmyajax.url = "frm_del";
-       vmyajax.data = "sem=" + sem;
-       vmyajax.dataType = 'JSON';
-       vmyajax.success = function success(data) {
-          $("#data").html(data.form);
-          $("#btn").html(data.btn);
-          vmydatatable = new mydatatable;
-          vmydatatable.id = 'lst_stat';
-          vmydatatable.template = 1;
-          vmydatatable.title = 2;
-          vmydatatable.settemplate();
-          oTable=vmydatatable.create();
-          $("#del_save").click(function () {
-            $("#btn").html('');
-            var sem = $("#sem").val();
-            var vmyajax = new myajax();
-                 vmyajax.url = "delete_stat_mhs";
-                 vmyajax.data = $(":input",oTable.fnGetNodes()).serialize()+"&sem=" + sem;
-                 vmyajax.dataType = 'html';
-                 vmyajax.success = function success(data) {
-                      filter();
-                  }
-                 vmyajax.getdata();
-          });
-          
-      }
-     vmyajax.getdata();
+       call_ajax('frm_del',"sem=" + sem,'JSON',delete_call);
      });
 
      $("#import").click(function () {
        var sem = $("#sem").val();
        $("#data").html('<?php echo $box_loading->display(); ?>');
-       var vmyajax = new myajax();
-       vmyajax.url = "import";
-       vmyajax.data = "sem=" + sem;
-       vmyajax.dataType = 'html';
-       vmyajax.success = function success(data) {
-          filter();         
-      }
-     vmyajax.getdata();
+       call_ajax('import',"sem=" + sem,'html',gen_call);       
      });
+
+   <?php } ?>  
 
      $("#ctk").click(function () {
        var sem = $("#sem").val();
-       window.location = "cetak/"+sem;
-       /*$("#data").html('<?php echo $box_loading->display(); ?>');
-       var vmyajax = new myajax();
-       vmyajax.url = "cetak";
-       vmyajax.data = "sem=" + sem;
-       vmyajax.dataType = 'html';
-       vmyajax.success = function success(data) {
-          window.open(data, 'Download'); 
-          filter();        
-      }
-     vmyajax.getdata();*/
+       window.location = "cetak/"+sem;       
      });
  }); 
 
@@ -276,14 +156,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                    $body1=$form_group->display();
 
                    $header_box['title']='Filter';                   
-                   $tempbox=new box($box,$header_box,$body1,
-                    $frm->addInput('submit',"Add","Add",array('class'=>'btn btn-info pull-left','id'=>'add')).
+                   
+                   $button = $frm->addInput('submit',"Filter","Filter",array('class'=>'btn btn-info pull-right','id'=>'filter')).
+                    $frm->addInput('submit',"ctk","Cetak Ke Excel",array('class'=>'btn btn-info pull-right','id'=>'ctk'));
+
+                   if($hak==1){
+                    $button.=$frm->addInput('submit',"Add","Add",array('class'=>'btn btn-info pull-left','id'=>'add')).
                     $frm->addInput('submit',"Edit","Edit",array('class'=>'btn btn-info pull-left','id'=>'edit')).
                     $frm->addInput('submit',"Delete","Delete",array('class'=>'btn btn-info pull-left','id'=>'del')).
-                    $frm->addInput('submit',"Import","TA-1 -> TA",array('class'=>'btn btn-info pull-left','id'=>'import')).
-                    $frm->addInput('submit',"Filter","Filter",array('class'=>'btn btn-info pull-right','id'=>'filter')).
-                    $frm->addInput('submit',"ctk","Cetak Ke Excel",array('class'=>'btn btn-info pull-left','id'=>'ctk'))
-                  ); 
+                    $frm->addInput('submit',"Import","TA-1 -> TA",array('class'=>'btn btn-info pull-left','id'=>'import'));
+                   } 
+
+                   $tempbox=new box($box,$header_box,$body1,$button); 
                    $content1=array(array($tempbox->display()));                   
 
                    $body2='<div id="data">'.$box_loading->display().'</div>'; 

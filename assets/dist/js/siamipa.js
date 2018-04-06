@@ -61,6 +61,7 @@ function mydatatable() {
     this.sAjaxSource = null;
 	this.sServerMethod= null;
 	this.fnServerParams=null;
+	this.scrollX=false;
 	this.oLanguage = {};
 	this.src_open = 'details_open.png';
 	this.src_close = 'details_close.png';

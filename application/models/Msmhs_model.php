@@ -23,6 +23,18 @@ class Msmhs_model extends CI_Model {
       return $hsl; 
    } 
 
+  public function getnm($nim)
+   {
+      $data = $this->getdata("nimhsmsmhs ='$nim'");      
+      $txt = 'Nim Tidak Terdaftar';
+       if($this->numrows>0)
+       {
+         $txt = $data[0]['nmmhsmsmhs'];
+       }
+
+      return $txt;
+   }
+   
    public function nim_ada($nim)
    {
       $this->getdata("nimhsmsmhs ='$nim'");      

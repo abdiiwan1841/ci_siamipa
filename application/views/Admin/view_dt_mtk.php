@@ -10,6 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
       <div class="modal-body">         
          <?php              
+              
               $from = new html_form();
               echo $from->addInput('hidden',"kode",$Kode,null);
               $desc = new desc($view);                   
@@ -20,9 +21,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               $tempbox=new box($box,$header_box,$body); 
               echo $tempbox->display();
 
-                     $row = array('jml'=>1);
+                    $row = array('jml'=>1);
                     $col = array('jml'=>1,'class'=>array('col-md-12'));
-                    $divrowcol = new div_row_col($row,$col,array(array($lstsyarat)));                 
+                    $divrowcol = new div_row_col($row,$col,array(array('<div>'.$lstsyarat.'</div>')));                 
                        
 
                     $header_box = array('class'=>'','title'=>'Prasyarat Matakuliah');

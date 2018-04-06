@@ -68,50 +68,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <script type="text/javascript">
  
-  function get_lst_file()
+  function get_dt_konversi()
   {
      $("#data").html('<?php echo $box_loading->display(); ?>');
      var vmyajax = new myajax();
-     vmyajax.url = "get_lst_file";
+     vmyajax.url = "get_dt_konversi";
      vmyajax.dataType = 'html';
      vmyajax.success = function success(data) {
           $("#data").html(data);
          var vmydatatable = new mydatatable;
-              vmydatatable.id = 'lstfile';
-              vmydatatable.template = 0;
-              vmydatatable.title = 0;
+              vmydatatable.id = 'lst_mhs';
+              vmydatatable.template = 1;
+              vmydatatable.title = 2;
               vmydatatable.bPaginate = true;
               vmydatatable.bInfo = true;
-              vmydatatable.bFilter= true;
-              vmydatatable.scrollX= true;
-              vmydatatable.dom =   "<'row'<'col-sm-4'B><'col-sm-4'l><'col-sm-4'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>";
-              vmydatatable.buttons =  [
-            {
-                text: 'Delete Selected File',
-                action: function ( e, dt, node, config ) {
-                     var vmyajax = new myajax();
-                     vmyajax.url = "delete_selected_file";
-                     vmyajax.success = function success(data) {
-                          get_lst_file();          
-                     }                   
-                     vmyajax.getdata();
-                }
-            }
-        ];             
+              vmydatatable.bFilter= true;                      
               vmydatatable.settemplate();       
               vmydatatable.create();
      }
      vmyajax.getdata();
   } 
 
- function deletefile(idx)
+ function edit(nim)
  {
+     $("#frmedt").html('<?php echo $box_loading->display(); ?>');
      var vmyajax = new myajax();
-     vmyajax.url = "delete_file";
-     vmyajax.data = 'idx='+idx;
+     vmyajax.url = "edt_dt_pindahan";
+     vmyajax.data = 'nim='+nim;
      vmyajax.dataType = 'html';
      vmyajax.success = function success(data) {
-          get_lst_file();          
+         $("#frmedt").html(data);           
      }
      vmyajax.getdata();
  }
@@ -130,14 +116,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      vmyajax.dataType = 'html';     
      vmyajax.getdata();
  }
-
- function downloadfile(idx)
- {
-   window.location = "download_file/"+idx;
- }
+ 
 
  $(function () {
-   get_lst_file();  
+   get_dt_konversi();  
  }); 
 
 
@@ -159,24 +141,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        List File        
+        Nilai Konversi        
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>Admin</a></li>
-        <li class="active">List File</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>Mahasiswa</a></li>
+        <li class="active">Nilai Konversi</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
        <?php
-                   
+                   echo '<div id="frmedt"></div>';
                    $box=array('class'=>'');
                    $header_box = array('class'=>'with-border','title'=>'','tools'=>array(array('widget'=>'collapse','icon'=>'fa fa-minus'),array('widget'=>'remove','icon'=>'fa fa-times')));                  
 
                    $body2='<div id="data">'.$box_loading->display().'<div>'; 
 
-                   $header_box['title']='List File';
+                   $header_box['title']='Daftar Mahasiswa Pindahan';
                    $tempbox=new box($box,$header_box,$body2); 
                    $content1[]=array($tempbox->display());
 

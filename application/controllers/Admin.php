@@ -134,6 +134,9 @@ class Admin extends CI_Controller {
                         case 72 :
                           $this->dt_mhs();
                         break;
+                        case 73 :
+                          $this->dt_konversi();
+                        break;
                         case 74 :
                           $this->dt_stat_mhs();
                         break;
@@ -186,7 +189,7 @@ class Admin extends CI_Controller {
     
 	 private function lst_lgn()
   {
-     $id = $this->session->userdata('id');
+        $id = $this->session->userdata('id');
         $user = $this->session->userdata('user');
         if($this->Log_model->islogin($user,1)){
           if($this->Log_model->logintime($id)){
@@ -253,6 +256,24 @@ class Admin extends CI_Controller {
              $data['hak']=$this->session->userdata('hak');
              $data['menu_active']=array('7','72');
              $this->load->view('Admin/dt_mhs',$data);
+      }else{
+             redirect('Admin/logout');
+      }
+    }else{
+      redirect('Admin/login');
+    }
+  }
+
+  private function dt_konversi()
+  {
+     $id = $this->session->userdata('id');
+        $user = $this->session->userdata('user');
+        if($this->Log_model->islogin($user,1)){
+          if($this->Log_model->logintime($id)){
+             $data['nm_user']=$this->session->userdata('nm_user');
+             $data['hak']=$this->session->userdata('hak');
+             $data['menu_active']=array('7','73');
+             $this->load->view('Admin/dt_konversi',$data);
       }else{
              redirect('Admin/logout');
       }

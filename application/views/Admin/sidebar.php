@@ -190,7 +190,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                   ->setheader('01');                                  
         if(in_array('72', $menu_active)){ $mymenu->setactive(); }
                                   $mymenu->addmenuassubmenu('7');
-                 $mymenu->new_menu('73','Nilai Konversi',base_url().'Admin/#')
+                 $mymenu->new_menu('73','Nilai Konversi',base_url().'Admin/admin_dt_konversi')
                                   ->add_righticon('fa fa-circle-o')
                                   ->setheader('01');                                  
         if(in_array('73', $menu_active)){ $mymenu->setactive(); }
