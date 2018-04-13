@@ -30,5 +30,5 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /tests/tests/
 /tests/results/
 /session/
-/application/ci_sessions/
+/application/sessions/
 /assets/cetak/

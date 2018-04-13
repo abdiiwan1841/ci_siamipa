@@ -98,6 +98,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             }
         ];             
+              vmydatatable.bAutoWidth= false;
+              vmydatatable.aoColumns= [
+                                      { "sWidth": "1%" },
+                                      { "sWidth": "1%" },
+                                      { "sWidth": "10%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"}                                                                           
+                                     ];      
               vmydatatable.settemplate();       
               vmydatatable.create();
      }

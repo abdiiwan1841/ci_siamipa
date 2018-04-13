@@ -69,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   {
     if($data=="")
     {
-      window.location.replace("<?php echo base_url();?>Admin/admin_sum_exec");
+      window.location.replace("<?php echo base_url();?>Admin/sum_exec");
     }
   }
 

@@ -3,12 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
 
-	public function login()
+    public function login()
 	{
 		$this->load->view('Admin/login');
 	}
 
-  public function logout()
+	public function logout()
   {
     $user = $this->session->userdata('user');         
     if($this->Log_model->islogin($user,1)){
@@ -108,7 +108,7 @@ class Admin extends CI_Controller {
             
   }
 
-	public function change_content($idx_p,$idx_c)
+  public function change_content($idx_p,$idx_c)
 	{
         switch ($idx_p) {
         	case 1:
@@ -178,16 +178,25 @@ class Admin extends CI_Controller {
         }
 	}
 
-   public function filter_log()
-  {
-     if($this->input->is_ajax_request()){
-       $tg = $this->input->post('tg');
-       $html_txt = $this->Log_model->getlstlgn($tg);
-       echo $html_txt;
-     } 
-  }
-    
-	 private function lst_lgn()
+    private function dashboard()
+	{		
+        $id = $this->session->userdata('id');
+        $user = $this->session->userdata('user');
+        if($this->Log_model->islogin($user,1)){
+	        if($this->Log_model->logintime($id)){
+	          $data['nm_user']=$this->session->userdata('nm_user');
+	          $data['hak']=$this->session->userdata('hak');
+	          $data['menu_active']=array('1','12');
+			    $this->load->view('Admin/dashboard',$data);
+			}else{
+	           redirect('Admin/logout');
+			}
+		}else{
+			redirect('Admin/login');
+		}	  
+	}
+
+	private function lst_lgn()
   {
         $id = $this->session->userdata('id');
         $user = $this->session->userdata('user');
@@ -204,29 +213,6 @@ class Admin extends CI_Controller {
       redirect('Admin/login');
     }
   }
-
-  
-
-	private function dashboard()
-	{
-		
-        $id = $this->session->userdata('id');
-        $user = $this->session->userdata('user');
-        if($this->Log_model->islogin($user,1)){
-	        if($this->Log_model->logintime($id)){
-	          $data['nm_user']=$this->session->userdata('nm_user');
-	          $data['hak']=$this->session->userdata('hak');
-	          $data['menu_active']=array('1','12');
-			  $this->load->view('Admin/dashboard',$data);
-			}else{
-	           redirect('Admin/logout');
-			}
-		}else{
-			redirect('Admin/login');
-		}	  
-	} 
-
-  
 
   private function lst_file()
   {
@@ -255,16 +241,16 @@ class Admin extends CI_Controller {
              $data['nm_user']=$this->session->userdata('nm_user');
              $data['hak']=$this->session->userdata('hak');
              $data['menu_active']=array('7','72');
-             $this->load->view('Admin/dt_mhs',$data);
+             $this->load->view('Admin/Mahasiswa/dt_mhs',$data);
       }else{
              redirect('Admin/logout');
       }
     }else{
       redirect('Admin/login');
     }
-  }
+  }  
 
-  private function dt_konversi()
+   private function dt_konversi()
   {
      $id = $this->session->userdata('id');
         $user = $this->session->userdata('user');
@@ -273,7 +259,7 @@ class Admin extends CI_Controller {
              $data['nm_user']=$this->session->userdata('nm_user');
              $data['hak']=$this->session->userdata('hak');
              $data['menu_active']=array('7','73');
-             $this->load->view('Admin/dt_konversi',$data);
+             $this->load->view('Admin/Mahasiswa/dt_konversi',$data);
       }else{
              redirect('Admin/logout');
       }
@@ -282,7 +268,7 @@ class Admin extends CI_Controller {
     }
   }
 
-  private function dt_stat_mhs()
+ private function dt_stat_mhs()
   {
      $id = $this->session->userdata('id');
         $user = $this->session->userdata('user');
@@ -293,7 +279,7 @@ class Admin extends CI_Controller {
              $data['menu_active']=array('7','74');
              $mythnsem = new mythnsem(); 
              $data['lst_sem']=$mythnsem->getlstthnsem();
-             $this->load->view('Admin/dt_stat_mhs',$data);
+             $this->load->view('Admin/Mahasiswa/dt_stat_mhs',$data);
       }else{
              redirect('Admin/logout');
       }
@@ -311,7 +297,7 @@ class Admin extends CI_Controller {
              $data['nm_user']=$this->session->userdata('nm_user');
              $data['hak']=$this->session->userdata('hak');
              $data['menu_active']=array('8','81');
-             $this->load->view('Admin/dt_dosen',$data);
+             $this->load->view('Admin/Dosen/dt_dosen',$data);
       }else{
              redirect('Admin/logout');
       }
@@ -320,7 +306,7 @@ class Admin extends CI_Controller {
     }
   }  
 
-   private function dt_mtk()
+  private function dt_mtk()
   {
      $id = $this->session->userdata('id');
         $user = $this->session->userdata('user');
@@ -329,33 +315,7 @@ class Admin extends CI_Controller {
              $data['nm_user']=$this->session->userdata('nm_user');
              $data['hak']=$this->session->userdata('hak');
              $data['menu_active']=array('9','91');
-             $this->load->view('Admin/dt_mtk',$data);
-      }else{
-             redirect('Admin/logout');
-      }
-    }else{
-      redirect('Admin/login');
-    }
-  }  
-  
-
-
-  
-
-  public function download_file($idx)
-  {
-    $id = $this->session->userdata('id');
-    $user = $this->session->userdata('user');
-        if($this->Log_model->islogin($user,1)){
-          if($this->Log_model->logintime($id)){
-           $nmfile = $this->session->userdata('nmfile');
-          if(!empty($nmfile))
-          {          
-            if(file_exists('./assets/cetak/Admin/'.$nmfile[$idx]['nmfile']))
-            { 
-              force_download('./assets/cetak/Admin/'.$nmfile[$idx]['nmfile'], NULL);  
-            }
-          }  
+             $this->load->view('Admin/Kurikulum/dt_mtk',$data);
       }else{
              redirect('Admin/logout');
       }
@@ -364,6 +324,7 @@ class Admin extends CI_Controller {
     }
   }
 
+  
 
 
 }

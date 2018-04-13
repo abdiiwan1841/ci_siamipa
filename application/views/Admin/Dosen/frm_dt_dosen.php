@@ -1,18 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-?>      
-
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo $judul;?></h4>
-      </div>
+?>        
       <form id="dtdosen" action="" method="post" >  
-      <div class="modal-body">
-        <div id="ketdtdosen"></div>
+      
+        
          
          <?php 
-        
-            
 
          $row = array('jml'=>1);
          $col = array('jml'=>2,'class'=>array('col-md-6','col-md-6'));
@@ -25,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         'required'=>'required',
                         'width'=>'100%');
          
-         echo $from->addInput('hidden',"old_kode",$Kode,null);
+         $txt = $from->addInput('hidden',"old_kode",$Kode,null);
 
          $input = $from->addInput('text','kode',$Kode,$attr); 
          $form_group = new form_group('Kode',$input);
@@ -40,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          $nama= $form_group->display();
          
          $divrowcol = new div_row_col($row,$col,array(array($kode,$nama)));
-         echo $divrowcol->display();   
+         $txt .= $divrowcol->display();   
 
 
          $attr['id']='tstat'; 
@@ -59,14 +52,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          $hnr= $form_group->display();
 
          $divrowcol = new div_row_col($row,$col,array(array($statdsn,$hnr)));
-         echo $divrowcol->display(); 
+         $txt .= $divrowcol->display(); 
 
          $attr['id']='smawl'; 
          $attr['placeholder']='Honor Ngajar ...';
 
          $input = $from->addSelectList("smawl",$lst,true,$smawl,null,$attr);
          $form_group = new form_group('Awal Ngajar',$input);
-         echo $form_group->display();
+         $txt .= $form_group->display();
                  
 
          $attr['id']='nidn1'; 
@@ -85,7 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
          
          $divrowcol = new div_row_col($row,$col,array(array($input_tempat,$input_tgl)));
-         echo $divrowcol->display();
+         $txt .= $divrowcol->display();
         
 
          $attr['id']='link_forlap'; 
@@ -93,17 +86,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          
          $input = $from->addInput('text','link_forlap',$link_forlap,$attr); 
          $form_group = new form_group('Link Forlap',$input);
-         echo $form_group->display();
+         $txt .= $form_group->display();
+                    
+                    $content[] = array('<div id="ketdtdosen"></div>');
+                    $content[] = array($txt);  
+
+                    $row = array('jml'=>2);
+                    $col = array('jml'=>1,'class'=>array('col-md-12'));
+                    $divrowcol = new div_row_col($row,$col,$content); 
+                    $body2 = $divrowcol->display();
+
+                    $box=array('class'=>'');
+                    $header_box = array('class'=>'with-border','title'=>$judul,'tools'=>array(array('widget'=>'collapse','icon'=>'fa fa-minus'),array('widget'=>'remove','icon'=>'fa fa-times')));
+
+                    $button = $from->addInput('button',"Close","Close",array('class'=>'btn btn-default pull-right','id'=>'close')).$from->addInput('submit',"Save","Save",array('class'=>'btn btn-primary pull-right','id'=>'save'));
+
+                    $tempbox=new box($box,$header_box,$body2,$button); 
+                    echo $tempbox->display();
 
         
 
          ?>
 
 
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>           
-      </div>
+      
     </form>

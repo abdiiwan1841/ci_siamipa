@@ -2,17 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>      
 
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo $judul;?></h4>
-      </div>
+      
       <form id="dtmhs" action="" method="post" >  
-      <div class="modal-body">
-        <div id="ketdtmhs"></div>
          
-         <?php 
-        
-            
+         <?php             
 
          $row = array('jml'=>1);
          $col = array('jml'=>2,'class'=>array('col-md-6','col-md-6'));
@@ -25,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         'required'=>'required',
                         'width'=>'100%');
          
-         echo $from->addInput('hidden',"old_nim",$nimhsmsmhs,null);
+         $txt = $from->addInput('hidden',"old_nim",$nimhsmsmhs,null);
 
          $input = $from->addInput('text','nim',$nimhsmsmhs,$attr); 
          $form_group = new form_group('NIM',$input);
@@ -42,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          $nama= $form_group->display();
          
          $divrowcol = new div_row_col($row,$col,array(array($nim,$nama)));
-         echo $divrowcol->display();  
+         $txt.= $divrowcol->display();  
 
 
          $attr['id']='alamat'; 
@@ -55,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          
          $input = $from->addInput('text','alamat',$almmsmhs,$attr); 
          $form_group = new form_group('Alamat',$input);
-         echo $form_group->display(); 
+         $txt.=$form_group->display(); 
 
          $attr['id']='tlp'; 
          $attr['placeholder']='Nomor Telpon ...';
@@ -72,7 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          $email = $form_group->display(); 
          
          $divrowcol = new div_row_col($row,$col,array(array($tlp,$email)));
-         echo $divrowcol->display();  
+         $txt.=$divrowcol->display();  
 
 
          $attr['id']='agama'; 
@@ -90,14 +83,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          $status= $form_group->display();
 
          $divrowcol = new div_row_col($row,$col,array(array($agama,$status)));
-         echo $divrowcol->display(); 
+         $txt.=$divrowcol->display(); 
 
          $attr['id']='penddk'; 
          $attr['placeholder']='Pendidikan Terakhir ...';
          
          $input = $from->addInput('text','penddk',$smamsmhs,$attr); 
          $form_group = new form_group('Pendidikan Terakhir',$input);
-         echo $form_group->display();  
+         $txt.=$form_group->display();  
 
          
          $col = array('jml'=>3,'class'=>array('col-md-4','col-md-4','col-md-4'));
@@ -127,7 +120,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
          
          $divrowcol = new div_row_col($row,$col,array(array($jk,$input_tempat,$input_tgl)));
-         echo $divrowcol->display();
+         $txt.=$divrowcol->display();
 
 
          $attr['id']='bp'; 
@@ -169,24 +162,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          
          $col = array('jml'=>4,'class'=>array('col-md-3','col-md-3','col-md-3','col-md-3'));
          $divrowcol = new div_row_col($row,$col,array(array($bp,$kelas,$thn,$sem)));
-         echo $divrowcol->display();
+         $txt.= $divrowcol->display();
 
          $attr['id']='link_forlap'; 
          $attr['placeholder']='Link Forlap ...';
          
          $input = $from->addInput('text','link_forlap',$link_forlap,$attr); 
          $form_group = new form_group('Link Forlap',$input);
-         echo $form_group->display();
+         $txt.= $form_group->display();
 
-        
+                    $content[] = array('<div id="ketdtmhs"></div>');
+                    $content[] = array($txt);
 
-         ?>
+                    $row = array('jml'=>2);
+                    $col = array('jml'=>1,'class'=>array('col-md-12'));
+                    $divrowcol = new div_row_col($row,$col,$content); 
+                    $body2 = $divrowcol->display();
 
+                    $box=array('class'=>'');
+                    $header_box = array('class'=>'with-border','title'=>$judul,'tools'=>array(array('widget'=>'collapse','icon'=>'fa fa-minus'),array('widget'=>'remove','icon'=>'fa fa-times')));
 
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>           
-      </div>
+                    $button = $from->addInput('button',"Close","Close",array('class'=>'btn btn-default pull-right','id'=>'close')).$from->addInput('submit',"Save","Save",array('class'=>'btn btn-primary pull-right','id'=>'save'));
+
+                    $tempbox=new box($box,$header_box,$body2,$button); 
+                    echo $tempbox->display();
+
+         ?>       
     </form>

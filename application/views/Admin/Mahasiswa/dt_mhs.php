@@ -75,89 +75,73 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo base_url();?>assets/dist/js/siamipa.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
 <script type="text/javascript">
-  var oTable;  
-
-  function initmodal()
-  {
-    $('#myModal').modal();
-    $("#myModal").on("hidden.bs.modal", function () {
-        get_dt_mtk();                            
-    });
-  }
-
-  function initdatatable(istrue)
-  {
-    var vmydatatable = new mydatatable;
-    vmydatatable.id = 'lst_prasyarat';
-    vmydatatable.template = 1;
-    vmydatatable.title = 1;
-    vmydatatable.bPaginate = istrue;
-    vmydatatable.bInfo = istrue;
-    vmydatatable.bFilter = istrue;
-    //vmydatatable.scrollX =true;
-    vmydatatable.settemplate();              
-    oTable=vmydatatable.create();
-  }
 
   function submit_button(url_ajax)
   {
-    $("#dtmtk").submit(function(e) {
-    //prevent Default functionality
-      e.preventDefault();
-      var isvalid = $("#dtmtk").valid();
-      if (isvalid) {
-          var vmyajax = new myajax();
-          vmyajax.url = url_ajax;
-          vmyajax.data = $("#dtmtk").serialize();
-          vmyajax.dataType = 'json';  
-          vmyajax.success = function success(data) {
-             if(data.msg==''){
-                  $(".modal").modal("hide");
-             }else{ 
-                  $('#ketmtk').html(data.msg);
-             }
-          }
-          vmyajax.getdata();
-      }        
-    });
+                        $("#dtmhs").submit(function(e) {
+                              //prevent Default functionality
+                              e.preventDefault();
+                              var isvalid = $("#dtmhs").valid();
+                              if (isvalid) {
+                                  var vmyajax = new myajax();
+                                  vmyajax.url = url_ajax;
+                                  vmyajax.data = $("#dtmhs").serialize();
+                                  vmyajax.dataType = 'json';  
+                                  vmyajax.success = function success(data) {
+                                    if(data.msg==''){
+                                         $("#modal").html('');
+                                          get_dt_mhs();
+                                    }else{ 
+                                      $('#ketdtmhs').html(data.msg);
+                                    }
+                                      
+                                  }
+                                  vmyajax.getdata();
+
+                              }        
+                          });
+
+     $("#close").click(function () {
+       $("#modal").html('');
+     });
   }
 
-
-  function get_dt_mtk()
+  function get_dt_mhs()
   {
      $("#data").html('<?php echo $box_loading->display(); ?>');
      var vmyajax = new myajax();
-     vmyajax.url = "get_dt_mtk";
+     vmyajax.url = "get_dt_mhs";
      vmyajax.dataType = 'html';
      vmyajax.success = function success(data) {
           $("#data").html(data);
               //$("#lst_mhs").dataTable();
               var vmydatatable = new mydatatable;
-              vmydatatable.id = 'lst_mtk';
+              vmydatatable.id = 'lst_mhs';
               vmydatatable.template = 1;
-              vmydatatable.title = 1;
+              vmydatatable.title = 2;
               vmydatatable.bPaginate = true;
               vmydatatable.bInfo = true;
               vmydatatable.bFilter = true;
-              vmydatatable.settemplate();
-              vmydatatable.footerfilter();
          <?php  if($hak==1){ ?>     
               vmydatatable.dom =   "<'row'<'col-sm-4'B><'col-sm-4'l><'col-sm-4'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>";
               vmydatatable.buttons =  [
             {
-                text: 'Input Matakuliah',
+                text: 'Input Data Mahasiswa',
                 action: function ( e, dt, node, config ) {
                      var vmyajax = new myajax();
-                     vmyajax.url = "frm_dt_mtk";
+                     vmyajax.url = "frm_dt_mhs";
                      vmyajax.data = 'idx=1';
                      vmyajax.success = function success(data) {                 
-                          $("#modal").html(data);                         
+                          $("#modal").html(data);
                           
-                          initdatatable(true);
-                          initmodal();          
+                          $('#datepicker').datepicker({
+                            format: 'dd-mm-yyyy',
+                            autoclose: true
+                          });
+                          $("[data-mask]").inputmask();                                  
 
-                          $("#dtmtk").validate();
-                          submit_button("insert_dt_mtk");                          
+                          $("#dtmhs").validate();
+                          submit_button("insert_dt_mhs");                         
                      }                   
                      vmyajax.getdata();
                 }
@@ -172,64 +156,71 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      vmyajax.getdata();
   } 
  <?php  if($hak==1){ ?> 
- function edit(kode)
+ function edit(nim)
  {
      var vmyajax = new myajax();
-     vmyajax.url = "frm_dt_mtk";
-     vmyajax.data = 'idx=2'+'&kode='+kode;
+     vmyajax.url = "frm_dt_mhs";
+     vmyajax.data = 'idx=2'+'&nim='+nim;
      vmyajax.dataType = 'html';
      vmyajax.success = function success(data) {
        $("#modal").html(data);
+       $('#datepicker').datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true
+        });
+       $("[data-mask]").inputmask();      
 
-       initdatatable(true);
-       initmodal();
-
-        $("#dtmtk").validate();
-        submit_button("save_dt_mtk");                               
+        $("#dtmhs").validate();
+        submit_button('save_dt_mhs');                                 
+                                    
      }
      vmyajax.getdata();
  }
 
- function view(kode)
+ function view(nim)
  {
      var vmyajax = new myajax();
-     vmyajax.url = "view_dt_mtk";
-     vmyajax.data = 'idx=1'+'&kode='+kode;
+     vmyajax.url = "view_dt_mhs";
+     vmyajax.data = 'idx=1'+'&nim='+nim;
      vmyajax.dataType = 'html';
      vmyajax.success = function success(data) {
        $("#modal").html(data);
-       initdatatable(false); 
-       $('#myModal').modal();
-       
+        $("#close").click(function () {
+          $("#modal").html('');
+        });
+                      
     }
      vmyajax.getdata();
  }
 
-function del(kode)
+function del(nim)
  {
      var vmyajax = new myajax();
-     vmyajax.url = "view_dt_mtk";
-     vmyajax.data = 'idx=2'+'&kode='+kode;
+     vmyajax.url = "view_dt_mhs";
+     vmyajax.data = 'idx=2'+'&nim='+nim;
      vmyajax.dataType = 'html';
      vmyajax.success = function success(data) {
        $("#modal").html(data);
-       initdatatable(false);
-       initmodal();       
-
-                         $("#dtmtk").submit(function(e) {
+       
+                         $("#dtmhs").submit(function(e) {
                               //prevent Default functionality
                               e.preventDefault();
-                                                            
+                              
                                   var vmyajax = new myajax();
-                                  vmyajax.url = "delete_dt_mtk";
-                                  vmyajax.data = $("#dtmtk").serialize();
+                                  vmyajax.url = "delete_dt_mhs";
+                                  vmyajax.data = $("#dtmhs").serialize();
                                   vmyajax.dataType = 'html';  
                                   vmyajax.success = function success(data) {
-                                     $(".modal").modal("hide");                                     
+                                      $("#modal").html('');
+                                      get_dt_mhs();                                     
                                   }
                                   vmyajax.getdata();
                                       
-                          });                
+                          });
+
+                          $("#close").click(function () {
+                            $("#modal").html('');
+                          });                  
     }
      vmyajax.getdata();
  }
@@ -237,7 +228,7 @@ function del(kode)
   <?php } ?>
 
  $(function () {
-   get_dt_mtk();  
+   get_dt_mhs();  
  }); 
 
 
@@ -259,44 +250,34 @@ function del(kode)
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Matakuliah        
+        Data Mahasiswa        
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>Kurikulum</a></li>
-        <li class="active">Matakuliah</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>Mahasiswa</a></li>
+        <li class="active">Data Mahasiswa</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
        <?php
-                   $row = array('jml'=>1);
-                   $col = array('jml'=>1,'class'=>array('col-xs-12'));                   
-                   $content = array(array('<div id="data">'.$box_loading->display().'<div>'));                   
-                   $divrowcol = new div_row_col($row,$col,$content);
                    
                    $box=array('class'=>'');
                    $header_box = array('class'=>'with-border','title'=>'','tools'=>array(array('widget'=>'collapse','icon'=>'fa fa-minus'),array('widget'=>'remove','icon'=>'fa fa-times')));                   
+                  
+                  $content1[]=array("<div id='modal'></div>"); 
 
-                   $body2=$divrowcol->display(); 
-
-                   $header_box['title']='Matakuliah';
+                   $header_box['title']='Data Mahasiswa';
+                   $body2='<div id="data">'.$box_loading->display().'<div>'; 
                    $tempbox=new box($box,$header_box,$body2); 
                    $content1[]=array($tempbox->display());
-                   
+
+                   $row = array('jml'=>2);
+                   $col = array('jml'=>1,'class'=>array('col-xs-12'));
                    $divrowcol = new div_row_col($row,$col,$content1);
                    echo $divrowcol->display();   
        ?> 
-
- <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-       <div id='modal'>
-         
-       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal --> 
+ 
 
     </section>
     <!-- /.content -->

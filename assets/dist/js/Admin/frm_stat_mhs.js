@@ -1,11 +1,43 @@
 var oTable; 
 
-  function initdatatable()
+  function initdatatable(idx)
   {
     vmydatatable = new mydatatable;
     vmydatatable.id = 'lst_stat';
     vmydatatable.template = 1;
     vmydatatable.title = 2;
+    vmydatatable.bAutoWidth= false;
+    switch(idx){
+      
+     case 0 :
+      vmydatatable.aoColumns= [
+                              { "sWidth": "1%" },
+                              { "sWidth": "2%" },
+                              { "sWidth": "10%"},
+                              { "sWidth": "1%"},
+                              { "sWidth": "2%"},
+                              { "sWidth": "2%"}                                     
+                             ];            
+             break; 
+      case 3 :
+      vmydatatable.aoColumns= [
+                              { "sWidth": "1%" },
+                              { "sWidth": "2%" },
+                              { "sWidth": "10%"},
+                              { "sWidth": "1%"},
+                              { "sWidth": "2%"}                                     
+                             ];            
+             break;        
+      default :
+             vmydatatable.aoColumns= [
+                              { "sWidth": "1%" },
+                              { "sWidth": "2%" },
+                              { "sWidth": "10%"},
+                              { "sWidth": "1%"}                                   
+                             ];
+            break;                      
+    }
+
     vmydatatable.settemplate();
     oTable = vmydatatable.create();
   }
@@ -28,7 +60,7 @@ var oTable;
           $("#txt1").html(data.txt);
           $("#btn").html('');
           
-          initdatatable();   
+          initdatatable(0);   
 
           vmydatatable = new mydatatable;
           vmydatatable.id = 'lst_summary';
@@ -42,7 +74,7 @@ var oTable;
   {
           $("#data").html(data.form);
           $("#btn").html(data.btn);
-          initdatatable();
+          initdatatable(1);
           btn_click("add_save","insert_stat_mhs");
   }
 
@@ -50,7 +82,7 @@ var oTable;
   {
           $("#data").html(data.form);
           $("#btn").html(data.btn);
-          initdatatable();
+          initdatatable(2);
           btn_click("edit_save","save_stat_mhs");
   }
 
@@ -58,7 +90,7 @@ var oTable;
   {
           $("#data").html(data.form);
           $("#btn").html(data.btn);
-          initdatatable();
+          initdatatable(3);
           btn_click("del_save","delete_stat_mhs");
   }
 

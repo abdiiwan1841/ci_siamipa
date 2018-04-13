@@ -1,45 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Admin_menu_dashboard extends CI_Controller {
+class Lst_file extends CI_Controller {
 
-  public function gambarchart()
-  {
-    if($this->input->is_ajax_request()){
-           $idx = $this->input->post('idx');
-           switch ($idx) {
-            case 1:
-                  $data = $this->vw_rekapstatmhs_model->getdtchart(new mythnsem);
-                  echo json_encode($data);
-                  break;
-            case 2:
-                  $data = $this->vw_rekapstatmhs_model->getdtchart1(new mythnsem);
-                  echo json_encode($data);
-                  break;      
-            case 3:
-                  $data = $this->vw_rekapstatmhs_model->getdtchart2(new mythnsem);
-                  echo json_encode($data);
-                  break;      
-            case 4:
-                  $data = $this->vw_rekapkeu_model->getdtchart();
-                  echo json_encode($data);
-                  break;                  
-            case 5:
-                  $data = $this->vw_rekapkeu_model->getdtchart1();
-                  echo json_encode($data);
-                  break;      
-            case 6:
-                  $data = $this->vw_rekapkeu_model->getdtchart2();
-                  echo json_encode($data);
-                  break;      
-            default:
-                  # code...
-                  break;
-           }
-    }
-  }
-
-  public function get_lst_file()
+ public function get_lst_file()
   {
      if($this->input->is_ajax_request()){
        
@@ -119,6 +83,28 @@ class Admin_menu_dashboard extends CI_Controller {
         $nmfile[$idx]['tandai']=$cek;
         $this->session->set_userdata('nmfile',$nmfile);       
      } 
+  }
+
+  public function download_file($idx)
+  {
+    $id = $this->session->userdata('id');
+    $user = $this->session->userdata('user');
+        if($this->Log_model->islogin($user,1)){
+          if($this->Log_model->logintime($id)){
+           $nmfile = $this->session->userdata('nmfile');
+          if(!empty($nmfile))
+          {          
+            if(file_exists('./assets/cetak/Admin/'.$nmfile[$idx]['nmfile']))
+            { 
+              force_download('./assets/cetak/Admin/'.$nmfile[$idx]['nmfile'], NULL);  
+            }
+          }  
+      }else{
+             redirect('Admin/logout');
+      }
+    }else{
+      redirect('Admin/login');
+    }
   }
 
 }

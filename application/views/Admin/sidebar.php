@@ -28,17 +28,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               ->setheader('01');
         if(in_array('1', $menu_active)){ $mymenu->setactive(); }
         $mymenu->addmenutomainmenu();
-                 $mymenu->new_menu('11','Login List',base_url().'Admin/admin_user_log')
+                 $mymenu->new_menu('11','Login List',base_url().'Admin/user_log')
                                   ->add_righticon('fa fa-circle-o')
                                   ->setheader('01');                                  
         if(in_array('11', $menu_active)){ $mymenu->setactive(); }
                                   $mymenu->addmenuassubmenu('1');
-                 $mymenu->new_menu('12','Summary Executive',base_url().'Admin/admin_sum_exec')
+                 $mymenu->new_menu('12','Summary Executive',base_url().'Admin/sum_exec')
                                   ->add_righticon('fa fa-circle-o')
                                   ->setheader('01');                                  
         if(in_array('12', $menu_active)){ $mymenu->setactive(); }
                                   $mymenu->addmenuassubmenu('1');
-                 $mymenu->new_menu('13','List File',base_url().'Admin/admin_list_file')
+                 $mymenu->new_menu('13','List File',base_url().'Admin/list_file')
                                   ->add_righticon('fa fa-circle-o')
                                   ->setheader('01');                                  
         if(in_array('13', $menu_active)){ $mymenu->setactive(); }
@@ -185,17 +185,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                   ->setheader('01');                                  
         if(in_array('71', $menu_active)){ $mymenu->setactive(); }
                                   $mymenu->addmenuassubmenu('7');
-                 $mymenu->new_menu('72','Data Mahasiswa',base_url().'Admin/admin_dt_mhs')
+                 $mymenu->new_menu('72','Data Mahasiswa',base_url().'Admin/dt_mhs')
                                   ->add_righticon('fa fa-circle-o')
                                   ->setheader('01');                                  
         if(in_array('72', $menu_active)){ $mymenu->setactive(); }
                                   $mymenu->addmenuassubmenu('7');
-                 $mymenu->new_menu('73','Nilai Konversi',base_url().'Admin/admin_dt_konversi')
+                 $mymenu->new_menu('73','Nilai Konversi',base_url().'Admin/dt_konversi')
                                   ->add_righticon('fa fa-circle-o')
                                   ->setheader('01');                                  
         if(in_array('73', $menu_active)){ $mymenu->setactive(); }
                                   $mymenu->addmenuassubmenu('7');
-                 $mymenu->new_menu('74','Status Mahasiswa',base_url().'Admin/admin_dt_stat_mhs')
+                 $mymenu->new_menu('74','Status Mahasiswa',base_url().'Admin/dt_stat_mhs')
                                   ->add_righticon('fa fa-circle-o')
                                   ->setheader('01');                                  
         if(in_array('74', $menu_active)){ $mymenu->setactive(); }
@@ -226,7 +226,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               ->setheader('01');
         if(in_array('8', $menu_active)){ $mymenu->setactive(); }
         $mymenu->addmenutomainmenu();
-                 $mymenu->new_menu('81','Data Dosen',base_url().'Admin/admin_dt_dosen')
+                 $mymenu->new_menu('81','Data Dosen',base_url().'Admin/dt_dosen')
                                   ->add_righticon('fa fa-circle-o')
                                   ->setheader('01');                                  
         if(in_array('81', $menu_active)){ $mymenu->setactive(); }
@@ -262,7 +262,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               ->setheader('01');
         if(in_array('9', $menu_active)){ $mymenu->setactive(); }
         $mymenu->addmenutomainmenu();
-                 $mymenu->new_menu('91','Matakuliah',base_url().'Admin/admin_dt_mtk')
+                 $mymenu->new_menu('91','Matakuliah',base_url().'Admin/dt_mtk')
                                   ->add_righticon('fa fa-circle-o')
                                   ->setheader('01');                                  
         if(in_array('91', $menu_active)){ $mymenu->setactive(); }

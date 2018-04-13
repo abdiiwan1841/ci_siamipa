@@ -1,9 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Admin_menu_mtk extends CI_Controller {
-
-  private function ismrhitl($iswp,$data)
+class Matakuliah extends CI_Controller {
+private function ismrhitl($iswp,$data)
   {
      if($iswp=='p'){
         return "<font color='red'><i>".$data."</i></font>";
@@ -279,7 +278,7 @@ class Admin_menu_mtk extends CI_Controller {
           $data['lstsyarat']=$tbl->display();
             
         
-        echo $this->load->view('Admin/view_dt_mtk',$data,true);
+        echo $this->load->view('Admin/Kurikulum/view_dt_mtk',$data,true);
      } 
   }
 
@@ -351,7 +350,7 @@ class Admin_menu_mtk extends CI_Controller {
           $data['lstprtk'] = $this->Mtk_model->cmbprkt();
           $data['lstkddsn'] = $this->Dosen_model->cmbdsn();             
            
-        echo $this->load->view('Admin/frm_dt_mtk',$data,true);
+        echo $this->load->view('Admin/Kurikulum/frm_dt_mtk',$data,true);
      } 
   }
 }

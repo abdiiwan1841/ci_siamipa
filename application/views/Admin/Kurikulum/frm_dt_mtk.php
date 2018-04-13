@@ -2,17 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>      
 
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo $judul;?></h4>
-      </div>
+      
       <form id="dtmtk" action="" method="post" >  
-      <div class="modal-body">
-        <div id="ketmtk"></div>
-         
-         <?php 
-        
-
+     <?php 
          $row = array('jml'=>1);
          $col = array('jml'=>2,'class'=>array('col-md-6','col-md-6'));
 
@@ -98,11 +90,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          $form_group = new form_group('Dosen Pengampu',$input);
          $body .=  $form_group->display(); 
 
+                    $content[] = array('<div id="ketmtk"></div>');
+
                     $box=array('class'=>'box-primary');
                     $header_box = array('class'=>'','title'=>'Data Matakuliah');
                     
                     $tempbox=new box($box,$header_box,$body); 
-                    echo $tempbox->display();      
+                    $content[] = array($tempbox->display());      
 
                     $col = array('jml'=>1,'class'=>array('col-md-12'));
                     $divrowcol = new div_row_col($row,$col,array(array($lstsyarat)));                 
@@ -111,13 +105,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $header_box = array('class'=>'','title'=>'Prasyarat Matakuliah');
                     $body = $divrowcol->display();
                     $tempbox=new box($box,$header_box,$body); 
-                    echo $tempbox->display();
+                    $content[] = array($tempbox->display());
 
-         ?>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>           
-      </div>
+                    $row = array('jml'=>3);
+                    $col = array('jml'=>1,'class'=>array('col-md-12'));
+                    $divrowcol = new div_row_col($row,$col,$content); 
+                    $body2 = $divrowcol->display();
+
+                    $box=array('class'=>'');
+                    $header_box = array('class'=>'with-border','title'=>$judul,'tools'=>array(array('widget'=>'collapse','icon'=>'fa fa-minus'),array('widget'=>'remove','icon'=>'fa fa-times')));
+
+                    $button = $from->addInput('button',"Close","Close",array('class'=>'btn btn-default pull-right','id'=>'close')).$from->addInput('submit',"Save","Save",array('class'=>'btn btn-primary pull-right','id'=>'save'));
+
+                    $tempbox=new box($box,$header_box,$body2,$button); 
+                    echo $tempbox->display();
+         ?>      
     </form>

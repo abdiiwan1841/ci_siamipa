@@ -78,7 +78,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      vmyajax.dataType = 'html';
      vmyajax.success = function success(data) {
           $("#data").html(data);
-          $("#lst_lg").dataTable({scrollX: true});
+          var vmydatatable = new mydatatable;
+              vmydatatable.id = 'lst_lg';
+              vmydatatable.template = 0;
+              vmydatatable.title = 0;
+              vmydatatable.bPaginate = true;
+              vmydatatable.bInfo = true;
+              vmydatatable.bFilter= true;
+              vmydatatable.bAutoWidth= false;
+              vmydatatable.aoColumns= [
+                                      { "sWidth": "1%" },
+                                      { "sWidth": "2%" },
+                                      { "sWidth": "2%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "10%"},                                     
+                                     ];                       
+              vmydatatable.settemplate();       
+              vmydatatable.create();
       }
      vmyajax.getdata();
   } 

@@ -53,59 +53,66 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['Admin'] = 'Admin/login';
-$route['Admin/admin_user_log'] = 'Admin/change_content/1/11';
-$route['Admin/admin_sum_exec'] = 'Admin/change_content/1/12';
-$route['Admin/admin_list_file'] = 'Admin/change_content/1/13';
-$route['Admin/admin_dt_mhs'] = 'Admin/change_content/7/72';
-$route['Admin/admin_dt_konversi'] = 'Admin/change_content/7/73';
-$route['Admin/admin_dt_stat_mhs'] = 'Admin/change_content/7/74';
-$route['Admin/admin_dt_dosen'] = 'Admin/change_content/8/81';
-$route['Admin/admin_dt_mtk'] = 'Admin/change_content/9/91';
+
+$route['Admin'] = 'Admin/Admin/login';
+$route['Admin/login'] = 'Admin/Admin/login';
+$route['Admin/logout'] = 'Admin/Admin/logout';
+$route['Admin/cek_login'] = 'Admin/Admin/cek_login';
+
+$route['Admin/user_log'] = 'Admin/Admin/change_content/1/11';
+$route['Admin/sum_exec'] = 'Admin/Admin/change_content/1/12';
+$route['Admin/list_file'] = 'Admin/Admin/change_content/1/13';
+$route['Admin/dt_mhs'] = 'Admin/Admin/change_content/7/72';
+$route['Admin/dt_konversi'] = 'Admin/Admin/change_content/7/73';
+$route['Admin/dt_stat_mhs'] = 'Admin/Admin/change_content/7/74';
+$route['Admin/dt_dosen'] = 'Admin/Admin/change_content/8/81';
+$route['Admin/dt_mtk'] = 'Admin/Admin/change_content/9/91';
+
+$route['Admin/gambarchart'] = 'Admin/Sum_exec/gambarchart';
+$route['Admin/filter_log'] = 'Admin/Lst_lgn/filter_log';
+
+$route['Admin/get_lst_file'] = 'Admin/Lst_file/get_lst_file';
+$route['Admin/delete_selected_file'] = 'Admin/Lst_file/delete_selected_file';
+$route['Admin/delete_file'] = 'Admin/Lst_file/delete_file';
+$route['Admin/select_file'] = 'Admin/Lst_file/select_file';
+$route['Admin/download_file/(:any)'] = 'Admin/Lst_file/download_file/$1';
+
+$route['Admin/get_dt_mhs'] = 'Admin/Mahasiswa/Mahasiswa/get_dt_mhs';
+$route['Admin/frm_dt_mhs'] = 'Admin/Mahasiswa/Mahasiswa/frm_dt_mhs';
+$route['Admin/insert_dt_mhs'] = 'Admin/Mahasiswa/Mahasiswa/insert_dt_mhs';
+$route['Admin/save_dt_mhs'] = 'Admin/Mahasiswa/Mahasiswa/save_dt_mhs';
+$route['Admin/view_dt_mhs'] = 'Admin/Mahasiswa/Mahasiswa/view_dt_mhs';
+$route['Admin/delete_dt_mhs'] = 'Admin/Mahasiswa/Mahasiswa/delete_dt_mhs';
+
+$route['Admin/get_dt_konversi'] = 'Admin/Mahasiswa/Konversi/get_dt_konversi';
+$route['Admin/edt_dt_pindahan'] = 'Admin/Mahasiswa/Konversi/edt_dt_pindahan';
+$route['Admin/add_mtk_konversi'] = 'Admin/Mahasiswa/Konversi/add_mtk_konversi';
+$route['Admin/edit_mtk_konversi'] = 'Admin/Mahasiswa/Konversi/edit_mtk_konversi';
+$route['Admin/del_mtk_konversi'] = 'Admin/Mahasiswa/Konversi/del_mtk_konversi';
+$route['Admin/pilih_mtk_konversi'] = 'Admin/Mahasiswa/Konversi/pilih_mtk_konversi';
+$route['Admin/nilai_mtk_konversi'] = 'Admin/Mahasiswa/Konversi/nilai_mtk_konversi';
+
+$route['Admin/filter_stat_mhs'] = 'Admin/Mahasiswa/Stat_mhs/filter_stat_mhs';
+$route['Admin/frm_add'] = 'Admin/Mahasiswa/Stat_mhs/frm_add';
+$route['Admin/insert_stat_mhs'] = 'Admin/Mahasiswa/Stat_mhs/insert_stat_mhs';
+$route['Admin/frm_edit'] = 'Admin/Mahasiswa/Stat_mhs/frm_edit';
+$route['Admin/save_stat_mhs'] = 'Admin/Mahasiswa/Stat_mhs/save_stat_mhs';
+$route['Admin/frm_del'] = 'Admin/Mahasiswa/Stat_mhs/frm_del';
+$route['Admin/delete_stat_mhs'] = 'Admin/Mahasiswa/Stat_mhs/delete_stat_mhs';
+$route['Admin/import'] = 'Admin/Mahasiswa/Stat_mhs/import';
+$route['Admin/cetak/(:any)'] = 'Admin/Mahasiswa/Stat_mhs/ctk_excel/$1';
+
+$route['Admin/get_dt_dosen'] = 'Admin/Dosen/Dosen/get_dt_dosen';
+$route['Admin/frm_dt_dosen'] = 'Admin/Dosen/Dosen/frm_dt_dosen';
+$route['Admin/insert_dt_dosen'] = 'Admin/Dosen/Dosen/insert_dt_dosen';
+$route['Admin/save_dt_dosen'] = 'Admin/Dosen/Dosen/save_dt_dosen';
+$route['Admin/view_dt_dosen'] = 'Admin/Dosen/Dosen/view_dt_dosen';
+$route['Admin/delete_dt_dosen'] = 'Admin/Dosen/Dosen/delete_dt_dosen';
 
 
-$route['Admin/gambarchart'] = 'Admin_menu_dashboard/gambarchart';
-$route['Admin/get_lst_file'] = 'Admin_menu_dashboard/get_lst_file';
-$route['Admin/delete_selected_file'] = 'Admin_menu_dashboard/delete_selected_file';
-$route['Admin/delete_file'] = 'Admin_menu_dashboard/delete_file';
-$route['Admin/select_file'] = 'Admin_menu_dashboard/select_file';
-
-$route['Admin/get_dt_mhs'] = 'Admin_menu_mhs/get_dt_mhs';
-$route['Admin/frm_dt_mhs'] = 'Admin_menu_mhs/frm_dt_mhs';
-$route['Admin/insert_dt_mhs'] = 'Admin_menu_mhs/insert_dt_mhs';
-$route['Admin/save_dt_mhs'] = 'Admin_menu_mhs/save_dt_mhs';
-$route['Admin/view_dt_mhs'] = 'Admin_menu_mhs/view_dt_mhs';
-$route['Admin/delete_dt_mhs'] = 'Admin_menu_mhs/delete_dt_mhs';
-
-$route['Admin/get_dt_konversi'] = 'Admin_menu_mhs/get_dt_konversi';
-$route['Admin/edt_dt_pindahan'] = 'Admin_menu_mhs/edt_dt_pindahan';
-$route['Admin/add_mtk_konversi'] = 'Admin_menu_mhs/add_mtk_konversi';
-$route['Admin/edit_mtk_konversi'] = 'Admin_menu_mhs/edit_mtk_konversi';
-$route['Admin/del_mtk_konversi'] = 'Admin_menu_mhs/del_mtk_konversi';
-$route['Admin/pilih_mtk_konversi'] = 'Admin_menu_mhs/pilih_mtk_konversi';
-$route['Admin/nilai_mtk_konversi'] = 'Admin_menu_mhs/nilai_mtk_konversi';
-
-
-$route['Admin/filter_stat_mhs'] = 'Admin_menu_mhs/filter_stat_mhs';
-$route['Admin/frm_add'] = 'Admin_menu_mhs/frm_add';
-$route['Admin/insert_stat_mhs'] = 'Admin_menu_mhs/insert_stat_mhs';
-$route['Admin/frm_edit'] = 'Admin_menu_mhs/frm_edit';
-$route['Admin/save_stat_mhs'] = 'Admin_menu_mhs/save_stat_mhs';
-$route['Admin/frm_del'] = 'Admin_menu_mhs/frm_del';
-$route['Admin/delete_stat_mhs'] = 'Admin_menu_mhs/delete_stat_mhs';
-$route['Admin/import'] = 'Admin_menu_mhs/import';
-$route['Admin/cetak/(:any)'] = 'Admin_menu_mhs/ctk_excel/$1';
-
-$route['Admin/get_dt_dosen'] = 'Admin_menu_dsn/get_dt_dosen';
-$route['Admin/frm_dt_dosen'] = 'Admin_menu_dsn/frm_dt_dosen';
-$route['Admin/insert_dt_dosen'] = 'Admin_menu_dsn/insert_dt_dosen';
-$route['Admin/save_dt_dosen'] = 'Admin_menu_dsn/save_dt_dosen';
-$route['Admin/view_dt_dosen'] = 'Admin_menu_dsn/view_dt_dosen';
-$route['Admin/delete_dt_dosen'] = 'Admin_menu_dsn/delete_dt_dosen';
-
-$route['Admin/get_dt_mtk'] = 'Admin_menu_mtk/get_dt_mtk';
-$route['Admin/frm_dt_mtk'] = 'Admin_menu_mtk/frm_dt_mtk';
-$route['Admin/insert_dt_mtk'] = 'Admin_menu_mtk/insert_dt_mtk';
-$route['Admin/save_dt_mtk'] = 'Admin_menu_mtk/save_dt_mtk';
-$route['Admin/view_dt_mtk'] = 'Admin_menu_mtk/view_dt_mtk';
-$route['Admin/delete_dt_mtk'] = 'Admin_menu_mtk/delete_dt_mtk';
+$route['Admin/get_dt_mtk'] = 'Admin/Kurikulum/Matakuliah/get_dt_mtk';
+$route['Admin/frm_dt_mtk'] = 'Admin/Kurikulum/Matakuliah/frm_dt_mtk';
+$route['Admin/insert_dt_mtk'] = 'Admin/Kurikulum/Matakuliah/insert_dt_mtk';
+$route['Admin/save_dt_mtk'] = 'Admin/Kurikulum/Matakuliah/save_dt_mtk';
+$route['Admin/view_dt_mtk'] = 'Admin/Kurikulum/Matakuliah/view_dt_mtk';
+$route['Admin/delete_dt_mtk'] = 'Admin/Kurikulum/Matakuliah/delete_dt_mtk';

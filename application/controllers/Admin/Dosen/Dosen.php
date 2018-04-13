@@ -1,8 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Admin_menu_dsn extends CI_Controller {
-
+class Dosen extends CI_Controller {
   public function get_dt_dosen()
   {
      if($this->input->is_ajax_request()){       
@@ -202,7 +201,7 @@ class Admin_menu_dsn extends CI_Controller {
           }  
             
         
-        echo $this->load->view('Admin/view_dt_dosen',$data,true);
+        echo $this->load->view('Admin/Dosen/view_dt_dosen',$data,true);
      } 
   }
 
@@ -241,7 +240,7 @@ class Admin_menu_dsn extends CI_Controller {
           }  
             
           $data['lst']=$mythnsem->getlstthnsem(); 
-        echo $this->load->view('Admin/frm_dt_dosen',$data,true);
+        echo $this->load->view('Admin/Dosen/frm_dt_dosen',$data,true);
      } 
   }
 }
