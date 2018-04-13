@@ -79,6 +79,11 @@ $route['Admin/delete_dt_mhs'] = 'Admin_menu_mhs/delete_dt_mhs';
 
 $route['Admin/get_dt_konversi'] = 'Admin_menu_mhs/get_dt_konversi';
 $route['Admin/edt_dt_pindahan'] = 'Admin_menu_mhs/edt_dt_pindahan';
+$route['Admin/add_mtk_konversi'] = 'Admin_menu_mhs/add_mtk_konversi';
+$route['Admin/edit_mtk_konversi'] = 'Admin_menu_mhs/edit_mtk_konversi';
+$route['Admin/del_mtk_konversi'] = 'Admin_menu_mhs/del_mtk_konversi';
+$route['Admin/pilih_mtk_konversi'] = 'Admin_menu_mhs/pilih_mtk_konversi';
+$route['Admin/nilai_mtk_konversi'] = 'Admin_menu_mhs/nilai_mtk_konversi';
 
 
 $route['Admin/filter_stat_mhs'] = 'Admin_menu_mhs/filter_stat_mhs';

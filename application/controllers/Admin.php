@@ -49,7 +49,7 @@ class Admin extends CI_Controller {
   }  
    }
 
-  public function cek_login(){
+     public function cek_login(){
        if($this->input->is_ajax_request()){
           $user = $this->input->post('user');
           $pass = $this->input->post('pass');

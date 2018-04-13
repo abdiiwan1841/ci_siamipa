@@ -68,6 +68,56 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <script type="text/javascript">
  
+  function pilih_mtk(kode)
+  {
+    
+     if($('#mk_'+kode).is(':checked'))
+     { 
+       $("input[id^=nilaiA_"+kode+"]:radio").attr('disabled', false);
+       $("input[id^=nilaiB_"+kode+"]:radio").attr('disabled', false);
+       $("input[id^=nilaiC_"+kode+"]:radio").attr('disabled', false);
+       $("input[id^=nilaiD_"+kode+"]:radio").attr('disabled', false);
+       $("input[id^=nilaiE_"+kode+"]:radio").attr('disabled', false);
+       cek=1;
+     }else{
+       $("input[id^=nilaiA_"+kode+"]:radio").attr('disabled', true);
+       $("input[id^=nilaiA_"+kode+"]:radio").attr('checked', false);
+       $("input[id^=nilaiB_"+kode+"]:radio").attr('disabled', true);
+       $("input[id^=nilaiB_"+kode+"]:radio").attr('checked', false);
+       $("input[id^=nilaiC_"+kode+"]:radio").attr('disabled', true);
+       $("input[id^=nilaiC_"+kode+"]:radio").attr('checked', false);
+       $("input[id^=nilaiD_"+kode+"]:radio").attr('disabled', true);
+       $("input[id^=nilaiD_"+kode+"]:radio").attr('checked', false);
+       $("input[id^=nilaiE_"+kode+"]:radio").attr('disabled', true);
+       $("input[id^=nilaiE_"+kode+"]:radio").attr('checked', false);
+       cek=0;
+     }
+
+     var vmyajax = new myajax();
+     vmyajax.url = "pilih_mtk_konversi";
+     vmyajax.data = 'kode='+kode+'&cek='+cek;
+     vmyajax.dataType = 'JSON';
+     vmyajax.success = function success(data) {
+        $("#jmlsks").html(data.jmlsks);
+     }
+     vmyajax.getdata();
+  }
+
+  function input_nilai(kode,nm)
+  {
+     var vmyajax = new myajax();
+     vmyajax.url = "nilai_mtk_konversi";
+     vmyajax.data = 'kode='+kode+'&nm='+nm;
+     vmyajax.dataType = 'JSON';
+     vmyajax.success = function success(data) {
+        
+     }
+     vmyajax.getdata();
+  }
+
+
+
+
   function get_dt_konversi()
   {
      $("#data").html('<?php echo $box_loading->display(); ?>');
@@ -82,7 +132,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               vmydatatable.title = 2;
               vmydatatable.bPaginate = true;
               vmydatatable.bInfo = true;
-              vmydatatable.bFilter= true;                      
+              vmydatatable.bFilter= true;
+              vmydatatable.bAutoWidth= false;
+              vmydatatable.aoColumns= [
+                                      { "sWidth": "1%" },
+                                      { "sWidth": "2%" },
+                                      { "sWidth": "10%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"}                                     
+                                     ];                       
               vmydatatable.settemplate();       
               vmydatatable.create();
      }
@@ -97,23 +155,150 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      vmyajax.data = 'nim='+nim;
      vmyajax.dataType = 'html';
      vmyajax.success = function success(data) {
-         $("#frmedt").html(data);           
-     }
-     vmyajax.getdata();
- }
+         $("#frmedt").html(data);   
+         var vmydatatable = new mydatatable;
+              vmydatatable.id = 'lst_konversi';
+              vmydatatable.template = 1;
+              vmydatatable.title = 2;
+              vmydatatable.bPaginate = true;
+              vmydatatable.bInfo = true;
+              vmydatatable.bFilter= true; 
+              vmydatatable.bAutoWidth= false;
+                vmydatatable.aoColumns= [
+                                      { "sWidth": "1%" },
+                                      { "sWidth": "2%" },
+                                      { "sWidth": "10%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"}
+                                     ];                       
+              vmydatatable.settemplate();       
+              vmydatatable.create();   
+         
+         $("#add").click(function () {
+              $("#data1").html('<?php echo $box_loading->display(); ?>');
+              var vmyajax = new myajax();
+              vmyajax.url = "add_mtk_konversi";
+              vmyajax.data = 'nim='+nim;
+              vmyajax.dataType = 'JSON';
+              vmyajax.success = function success(data) {
+                $("#data1").html(data.lst_mtk);
+                $("#btn").html(data.btn);
+                var vmydatatable = new mydatatable;
+                vmydatatable.id = 'lst_mtk';
+                vmydatatable.template = 1;
+                vmydatatable.title = 2;
+                vmydatatable.bPaginate = true;
+                vmydatatable.bInfo = true;
+                vmydatatable.bFilter= true;                      
+                vmydatatable.bAutoWidth= false;
+                vmydatatable.aoColumns= [
+                                      { "sWidth": "1%" },
+                                      { "sWidth": "2%" },
+                                      { "sWidth": "10%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"}
+                                     ];  
+                vmydatatable.settemplate();                       
+                vmydatatable.create();
 
- function pilih_file(idx)
- {
-     var cek=0;
-     if($('#'+idx).is(':checked'))
-     {
-        cek=1;
-     }
+                $("#save_add").click(function () {
+                   var vmyajax = new myajax();
+                   vmyajax.url = "insert_mtk_konversi";
+                   vmyajax.data = 'nim='+nim;
+                   vmyajax.dataType = 'JSON';
+                   vmyajax.success = function success(data) { 
+                      edit(nim); 
+                   }
+                   vmyajax.getdata();
+                });
 
-     var vmyajax = new myajax();
-     vmyajax.url = "select_file";
-     vmyajax.data = 'idx='+idx+'&cek='+cek;
-     vmyajax.dataType = 'html';     
+                $("#cancel").click(function () {
+                   edit(nim); 
+                });
+
+              }
+              vmyajax.getdata();         
+         });
+
+         $("#edit").click(function () {
+              $("#data1").html('<?php echo $box_loading->display(); ?>');              
+              var vmyajax = new myajax();
+              vmyajax.url = "edit_mtk_konversi";
+              vmyajax.data = 'nim='+nim;
+              vmyajax.dataType = 'JSON';
+              vmyajax.success = function success(data) {
+                $("#data1").html(data.lst_mtk);
+                $("#btn").html(data.btn);
+                var vmydatatable = new mydatatable;
+                vmydatatable.id = 'lst_mtk';
+                vmydatatable.template = 1;
+                vmydatatable.title = 2;
+                vmydatatable.bPaginate = true;
+                vmydatatable.bInfo = true;
+                vmydatatable.bFilter= true;
+                vmydatatable.bAutoWidth= false;
+                vmydatatable.aoColumns= [
+                                      { "sWidth": "1%" },
+                                      { "sWidth": "2%" },
+                                      { "sWidth": "10%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"}
+                                     ];  
+                vmydatatable.settemplate();                          
+                vmydatatable.create();
+
+                $("#cancel").click(function () {
+                   edit(nim); 
+                });
+              }
+              vmyajax.getdata();         
+         });
+
+         $("#del").click(function () {
+              $("#data1").html('<?php echo $box_loading->display(); ?>');
+              var vmyajax = new myajax();
+              vmyajax.url = "del_mtk_konversi";
+              vmyajax.data = 'nim='+nim;
+              vmyajax.dataType = 'JSON';
+              vmyajax.success = function success(data) {
+                $("#data1").html(data.lst_mtk);
+                $("#btn").html(data.btn);                
+                var vmydatatable = new mydatatable;
+                vmydatatable.id = 'lst_mtk';
+                vmydatatable.template = 1;
+                vmydatatable.title = 2;
+                vmydatatable.bPaginate = true;
+                vmydatatable.bInfo = true;
+                vmydatatable.bFilter= true;
+                vmydatatable.bAutoWidth= false;
+                vmydatatable.aoColumns= [
+                                      { "sWidth": "1%" },
+                                      { "sWidth": "2%" },
+                                      { "sWidth": "10%"},
+                                      { "sWidth": "1%"},
+                                      { "sWidth": "1%"}                                     
+                                     ]; 
+                vmydatatable.settemplate();                          
+                vmydatatable.create();
+
+                $("#cancel").click(function () {
+                   edit(nim); 
+                });
+              }
+              vmyajax.getdata();         
+         });          
+     }
      vmyajax.getdata();
  }
  
