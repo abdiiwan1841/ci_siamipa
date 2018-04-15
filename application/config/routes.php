@@ -91,6 +91,10 @@ $route['Admin/edit_mtk_konversi'] = 'Admin/Mahasiswa/Konversi/edit_mtk_konversi'
 $route['Admin/del_mtk_konversi'] = 'Admin/Mahasiswa/Konversi/del_mtk_konversi';
 $route['Admin/pilih_mtk_konversi'] = 'Admin/Mahasiswa/Konversi/pilih_mtk_konversi';
 $route['Admin/nilai_mtk_konversi'] = 'Admin/Mahasiswa/Konversi/nilai_mtk_konversi';
+$route['Admin/insert_mtk_konversi'] = 'Admin/Mahasiswa/Konversi/insert_mtk_konversi';
+$route['Admin/update_mtk_konversi'] = 'Admin/Mahasiswa/Konversi/update_mtk_konversi';
+$route['Admin/delete_mtk_konversi'] = 'Admin/Mahasiswa/Konversi/delete_mtk_konversi';
+$route['Admin/export_mtk_konversi'] = 'Admin/Mahasiswa/Konversi/export_mtk_konversi';
 
 $route['Admin/filter_stat_mhs'] = 'Admin/Mahasiswa/Stat_mhs/filter_stat_mhs';
 $route['Admin/frm_add'] = 'Admin/Mahasiswa/Stat_mhs/frm_add';

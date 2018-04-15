@@ -132,4 +132,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('Log_model','Staff_model','vw_rekapstatmhs_model','vw_rekapkeu_model','Msmhs_model','Dosen_model','Mtk_model','Syarat_model','Stat_mhs_model','Vw_trnlp_jn_msmhs_jn_tbkmk_model','Vw_trnlp_jn_tbkmk_model');
+$autoload['model'] = array('Log_model','Staff_model','vw_rekapstatmhs_model','vw_rekapkeu_model','Msmhs_model','Dosen_model','Mtk_model','Syarat_model','Stat_mhs_model','Vw_trnlp_jn_msmhs_jn_tbkmk_model','Vw_trnlp_jn_tbkmk_model','Trnlp_model','Trnlm_trnlp_model');

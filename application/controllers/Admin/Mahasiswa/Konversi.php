@@ -96,6 +96,7 @@ class Konversi extends CI_Controller {
        $mtk = $this->Mtk_model->getdata("kdkmktbkmk NOT LIKE 'MATP%' and (kdkmktbkmk not in (select kdkmktrnlp from trnlp where nimhstrnlp='$nim') )");
        $smtk=array();
        $this->session->unset_userdata('smtk');
+       $this->session->unset_userdata('jmlsks');
        if($this->Mtk_model->numrows>0)
        {
          //$i=1;
@@ -142,56 +143,42 @@ class Konversi extends CI_Controller {
        $isi_data = array();
 
        $mtk = $this->Vw_trnlp_jn_tbkmk_model->getdata("nimhstrnlp='$nim'");
-
+       $this->session->unset_userdata('smtk');
+       $this->session->unset_userdata('jmlsks');
+       $jmlsks =0;
        if($this->Vw_trnlp_jn_tbkmk_model->numrows>0)
        {
-         $i=1;
+         $i=1;         
          foreach ($mtk as $row) {
               $tmp=array();         
               $tmp[]=array('Semester '.$row['semestbkmk'], array());
               $tmp[]=array($row['kdkmktrnlp'], array());
               $tmp[]=array($row['nakmktbkmk'], array());
               $tmp[]=array($row['sksmktbkmk'], array('align'=>'right'));
+              $smtk[$row['kdkmktrnlp']]=array('sks'=>$row['sksmktbkmk'],'nilai'=>trim($row['nlakhtrnlp']),'pilih'=>1);
 
-              $statA = array('id'=>'nilaiA'.$i);
-              $statB = array('id'=>'nilaiB'.$i);
-              $statC = array('id'=>'nilaiC'.$i);
-              $statD = array('id'=>'nilaiD'.$i);
-              $statE = array('id'=>'nilaiE'.$i);
+              $jmlsks +=$row['sksmktbkmk']; 
 
-              switch (trim($row['nlakhtrnlp'])) {
-                  case 'A':
-                    $statA['checked']='checked';
-                    break;
-                  case 'B':
-                    $statB['checked']='checked';
-                    break;
-                  case 'C':
-                    $statC['checked']='checked';
-                    break;
-                  case 'D':
-                    $statD['checked']='checked';
-                    break;
-                  case 'E':
-                    $statE['checked']='checked';
-                    break;        
-                  
-                  default:
-                    # code...
-                    break;
-                }              
-                 
+              $stat['A'] = array('id'=>'nilaiA'.$i,'onclick'=>'input_nilai("'.$row['kdkmktrnlp'].'","A")');
+              $stat['B'] = array('id'=>'nilaiB'.$i,'onclick'=>'input_nilai("'.$row['kdkmktrnlp'].'","B")');
+              $stat['C'] = array('id'=>'nilaiC'.$i,'onclick'=>'input_nilai("'.$row['kdkmktrnlp'].'","C")');
+              $stat['D'] = array('id'=>'nilaiD'.$i,'onclick'=>'input_nilai("'.$row['kdkmktrnlp'].'","D")');
+              $stat['E'] = array('id'=>'nilaiE'.$i,'onclick'=>'input_nilai("'.$row['kdkmktrnlp'].'","E")');
+
+              $stat[trim($row['nlakhtrnlp'])]['checked']='checked';                
               
-              $tmp[]=array($frm->addInput('radio',"nilai[".$row['kdkmktrnlp']."]","A",$statA), array('align'=>'center'));
-              $tmp[]=array($frm->addInput('radio',"nilai[".$row['kdkmktrnlp']."]","B",$statB), array('align'=>'center'));     
-              $tmp[]=array($frm->addInput('radio',"nilai[".$row['kdkmktrnlp']."]","C",$statC), array('align'=>'center'));
-              $tmp[]=array($frm->addInput('radio',"nilai[".$row['kdkmktrnlp']."]","D",$statD), array('align'=>'center'));
-              $tmp[]=array($frm->addInput('radio',"nilai[".$row['kdkmktrnlp']."]","E",$statE), array('align'=>'center'));     
+              $tmp[]=array($frm->addInput('radio',"nilai[".$row['kdkmktrnlp']."]","A",$stat['A']), array('align'=>'center'));
+              $tmp[]=array($frm->addInput('radio',"nilai[".$row['kdkmktrnlp']."]","B",$stat['B']), array('align'=>'center'));     
+              $tmp[]=array($frm->addInput('radio',"nilai[".$row['kdkmktrnlp']."]","C",$stat['C']), array('align'=>'center'));
+              $tmp[]=array($frm->addInput('radio',"nilai[".$row['kdkmktrnlp']."]","D",$stat['D']), array('align'=>'center'));
+              $tmp[]=array($frm->addInput('radio',"nilai[".$row['kdkmktrnlp']."]","E",$stat['E']), array('align'=>'center'));     
               $isi_data[]=$tmp;
               $i++;
             }   
        }
          
+       $this->session->set_userdata('smtk',$smtk);
+       $this->session->set_userdata('jmlsks',$jmlsks);  
 
        $tbl = new mytable($tbstat,$header,$isi_data,''); 
        $data['lst_mtk']=$frm->startForm(null,'post','entrytrnlp').$frm->addInput('hidden',"nim",$nim).$tbl->display().$frm->endForm();
@@ -216,20 +203,30 @@ class Konversi extends CI_Controller {
        $isi_data = array();
 
        $mtk = $this->Vw_trnlp_jn_tbkmk_model->getdata("nimhstrnlp='$nim'");
-
+       $this->session->unset_userdata('smtk');
+       $this->session->unset_userdata('jmlsks'); 
+       $jmlsks =0;   
        if($this->Vw_trnlp_jn_tbkmk_model->numrows>0)
        {
+         //$i=1;
          foreach ($mtk as $row) {
               $tmp=array();         
               $tmp[]=array('Semester '.$row['semestbkmk'], array());
               $tmp[]=array($row['kdkmktrnlp'], array());
               $tmp[]=array($row['nakmktbkmk'], array());
               $tmp[]=array($row['sksmktbkmk'], array('align'=>'right'));
-              $tmp[]=array($frm->addInput('checkbox',"mk[]",$row['kdkmktrnlp'],array('id'=>'mk')), array('align'=>'center'));          
-              $isi_data[]=$tmp;              
+              $tmp[]=array($frm->addInput('checkbox',"mk[]",$row['kdkmktrnlp'],array('id'=>'mk_'.$row['kdkmktrnlp'],'onclick'=>'pilih_mtk("'.$row['kdkmktrnlp'].'")')), array('align'=>'center'));          
+              
+              $smtk[$row['kdkmktrnlp']]=array('sks'=>$row['sksmktbkmk'],'nilai'=>'','pilih'=>0);
+              $jmlsks +=$row['sksmktbkmk']; 
+
+              $isi_data[]=$tmp;
+              //$i++;              
             }   
        }
          
+       $this->session->set_userdata('smtk',$smtk);
+       $this->session->set_userdata('jmlsks',$jmlsks);
 
        $tbl = new mytable($tbstat,$header,$isi_data,''); 
        $data['lst_mtk']=$frm->startForm(null,'post','entrytrnlp').$frm->addInput('hidden',"nim",$nim).$tbl->display().$frm->endForm();
@@ -271,6 +268,96 @@ class Konversi extends CI_Controller {
         $this->session->set_userdata('smtk',$smtk);         
         
       }
+   }
+
+   public function insert_mtk_konversi()
+   {
+       if($this->input->is_ajax_request()){
+          $bbt = array('A'=>4.00,'B'=>3.00,'C'=>2.00,'D'=>1.00,'E'=>0.00);
+          $nim = $this->input->post('nim');
+          $smtk = $this->session->userdata('smtk');
+          $jmlsks = $this->session->userdata('jmlsks');
+
+          if($jmlsks>0)
+          {
+            foreach ($smtk as $kdkmk => $v) {
+             if($v['pilih']==1){ 
+                 $tmp = array('thsmstrnlp'=>'00000','nimhstrnlp'=>$nim,'kdkmktrnlp'=>$kdkmk,'nlakhtrnlp'=>$v['nilai'],'bobottrnlp'=>$bbt[$v['nilai']],'kelastrnlp'=>'01');
+
+                 $this->Trnlp_model->insertdata($tmp);
+              }   
+            }  
+          }   
+          echo ''; 
+
+       }
+   }
+
+   public function update_mtk_konversi()
+   {
+       if($this->input->is_ajax_request()){
+          $bbt = array('A'=>4.00,'B'=>3.00,'C'=>2.00,'D'=>1.00,'E'=>0.00);
+          $nim = $this->input->post('nim');
+          $smtk = $this->session->userdata('smtk');
+          $jmlsks = $this->session->userdata('jmlsks');
+
+          if($jmlsks>0)
+          {
+            foreach ($smtk as $kdkmk => $v) {
+             if($v['pilih']==1){ 
+                 $tmp = array('thsmstrnlp'=>'00000','nimhstrnlp'=>$nim,'kdkmktrnlp'=>$kdkmk,'nlakhtrnlp'=>$v['nilai'],'bobottrnlp'=>$bbt[$v['nilai']],'kelastrnlp'=>'01');
+                 $this->Trnlp_model->updatedata($tmp);
+              }   
+            }  
+          }   
+          echo ''; 
+
+       }
+   }
+
+   public function delete_mtk_konversi()
+   {
+       if($this->input->is_ajax_request()){
+          
+          $nim = $this->input->post('nim');
+          $smtk = $this->session->userdata('smtk');
+          $jmlsks = $this->session->userdata('jmlsks');
+
+          if($jmlsks>0)
+          {
+            foreach ($smtk as $kdkmk => $v) {
+             if($v['pilih']==1){                  
+                 echo $kdkmk.'<br>';
+                 $this->Trnlp_model->deletedata($nim,$kdkmk);
+              }   
+            }  
+          }   
+          echo ''; 
+
+       }
+   }
+
+   public function export_mtk_konversi()
+   {
+       if($this->input->is_ajax_request()){
+          
+          $nim = $this->input->post('nim');
+          $this->Trnlm_trnlp_model->deletedata($nim,'00000');
+
+          $data = $this->Trnlp_model->getdata("thsmstrnlp='00000' and nimhstrnlp='$nim'");
+          
+          if($this->Trnlp_model->numrows>0)
+          {
+             foreach($data as $row)
+             {
+               $tmp = array('thsmstrnlm'=>'00000','nimhstrnlm'=>$nim,'kdkmktrnlm'=>$row['kdkmktrnlp'],'nlakhtrnlm'=>$row['nlakhtrnlp'],'bobottrnlm'=>$row['bobottrnlp'],'kelastrnlm'=>$row['kelastrnlp']); 
+               $this->Trnlm_trnlp_model->insertdata($tmp);    
+             }
+          }
+
+          echo '';
+
+       }
    }
 
 }
