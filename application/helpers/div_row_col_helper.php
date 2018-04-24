@@ -34,8 +34,7 @@ class div_row_col
             }        	
         	  
         }
-
-
+       
         return $txt;
 	}
 }

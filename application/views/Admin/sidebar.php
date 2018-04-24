@@ -200,12 +200,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                   ->setheader('01');                                  
         if(in_array('74', $menu_active)){ $mymenu->setactive(); }
                                   $mymenu->addmenuassubmenu('7');
-                 $mymenu->new_menu('75','Hasil Studi',base_url().'Admin/#')
+                 $mymenu->new_menu('75','Hasil Studi',base_url().'Admin/dt_khs_mhs')
                                   ->add_righticon('fa fa-circle-o')
                                   ->setheader('01');                                  
         if(in_array('75', $menu_active)){ $mymenu->setactive(); }
                                   $mymenu->addmenuassubmenu('7');
-                 $mymenu->new_menu('76','Transkrip Nilai',base_url().'Admin/#')
+                 $mymenu->new_menu('76','Transkrip Nilai',base_url().'Admin/dt_trans_mhs')
                                   ->add_righticon('fa fa-circle-o')
                                   ->setheader('01');                                  
         if(in_array('76', $menu_active)){ $mymenu->setactive(); }

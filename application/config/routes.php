@@ -65,6 +65,9 @@ $route['Admin/list_file'] = 'Admin/Admin/change_content/1/13';
 $route['Admin/dt_mhs'] = 'Admin/Admin/change_content/7/72';
 $route['Admin/dt_konversi'] = 'Admin/Admin/change_content/7/73';
 $route['Admin/dt_stat_mhs'] = 'Admin/Admin/change_content/7/74';
+$route['Admin/dt_khs_mhs'] = 'Admin/Admin/change_content/7/75';
+$route['Admin/dt_trans_mhs'] = 'Admin/Admin/change_content/7/76';
+
 $route['Admin/dt_dosen'] = 'Admin/Admin/change_content/8/81';
 $route['Admin/dt_mtk'] = 'Admin/Admin/change_content/9/91';
 
@@ -105,6 +108,17 @@ $route['Admin/frm_del'] = 'Admin/Mahasiswa/Stat_mhs/frm_del';
 $route['Admin/delete_stat_mhs'] = 'Admin/Mahasiswa/Stat_mhs/delete_stat_mhs';
 $route['Admin/import'] = 'Admin/Mahasiswa/Stat_mhs/import';
 $route['Admin/cetak/(:any)'] = 'Admin/Mahasiswa/Stat_mhs/ctk_excel/$1';
+
+$route['Admin/hsl_studi'] = 'Admin/Mahasiswa/Khs_mhs/hsl_studi';
+$route['Admin/ambilkelas'] = 'Admin/Mahasiswa/Khs_mhs/ambilkelas';
+$route['Admin/ambilnm'] = 'Admin/Mahasiswa/Khs_mhs/ambilnm';
+
+$route['Admin/transkrip'] = 'Admin/Mahasiswa/Trans_mhs/transkrip';
+$route['Admin/transambilkelas'] = 'Admin/Mahasiswa/Trans_mhs/ambilkelas';
+$route['Admin/transambilnm'] = 'Admin/Mahasiswa/Trans_mhs/ambilnm';
+$route['Admin/trans_ctk_excel/(:any)'] = 'Admin/Mahasiswa/Trans_mhs/ctk_excel/$1';
+$route['Admin/trans_ctk_pdf'] = 'Admin/Mahasiswa/Trans_mhs/ctk_pdf';
+
 
 $route['Admin/get_dt_dosen'] = 'Admin/Dosen/Dosen/get_dt_dosen';
 $route['Admin/frm_dt_dosen'] = 'Admin/Dosen/Dosen/frm_dt_dosen';

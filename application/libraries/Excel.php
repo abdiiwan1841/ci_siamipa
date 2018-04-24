@@ -350,7 +350,7 @@ class Excel extends PHPExcel {
 	  $objDrawing->setWidth($width);
 	  $objDrawing->setOffsetX($x);
       $objDrawing->setOffsetY($y);
-	  $objDrawing->setWorksheet($this->objPHPExcel->getActiveSheet());
+	  $objDrawing->setWorksheet($this->getActiveSheet());
 	  $objDrawing->setCoordinates($position);
 			
    }

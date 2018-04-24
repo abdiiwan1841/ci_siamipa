@@ -140,6 +140,12 @@ class Admin extends CI_Controller {
                         case 74 :
                           $this->dt_stat_mhs();
                         break;
+                        case 75 :
+                          $this->dt_khs_mhs();
+                        break;
+                        case 76 :
+                          $this->dt_trans_mhs();
+                        break;
                       
                       default:
                         # code...
@@ -280,6 +286,50 @@ class Admin extends CI_Controller {
              $mythnsem = new mythnsem(); 
              $data['lst_sem']=$mythnsem->getlstthnsem();
              $this->load->view('Admin/Mahasiswa/dt_stat_mhs',$data);
+      }else{
+             redirect('Admin/logout');
+      }
+    }else{
+      redirect('Admin/login');
+    }
+  }
+
+  private function dt_khs_mhs()
+  {
+     $id = $this->session->userdata('id');
+        $user = $this->session->userdata('user');
+        if($this->Log_model->islogin($user,1)){
+          if($this->Log_model->logintime($id)){
+             $data['nm_user']=$this->session->userdata('nm_user');
+             $data['hak']=$this->session->userdata('hak');
+             $data['menu_active']=array('7','75');
+             $mythnsem = new mythnsem(); 
+             $data['lst_ang']=$this->Msmhs_model->getCmbAngkatan('');
+             $data['lst_kls']=$this->Msmhs_model->getCmbKelas($this->Msmhs_model->getAng1());
+             $data['lst_mhs']=$this->Msmhs_model->getCmbMhs($this->Msmhs_model->getAng1(),$this->Msmhs_model->getKls1($this->Msmhs_model->getAng1()));
+             $this->load->view('Admin/Mahasiswa/dt_khs_mhs',$data);
+      }else{
+             redirect('Admin/logout');
+      }
+    }else{
+      redirect('Admin/login');
+    }
+  }
+
+  private function dt_trans_mhs()
+  {
+     $id = $this->session->userdata('id');
+        $user = $this->session->userdata('user');
+        if($this->Log_model->islogin($user,1)){
+          if($this->Log_model->logintime($id)){
+             $data['nm_user']=$this->session->userdata('nm_user');
+             $data['hak']=$this->session->userdata('hak');
+             $data['menu_active']=array('7','76');
+             $mythnsem = new mythnsem(); 
+             $data['lst_ang']=$this->Msmhs_model->getCmbAngkatan('');
+             $data['lst_kls']=$this->Msmhs_model->getCmbKelas($this->Msmhs_model->getAng1());
+             $data['lst_mhs']=$this->Msmhs_model->getCmbMhs($this->Msmhs_model->getAng1(),$this->Msmhs_model->getKls1($this->Msmhs_model->getAng1()));
+             $this->load->view('Admin/Mahasiswa/dt_trans_mhs',$data);
       }else{
              redirect('Admin/logout');
       }

@@ -53,17 +53,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  
   function filter()
   {
-     var kode = $("#jns_user").val();
+     var nim = $("#Mhs").val();
+     
      $("#data").html('<?php echo $box_loading->display(); ?>');
      var vmyajax = new myajax();
-     vmyajax.url = "filter_log";
-     vmyajax.data = "tg=" + kode;
-     vmyajax.dataType = 'html';
+     vmyajax.url = "hsl_studi";
+     vmyajax.data = "nim="+nim;
+     vmyajax.dataType = 'JSON';
      vmyajax.success = function success(data) {
-          $("#data").html(data);
+          $("#nmmhs").html(data.nm);
+          $("#data").html(data.table);
+          
           var vmydatatable = new mydatatable;
-              vmydatatable.id = 'lst_lg';
-              vmydatatable.template = 0;
+              vmydatatable.id = 'tb_filter';
+              vmydatatable.template = 1;
               vmydatatable.title = 0;
               vmydatatable.bPaginate = true;
               vmydatatable.bInfo = true;
@@ -71,17 +74,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               vmydatatable.bAutoWidth= false;
               vmydatatable.aoColumns= [
                                       { "sWidth": "1%" },
-                                      { "sWidth": "2%" },
-                                      { "sWidth": "2%"},
+                                      { "sWidth": "1%" },
+                                      { "sWidth": "10%"},
                                       { "sWidth": "1%"},
                                       { "sWidth": "1%"},
-                                      { "sWidth": "10%"},                                     
-                                     ];                       
-              vmydatatable.settemplate();       
+                                      { "sWidth": "1%"},                                     
+                                     ];               
+              vmydatatable.settemplate();
+              vmydatatable.footerfilter();
               vmydatatable.create();
       }
      vmyajax.getdata();
   } 
+
+ function update_kelas(thnmsmshs) {
+  var my_ajax = new myajax;
+  my_ajax.url = "ambilkelas";
+  my_ajax.data = "thnmsmshs=" + thnmsmshs;
+  my_ajax.success = function success(data) {
+    $("#kls").html(data);
+    var kelas = $("#kls").val();
+    update_cmb_mhs(thnmsmshs, kelas);
+  }
+  my_ajax.getdata();
+}
+
+function update_cmb_mhs(thnmsmshs, kelas) {
+  var my_ajax = new myajax;
+  my_ajax.url = "ambilnm";
+  my_ajax.data = "thnmsmshs=" + thnmsmshs + "&kelas=" + kelas;
+  my_ajax.success = function success(data) {
+    $("#Mhs").html(data);
+  }
+  my_ajax.getdata();
+}
 
 
  $(function () {
@@ -90,6 +116,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      $("#filter").click(function () {
        filter();
      });
+
+     $("#Angkatan").change(function () {
+       var thnmsmshs = $("#Angkatan").val();
+       update_kelas(thnmsmshs);
+     });
+
+     $("#kls").change(function () {
+       var thnmsmshs = $("#Angkatan").val();
+       var kelas = $("#kls").val();
+       update_cmb_mhs(thnmsmshs, kelas);
+     });
+
  }); 
 
 
@@ -109,11 +147,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Login List        
+        Hasil Studi        
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>Admin</a></li>
-        <li class="active">Login List</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>Mahasiswa</a></li>
+        <li class="active">Hasil Studi</li>
       </ol>
     </section>
 
@@ -125,11 +163,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                    $header_box = array('class'=>'with-border','title'=>'','tools'=>array(array('widget'=>'collapse','icon'=>'fa fa-minus'),array('widget'=>'remove','icon'=>'fa fa-times')));
 
                    $frm = new html_form();
-                   $form_group = new form_group("Jenis User",$frm->addSelectList("jns_user",array(1=>"Admin",2=>"Mahasiswa",3=>"Dosen"),true,null,null,array('class'=>'form-control','id'=>'jns_user')));
-                   $content2 = array(array($form_group->display())); 
-                   
+                   $form_group = new form_group("Angkatan",$frm->addSelectList("Angkatan",$lst_ang,true,null,null,array('class'=>'form-control','id'=>'Angkatan')));
+                   $content2[0][0] = $form_group->display(); 
+
+                   $form_group = new form_group("Kelas",$frm->addSelectList("kls",$lst_kls,true,null,null,array('class'=>'form-control','id'=>'kls')));
+                   $content2[0][1] = $form_group->display();
+
+                   $form_group = new form_group("Mahasiswa",$frm->addSelectList("Mhs",$lst_mhs,true,null,null,array('class'=>'form-control','id'=>'Mhs')));
+                   $content2[0][2] = $form_group->display(); 
+
                    $row = array('jml'=>1);
-                   $col = array('jml'=>1,'class'=>array('col-xs-12'));
+                   $col = array('jml'=>3,'class'=>array('col-xs-4','col-xs-4','col-xs-4'));
                    $divrowcol = new div_row_col($row,$col,$content2);
                    $body1=$divrowcol->display();
 
@@ -139,7 +183,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                    $body2='<div id="data">'.$box_loading->display().'<div>'; 
 
-                   $header_box['title']='Login List';
+                   $header_box['title']='Hasil Studi : <div id="nmmhs"><div>';
                    $tempbox=new box($box,$header_box,$body2); 
                    $content1[]=array($tempbox->display());
 

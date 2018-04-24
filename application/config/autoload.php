@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url','file','directory','download','mymenu','box','div_row_col','mythnsem','html_form','form_group','mytable','desc');
+$autoload['helper'] = array('url','file','directory','download','mymenu','box','div_row_col','mythnsem','html_form','form_group','mytable','desc','js_css');
 
 /*
 | -------------------------------------------------------------------
@@ -132,4 +132,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('Log_model','Staff_model','vw_rekapstatmhs_model','vw_rekapkeu_model','Msmhs_model','Dosen_model','Mtk_model','Syarat_model','Stat_mhs_model','Vw_trnlp_jn_msmhs_jn_tbkmk_model','Vw_trnlp_jn_tbkmk_model','Trnlp_model','Trnlm_trnlp_model');
+$autoload['model'] = array('Log_model','Staff_model','vw_rekapstatmhs_model','vw_rekapkeu_model','Msmhs_model','Dosen_model','Mtk_model','Syarat_model','Stat_mhs_model','Vw_trnlp_jn_msmhs_jn_tbkmk_model','Vw_trnlp_jn_tbkmk_model','Trnlp_model','Trnlm_trnlp_model','Vw_tbtrnlptrnlmjnmtk_model','Trnlm_model');
