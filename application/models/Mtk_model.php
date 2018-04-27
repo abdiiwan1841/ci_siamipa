@@ -77,6 +77,26 @@ class Mtk_model extends CI_Model {
     }
     return $kdprtk;
    }
+
+   function sksnmbl($nim)
+   {
+     $sql ='select sum(sksmktbkmk) as jml from tbkmk ';
+     $sql.="where kdkmktbkmk not IN (SELECT DISTINCT kdkmktrnlm FROM trnlm_trnlp WHERE nimhstrnlm='$nim' and nlakhtrnlm!='K' ) and (kdkmktbkmk not like 'MATP%') "; 
+     $hsl = $this->db->query($sql);
+     $data=$hsl->result_array();
+     
+     $jml = empty($data[0]['jml']) ? '0.00' : $data[0]['jml'];
+     return $jml;
+   }
+
+   function hittotsks()
+   {
+     $sql= "select sum(sksmktbkmk) as jml from tbkmk where kdkmktbkmk not like 'MATP%'"; 
+     $hsl = $this->db->query($sql);
+     $data=$hsl->result_array();
+     $jml = empty($data[0]['jml']) ? '0.00' : $data[0]['jml'];
+     return $jml;
+   }
  
 
 }

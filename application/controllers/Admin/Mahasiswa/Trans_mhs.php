@@ -53,10 +53,7 @@ class Trans_mhs extends CI_Controller {
 
 
   public function ctk_excel($vnim)
-  {
-    
-      
-      
+  {      
       $data1=$this->Msmhs_model->getdata("nimhsmsmhs='$vnim'");                  
       $data2 = $this->Vw_tbtrnlptrnlmjnmtk_model->getdatatrans("nimhstrnlm='$vnim' and nlakhtrnlm !='K'");         
                         
@@ -82,22 +79,15 @@ class Trans_mhs extends CI_Controller {
            
   }
 
-  public function ctk_pdf()
+  public function ctk_pdf($vnim)
   {
-    if($this->input->is_ajax_request()){ 
-
-      $vnim = $this->input->post('nim');
+   
+       
       $tbl4 = new HTML_Table(null, 'display', 0, 0, 0,array("id" => "tb_jdl",'cellpadding'=>'2'));
-     
-          $tbl4->addRow();      
-        $tbl4->addCell('<img src="../img/kop.jpg" alt="logo" width="100%" height="100%">','data');
-            //$tbl4->addCell('<font face="Times New Roman" size="10pt">'.
-                       //'<b>YAYASAN PENDIDIKAN BALE BANDUNG<br>'.
-              //     'UNIVERSITAS BALE BANDUNG'.
-               //  '</b>'.
-                //   '</font>',null,'data');
-     
-          $jdl = $tbl4->display().        
+      $tbl4->addRow();      
+      $img = '<img src="'.dirname(dirname(dirname((dirname(dirname(__FILE__)))))).'/assets/img/kop.jpg" alt="logo" width="100%" height="100%">';
+      $tbl4->addCell($img,'data');
+      $jdl = $tbl4->display().        
         '<br><br>'.
             '<center>'.
                   '<font face="Times New Roman" size="10pt">'.
@@ -105,11 +95,10 @@ class Trans_mhs extends CI_Controller {
               '</font>'.
         '</center><br><br>';
             
-      $dt_mhs = new dt_mhs;
-      $data=$dt_mhs->getData($vnim);
-      foreach($data as $row){
-          
-        $tbl2 = new HTML_Table(null, 'display', 0, 0, 0,array("id" => "tb_mhs","width"=>"100%"));       
+      
+      $data=$this->Msmhs_model->getdata("nimhsmsmhs='$vnim'");
+      foreach($data as $row){        
+           $tbl2 = new HTML_Table(null, 'display', 0, 0, 0,array("id" => "tb_mhs","width"=>"100%"));       
            $tbl2->addRow();     
             $tbl2->addCell('Nama','data');
             $tbl2->addCell(':',null,'data');
@@ -130,37 +119,31 @@ class Trans_mhs extends CI_Controller {
             $tbl2->addCell($row['nimhsmsmhs'],null,'data');
             $tbl2->addCell('Program Pendidikan','data');
             $tbl2->addCell(':',null,'data');
-            $tbl2->addCell('S1',null,'data');
-        
+            $tbl2->addCell('S1',null,'data');        
       }
-          
-      
-       $tbl = new HTML_Table(null, 'display', 0, 0, 0,array("id" => "tb_mtk","width"=>"100%",'border'=>'1','cellpadding'=>'2'));
-     
-           $tbl->addRow(); 
-           $tbl->addCell('Matakuliah',null,'header',array('rowspan'=>'2'));
-           $tbl->addCell('Kode',null,'header',array('rowspan'=>'2'));   
-           $tbl->addCell('SKS',null,'header',array('rowspan'=>'2'));   
-           $tbl->addCell('NILAI',null,'header',array('colspan'=>'3'));
-      
-       $tbl->addCell('Matakuliah',null,'header',array('rowspan'=>'2'));
-           $tbl->addCell('Kode',null,'header',array('rowspan'=>'2'));   
-           $tbl->addCell('SKS',null,'header',array('rowspan'=>'2'));   
-           $tbl->addCell('NILAI',null,'header',array('colspan'=>'3'));
-      
-      
-       $tbl->addRow(); 
-           $tbl->addCell('HM',null,'header');
-           $tbl->addCell('AM',null,'header');   
-           $tbl->addCell('NM',null,'header');  
-                
-       $tbl->addCell('HM',null,'header');
-           $tbl->addCell('AM',null,'header');   
-           $tbl->addCell('NM',null,'header');  
-           
-            
+          $header = array(
+                          array(
+                                 array('Matakuliah',array('rowspan'=>'2')),
+                                 array('Kode',array('rowspan'=>'2')),
+                                 array('SKS',array('rowspan'=>'2')),
+                                 array('Nilai',array('colspan'=>'3')),
+                                 array('Matakuliah',array('rowspan'=>'2')),
+                                 array('Kode',array('rowspan'=>'2')),
+                                 array('SKS',array('rowspan'=>'2')),
+                                 array('Nilai',array('colspan'=>'3'))
+                               ),
+                          array(
+                                 array('HM',array()),
+                                 array('AM',array()),
+                                 array('NM',array()),
+                                 array('HM',array()),
+                                 array('AM',array()),
+                                 array('NM',array())
+                               )
+                          );
+        $tbstat = array("id" => "tb_mtk","width"=>"100%",'border'=>'1','cellpadding'=>'2');
               
-        $data = $this->vtrans->getData($vnim);          
+        $data = $this->Vw_tbtrnlptrnlmjnmtk_model->getdatatrans("nimhstrnlm='$vnim' and nlakhtrnlm !='K'");
           
         $i=1;
         $j=1;
@@ -170,27 +153,27 @@ class Trans_mhs extends CI_Controller {
 
       foreach ($data as $row) 
         {
-                  $sks = $row['sksmktbkmk'];  
+          $sks = $row['sksmktbkmk'];  
           $am = $row['bobottrnlm'];
           $nm = $sks*$am;
               
-                    if($cnt<=(($jml_data/2)+($jml_data%2==0 ? 0:1))){                                  
-               $data_tmp['nama'] = $row['nakmktbkmk'];
+          if($cnt<=(($jml_data/2)+($jml_data%2==0 ? 0:1))){                                  
+             $data_tmp['nama'] = $row['nakmktbkmk'];
              $data_tmp['kd']   = $row['kdkmktrnlm'];            
              $data_tmp['sks']  = $row['sksmktbkmk'];
-                         $data_tmp['HM']   = $row['nlakhtrnlm'];
+             $data_tmp['HM']   = $row['nlakhtrnlm'];
              $data_tmp['AM']   = $row['bobottrnlm'];
              $data_tmp['NM']   = $nm;
              $data_kiri[] = $data_tmp;
              $i++;
-            }else{
-               if($cnt>(($jml_data/2)+($jml_data%2==0 ? 0:1)) and $cnt<=$jml_data){
+          }else{
+              if($cnt>(($jml_data/2)+($jml_data%2==0 ? 0:1)) and $cnt<=$jml_data){
                  $data_tmp['nama'] = $row['nakmktbkmk'];
-                     $data_tmp['kd']   = $row['kdkmktrnlm'];            
-                     $data_tmp['sks']  = $row['sksmktbkmk'];
-                                 $data_tmp['HM']   = $row['nlakhtrnlm'];
-                     $data_tmp['AM']   = $row['bobottrnlm'];
-                     $data_tmp['NM']   = $nm;
+                 $data_tmp['kd']   = $row['kdkmktrnlm'];            
+                 $data_tmp['sks']  = $row['sksmktbkmk'];
+                 $data_tmp['HM']   = $row['nlakhtrnlm'];
+                 $data_tmp['AM']   = $row['bobottrnlm'];
+                 $data_tmp['NM']   = $nm;
                  $data_kanan[] = $data_tmp;
                  $j++;
               } 
@@ -202,46 +185,47 @@ class Trans_mhs extends CI_Controller {
           
       }
       
+      $isi_data=array();
             
       for ($k=1;$k<=($i-1);$k++)
       {
          
-         $tbl->addRow();
-        
-                  
-             $data_tmp=$data_kiri[$k-1];
-            
-           $tbl->addCell($data_tmp['nama'],null,'data');
-           $tbl->addCell($data_tmp['kd'],null,'data');    
-           $tbl->addCell($data_tmp['sks'],null,'data');  
-           $tbl->addCell($data_tmp['HM'],null,'data');
-           $tbl->addCell($data_tmp['AM'],null,'data');
-           $tbl->addCell($data_tmp['NM'],null,'data');    
+           
+           $tmp=array();
+           $data_tmp=$data_kiri[$k-1];
+
+           $tmp[]=array($data_tmp['nama'],array());
+           $tmp[]=array($data_tmp['kd'],array());    
+           $tmp[]=array($data_tmp['sks'],array());  
+           $tmp[]=array($data_tmp['HM'],array());
+           $tmp[]=array($data_tmp['AM'],array());
+           $tmp[]=array($data_tmp['NM'],array());    
                 
           if($k<=($j-1))
-            {    
+          {    
              $data_tmp=$data_kanan[$k-1];
             
-             $tbl->addCell($data_tmp['nama'],null,'data');
-             $tbl->addCell($data_tmp['kd'],null,'data');    
-             $tbl->addCell($data_tmp['sks'],null,'data');  
-             $tbl->addCell($data_tmp['HM'],null,'data');
-             $tbl->addCell($data_tmp['AM'],null,'data');
-             $tbl->addCell($data_tmp['NM'],null,'data');    
+             $tmp[]=array($data_tmp['nama'],array());
+             $tmp[]=array($data_tmp['kd'],array());    
+             $tmp[]=array($data_tmp['sks'],array());  
+             $tmp[]=array($data_tmp['HM'],array());
+             $tmp[]=array($data_tmp['AM'],array());
+             $tmp[]=array($data_tmp['NM'],array());       
           }else
-                      {
-               $tbl->addCell('',null,'data');
-             $tbl->addCell('',null,'data');   
-             $tbl->addCell('',null,'data');  
-             $tbl->addCell('',null,'data');
-             $tbl->addCell('',null,'data');
-             $tbl->addCell('',null,'data');             
+           {
+             $tmp[]=array('',array());
+             $tmp[]=array('',array());   
+             $tmp[]=array('',array());  
+             $tmp[]=array('',array());
+             $tmp[]=array('',array());
+             $tmp[]=array('',array());             
             }         
-        
+        $isi_data[]=$tmp;
       }
 
+       $tbl = new mytable($tbstat,$header,$isi_data,'');
            
-       $dt = $this->vtrans->hitipk($vnim);
+       $dt = $this->Vw_tbtrnlptrnlmjnmtk_model->hitipk($vnim);
        $ipk =  $dt['jml_sksnm'] /$dt['jml_sks'];
        $sks =  $dt['jml_sks'];
        
@@ -250,12 +234,12 @@ class Trans_mhs extends CI_Controller {
          $tbl3->addRow(); 
          $tbl3->addCell('TOTAL SKS',null,'data');
          $tbl3->addCell(':',null,'data');
-           $tbl3->addCell(strval($sks),null,'data');       
+         $tbl3->addCell(strval($sks),null,'data');       
          $tbl3->addRow(); 
-       $tbl3->addRow(); 
+         $tbl3->addRow(); 
          $tbl3->addCell('INDEX PRESTASI KUMULATIF (IPK)',null,'data');
          $tbl3->addCell(':',null,'data');
-           $tbl3->addCell(number_format($ipk, 2, ',', ' '),null,'data');
+         $tbl3->addCell(number_format($ipk, 2, ',', ' '),null,'data');
               
       //$objPHPExcel->getActiveSheet()->setCellValue('K'.($max+3),'Baleendah, ____________ 20___');
       
@@ -278,18 +262,21 @@ class Trans_mhs extends CI_Controller {
             '</body>'.
       '</html>';          
       
-      $tmp="../Admin/cetak/transkrip/Transkrip Nilai - ".$vnim.".pdf";
-          
-      $dompdf = new DOMPDF();
-          $dompdf->load_html($html);
-          $dompdf->set_paper('a4', 'portrait');
-      $dompdf->render();
-          $output = $dompdf->output();
-          file_put_contents($tmp, $output);
+      $tmp=dirname(dirname(dirname((dirname(dirname(__FILE__))))))."/assets/cetak/Admin/transkrip/Transkrip Nilai - ".$vnim.".pdf";
       
+      $this->load->library('pdf');
+      $filename="Transkrip Nilai - ".$vnim.".pdf";
+      $this->pdf->load_html($html);
+      $this->pdf->set_paper('a4', 'portrait');
+      $this->pdf->render();
+      $this->pdf->stream($filename);
+
+       //   $output = $dompdf->output();
+       
       
-      return $tmp;
-      }     
+      //$tmp= base_url()."/assets/cetak/Admin/transkrip/Transkrip Nilai - ".$vnim.".pdf";     
+      //   file_put_contents($tmp, $output);
+      
     }
             
   

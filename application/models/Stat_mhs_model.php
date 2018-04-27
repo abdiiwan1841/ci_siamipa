@@ -3,6 +3,8 @@
 class Stat_mhs_model extends CI_Model {
 
    public $numrows;
+   private $rows_per_page=0;
+   private $pageno=0;
 
    public function getdata($where)
    {      
@@ -14,13 +16,63 @@ class Stat_mhs_model extends CI_Model {
         
       $this->db->order_by('thnsmsstat_mhs,nimstat_mhs');  
       $this->query = $this->db->get();
-      $hsl=array();
       $this->numrows = $this->query->num_rows();
+
+      if($this->numrows>0 and $this->rows_per_page>0){
+        $this->db->select('*');
+        $this->db->from('stat_mhs');
+        if(!empty($where)){
+          $this->db->where($where);      
+        }
+          
+        $this->db->order_by('thnsmsstat_mhs,nimstat_mhs');   
+
+        if ($this->numrows <= 0) {
+            $this->pageno = 0;
+           return;
+        } // if
+      
+        if ($this->rows_per_page > 0) {
+           $this->lastpage = ceil($this->numrows/$this->rows_per_page);
+        } else {
+          $this->lastpage = 1;
+        } // if
+      
+        if ($this->pageno == '' OR $this->pageno <= '1') {
+           $this->pageno = 1;
+        } elseif ($this->pageno > $this->lastpage) {
+           $this->pageno = $this->lastpage;
+        } // if
+        $this->pageno = $this->pageno;
+      
+        if ($this->rows_per_page > 0) {
+           //$limit_str = 'LIMIT ' .($pageno - 1) * $rows_per_page .',' .$rows_per_page;
+           $this->db->limit($this->rows_per_page, ($this->pageno - 1) * $this->rows_per_page);
+        } else {
+           
+        } // if
+
+        $this->query = $this->db->get();
+        $this->numrows = $this->query->num_rows();
+      }
+
+      $hsl=array();      
       if($this->query->num_rows()>0)
       {
         $hsl=$this->query->result_array();
       }
+
       return $hsl; 
+   }
+
+   function setpageno($pageno)
+   {
+     $this->pageno = $pageno;
+   }
+   
+   function setrows_per_page($rows_per_page)
+   {
+     $this->rows_per_page = $rows_per_page;
    }
 
    private function stattostr($kd)
@@ -164,6 +216,123 @@ class Stat_mhs_model extends CI_Model {
     }
     $this->db->query($query);     
    }
+
+   function getRStatMhs($nim,$thn=0)
+   {
+     $vmythnsem = new mythnsem;
+   
+       
+   if($nim!=""){     
+        $data = $this->getdata("nimstat_mhs='".$nim."'");     
+   }else{
+     
+       $data = $this->getdata(""); 
+   }
+   
+   
+      $hsl = array(); 
+        
+    if(!empty($data))
+    {   
+      
+             
+          $obj = $this;
+      array_walk($data,function ($row,$key) use (&$hsl,$obj) {
+        $vmythnsem = new mythnsem;
+        $hsl[$row['nimstat_mhs']]['rstat'][$row['thnsmsstat_mhs']]['txt']=$vmythnsem->gettxtthnsem($row['thnsmsstat_mhs']);
+        $hsl[$row['nimstat_mhs']]['rstat'][$row['thnsmsstat_mhs']]['kdstat']=$obj->stattocd($row['statstat_mhs']);
+        $hsl[$row['nimstat_mhs']]['rstat'][$row['thnsmsstat_mhs']]['txtstat']=$obj->stattostr($row['statstat_mhs']);
+      });
+      
+          
+      array_walk($hsl,function ($row,$f) use (&$hsl,$obj) {     
+        
+        $tmp=$obj->hmstd($row['rstat']);
+        
+        $hsl[$f]['sawal']=$tmp['sawal'];           
+        $hsl[$f]['sakhir']=$tmp['sakhir'];  
+          $hsl[$f]['bstd']=$tmp['bstd'];
+          $hsl[$f]['tsakhir']=$tmp['tsakhir'];
+          $hsl[$f]['tbstd']=$tmp['tbstd'];
+      
+      });
+     
+    
+    }  
+    
+   
+   return $hsl;
+   }
+
+   private function hmstd($data)
+   {
+        $vmythnsem = new mythnsem;
+    $txtsemawal='';
+    $semawal=0;
+    $thnawal=2008;    
+    $jmlcuti=0;
+    $jmltolcuti=0;
+    $jmlnoncuti=0;
+    
+    $hsl=array();
+    
+    if(!empty($data))
+    {
+      $i=1;
+      foreach($data as $f=>$v)
+      {
+                
+        if($i==1){
+                  $txtsemawal=$vmythnsem->gettxtthnsem($f);
+                $semawal=$f; 
+                        $thnawal=$vmythnsem->getthn($f); 
+               }  
+             
+        if($v['kdstat']=='C')
+        {
+           if($i<=8){  
+           $jmlcuti=$jmlcuti+1;                    
+         } 
+        
+        if(($i<=14) and ($thnawal<=2010)){  
+           $jmltolcuti=$jmltolcuti+1;                              
+         } else {
+            if(($i<=10) and ($thnawal>2010) ){  
+                $jmltolcuti=$jmltolcuti+1;               
+          }
+        }
+         
+        }else{
+                 if(strpos("A N",$v['kdstat'])!==false)
+           {
+           $jmlnoncuti=$jmlnoncuti+1;
+         }
+              }   
+        $i=$i+1;      
+      }
+    
+    } 
+    
+        
+    $semakhir = $vmythnsem->gettxtthnsem($vmythnsem->addthnsem($semawal,7+$jmlcuti));   
+    $tolsemakhir =  $vmythnsem->gettxtthnsem($vmythnsem->addthnsem($semawal,($thnawal<=2010 ? 13 : 9)+$jmltolcuti));
+    
+    $sembts = $vmythnsem->getsem($vmythnsem->addthnsem($semawal,7+$jmlcuti));
+    $thnbts = $vmythnsem->getthn($vmythnsem->addthnsem($semawal,7+$jmlcuti));
+        $tolsembts = $vmythnsem->getsem($vmythnsem->addthnsem($semawal,($thnawal<=2010 ? 13 : 9)+$jmltolcuti));   
+    $tolthnbts = $vmythnsem->getthn($vmythnsem->addthnsem($semawal,($thnawal<=2010 ? 13 : 9)+$jmltolcuti));
+    
+      $hsl['sawal']=$txtsemawal;
+        $hsl['sakhir']=$semakhir; 
+      $hsl['bstd']=(($sembts==2) ? 'Agustus '.($thnbts+1):'Februari '.($thnbts+1));
+      $hsl['tsakhir']=$tolsemakhir;
+      $hsl['tbstd']=(($tolsembts==2) ? 'Agustus '.($tolthnbts+1):'Februari '.($tolthnbts+1));
+   
+        return $hsl;
+        
+   }
+
+
 
 
 }

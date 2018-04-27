@@ -93,7 +93,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                    $content2=array(array($tempbox->display()));
 
                    $body4="<div id='chartContainer1' style='height: 300px; width: 100%'>".$box_loading->display()."</div>";   
-                   $header_box['title']='Jumlah Mahasiswa Aktif 20081-sekarang';                   
+                   $header_box['title']='Jumlah Mahasiswa Aktif 20081-sekarang';
+                   $header_box['tools'][0]['icon']='fa fa-plus';
+                   $box['class']='collapsed-box';                   
                    $tempbox=new box($box,$header_box,$body4); 
                    $content2[]=array($tempbox->display()); 
 
@@ -106,21 +108,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                    $row = array('jml'=>3);
                    $col = array('jml'=>1,'class'=>array('col-xs-12'));
                    $divrowcol = new div_row_col($row,$col,$content2);
-                   $body1=$divrowcol->display();              
-
-                   
-                   $header_box['title']='Rekap Status Mahasiswa';                   
-                   $tempbox=new box($box,$header_box,$body1); 
-                   $content1=array(array($tempbox->display()));
-
+                   $content1[]=$divrowcol->display();              
                    
                    $body3="<div id='chartContainer3' style='height: 300px; width: 100%'>".$box_loading->display()."</div>";   
-                   $header_box['title']='Jumlah Penerimaan Perbulan';                   
+                   $header_box['title']='Jumlah Penerimaan Perbulan';
+                   $header_box['tools'][0]['icon']='fa fa-minus';
+                   $box['class']='';                   
                    $tempbox=new box($box,$header_box,$body3); 
                    $content2=array(array($tempbox->display()));
 
                    $body4="<div id='chartContainer4' style='height: 300px; width: 100%'>".$box_loading->display()."</div>";   
-                   $header_box['title']='Jumlah Penerimaan Perangkatan';                   
+                   $header_box['title']='Jumlah Penerimaan Perangkatan';
+                   $header_box['tools'][0]['icon']='fa fa-plus';
+                   $box['class']='collapsed-box';                   
                    $tempbox=new box($box,$header_box,$body4); 
                    $content2[]=array($tempbox->display()); 
 
@@ -129,20 +129,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                    $tempbox=new box($box,$header_box,$body5); 
                    $content2[]=array($tempbox->display()); 
 
-
                    $row = array('jml'=>3);
                    $col = array('jml'=>1,'class'=>array('col-xs-12'));
                    $divrowcol = new div_row_col($row,$col,$content2);
-                   $body2=$divrowcol->display(); 
+                   $content1[]=$divrowcol->display(); 
 
-                   $header_box['title']='Rekap Keuangan';
-                   $tempbox=new box($box,$header_box,$body2); 
-                   $content1[]=array($tempbox->display());
-
-                   $row = array('jml'=>2);
-                   $col = array('jml'=>1,'class'=>array('col-xs-12'));
-                   $divrowcol = new div_row_col($row,$col,$content1);
-                   echo $divrowcol->display();
+                   $header = array('Rekap Status Mahasiswa','Rekap Keuangan');                   
+                   $mytabs = new mytabs('tb',$header,$content1);
+                   echo $mytabs->display();
        ?>    
     </section>
     <!-- /.content -->

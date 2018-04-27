@@ -209,4 +209,62 @@ class vw_tbtrnlptrnlmjnmtk_model extends CI_Model {
       return $hsl;     
    }
 
+
+   function get_rekapkhs($user='')
+   {
+      $query = "select nimhstrnlm,thsmstrnlm,SUM(bobottrnlm*IF(nlakhtrnlm<>'K',sksmktbkmk,0)) as jml_sksam,SUM(IF(nlakhtrnlm<>'K',sksmktbkmk,0)) as jml_sks from vw_tbtrnlptrnlmjnmtk ";     
+      $query.= !empty($user) ? "where nimhstrnlm='$user' " : '';       
+      $query.='group by nimhstrnlm,thsmstrnlm ';
+      $query.='order by nimhstrnlm,thsmstrnlm ';
+      
+      $hsl = $this->db->query($query);
+      $data=$hsl->result_array();      
+            
+      $tmp=array();
+      if(!empty($data))
+      {
+         foreach ($data as $row) {
+          $tmp[strtoupper($row['nimhstrnlm'])][$row['thsmstrnlm']]['jml_sks']=$row['jml_sks'];
+          $tmp[strtoupper($row['nimhstrnlm'])][$row['thsmstrnlm']]['jml_sksam']=$row['jml_sksam'];
+         }
+      }
+
+      return $tmp;
+   }
+
+   function hitsks($user,$thsms)
+    {
+    
+    $sql = "select sum(sksmktbkmk) as jml from vw_tbtrnlptrnlmjnmtk where nimhstrnlm='$user' and thsmstrnlm='$thsms' and nlakhtrnlm not in ('K')"; 
+    $hsl = $this->db->query($sql);
+    $data=$hsl->result_array();     
+      
+    $jml=0.00;
+    if(!empty($data)){
+       foreach($data as $row){
+        if($row['jml']!=null){ 
+       $jml = $row['jml'];
+         }
+     }
+      }    
+    
+    return $jml;
+  }
+
+  function sks_mbl($nim){
+    $sql = "SELECT SUM(sksmktbkmk) AS jmlsks FROM (SELECT kdkmktbkmk,sksmktbkmk FROM vw_tbtrnlptrnlmjnmtk WHERE nimhstrnlm='$nim' AND nlakhtrnlm!='K' GROUP BY kdkmktbkmk,sksmktbkmk ORDER BY kdkmktbkmk) a";
+    $hsl = $this->db->query($sql);
+    $data=$hsl->result_array();
+    return (empty($data) ? '0' : $data[0]['jmlsks']);
+  }
+
+  
+  
+  function buildkhs_ulang($user,$nl)
+    {   
+    $where = "nimhstrnlm='$user' and kdkmktrnlm in (select kdkmktrnlm from trnlm_trnlp where nimhstrnlm='$user' and nlakhtrnlm='$nl') and bobottrnlm>1"; 
+      $data = $this->getdata($where); 
+    return $data;
+  } 
+
 }

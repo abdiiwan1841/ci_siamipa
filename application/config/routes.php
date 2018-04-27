@@ -62,6 +62,7 @@ $route['Admin/cek_login'] = 'Admin/Admin/cek_login';
 $route['Admin/user_log'] = 'Admin/Admin/change_content/1/11';
 $route['Admin/sum_exec'] = 'Admin/Admin/change_content/1/12';
 $route['Admin/list_file'] = 'Admin/Admin/change_content/1/13';
+$route['Admin/dt_sum_mhs'] = 'Admin/Admin/change_content/7/71';
 $route['Admin/dt_mhs'] = 'Admin/Admin/change_content/7/72';
 $route['Admin/dt_konversi'] = 'Admin/Admin/change_content/7/73';
 $route['Admin/dt_stat_mhs'] = 'Admin/Admin/change_content/7/74';
@@ -79,6 +80,12 @@ $route['Admin/delete_selected_file'] = 'Admin/Lst_file/delete_selected_file';
 $route['Admin/delete_file'] = 'Admin/Lst_file/delete_file';
 $route['Admin/select_file'] = 'Admin/Lst_file/select_file';
 $route['Admin/download_file/(:any)'] = 'Admin/Lst_file/download_file/$1';
+
+$route['Admin/filter_sum_mhs'] = 'Admin/Mahasiswa/Sum_mhs/filter';
+$route['Admin/sumambilkelas'] = 'Admin/Mahasiswa/Sum_mhs/ambilkelas';
+$route['Admin/sumambilnm'] = 'Admin/Mahasiswa/Sum_mhs/ambilnm';
+$route['Admin/datatable_ajax'] = 'Admin/Mahasiswa/Sum_mhs/datatable_ajax';
+
 
 $route['Admin/get_dt_mhs'] = 'Admin/Mahasiswa/Mahasiswa/get_dt_mhs';
 $route['Admin/frm_dt_mhs'] = 'Admin/Mahasiswa/Mahasiswa/frm_dt_mhs';
@@ -117,7 +124,7 @@ $route['Admin/transkrip'] = 'Admin/Mahasiswa/Trans_mhs/transkrip';
 $route['Admin/transambilkelas'] = 'Admin/Mahasiswa/Trans_mhs/ambilkelas';
 $route['Admin/transambilnm'] = 'Admin/Mahasiswa/Trans_mhs/ambilnm';
 $route['Admin/trans_ctk_excel/(:any)'] = 'Admin/Mahasiswa/Trans_mhs/ctk_excel/$1';
-$route['Admin/trans_ctk_pdf'] = 'Admin/Mahasiswa/Trans_mhs/ctk_pdf';
+$route['Admin/trans_ctk_pdf/(:any)'] = 'Admin/Mahasiswa/Trans_mhs/ctk_pdf/$1';
 
 
 $route['Admin/get_dt_dosen'] = 'Admin/Dosen/Dosen/get_dt_dosen';

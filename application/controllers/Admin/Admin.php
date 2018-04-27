@@ -131,6 +131,9 @@ class Admin extends CI_Controller {
 
             case 7:
                     switch ($idx_c) {
+                        case 71 :
+                          $this->dt_sum_mhs();
+                        break;
                         case 72 :
                           $this->dt_mhs();
                         break;
@@ -238,6 +241,27 @@ class Admin extends CI_Controller {
     }
   }
 
+  private function dt_sum_mhs()
+  {
+     $id = $this->session->userdata('id');
+        $user = $this->session->userdata('user');
+        if($this->Log_model->islogin($user,1)){
+          if($this->Log_model->logintime($id)){
+             $data['nm_user']=$this->session->userdata('nm_user');
+             $data['hak']=$this->session->userdata('hak');
+             $data['menu_active']=array('7','71');
+             $data['lst_ang']=$this->Msmhs_model->getCmbAngkatan('');
+             $data['lst_kls']=$this->Msmhs_model->getCmbKelas($this->Msmhs_model->getAng1());
+             $data['lst_mhs']=$this->Msmhs_model->getCmbMhs($this->Msmhs_model->getAng1(),$this->Msmhs_model->getKls1($this->Msmhs_model->getAng1()));
+             $this->load->view('Admin/Mahasiswa/summary',$data);
+      }else{
+             redirect('Admin/logout');
+      }
+    }else{
+      redirect('Admin/login');
+    }
+  }
+
   private function dt_mhs()
   {
      $id = $this->session->userdata('id');
@@ -303,7 +327,6 @@ class Admin extends CI_Controller {
              $data['nm_user']=$this->session->userdata('nm_user');
              $data['hak']=$this->session->userdata('hak');
              $data['menu_active']=array('7','75');
-             $mythnsem = new mythnsem(); 
              $data['lst_ang']=$this->Msmhs_model->getCmbAngkatan('');
              $data['lst_kls']=$this->Msmhs_model->getCmbKelas($this->Msmhs_model->getAng1());
              $data['lst_mhs']=$this->Msmhs_model->getCmbMhs($this->Msmhs_model->getAng1(),$this->Msmhs_model->getKls1($this->Msmhs_model->getAng1()));

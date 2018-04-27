@@ -180,7 +180,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               ->setheader('01');
         if(in_array('7', $menu_active)){ $mymenu->setactive(); }
         $mymenu->addmenutomainmenu();
-                 $mymenu->new_menu('71','Summary',base_url().'Admin/#')
+                 $mymenu->new_menu('71','Summary',base_url().'Admin/dt_sum_mhs')
                                   ->add_righticon('fa fa-circle-o')
                                   ->setheader('01');                                  
         if(in_array('71', $menu_active)){ $mymenu->setactive(); }

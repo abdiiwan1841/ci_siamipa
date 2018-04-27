@@ -109,20 +109,6 @@ function update_cmb_mhs(thnmsmshs, kelas) {
   my_ajax.getdata();
 }
 
-
-function ctkpdf(nim)
-{
-  var my_ajax = new myajax;
-  my_ajax.url = "trans_ctk_pdf";
-  my_ajax.data = "nim="+nim;
-  my_ajax.success = function success(data) {
-    alert(data);
-    window.open(data, 'Download');
-  }
-  my_ajax.getdata();
-}
-
-
  $(function () {
      FastClick.attach(document.body);
      filter();
@@ -148,7 +134,7 @@ function ctkpdf(nim)
 
      $("#ctkpdf").click(function () {
         var nim = $("#Mhs").val();
-        ctkpdf(nim);
+        window.location = "trans_ctk_pdf/"+nim; 
      });
 
  }); 
