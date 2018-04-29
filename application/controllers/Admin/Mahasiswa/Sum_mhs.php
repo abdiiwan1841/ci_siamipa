@@ -97,107 +97,97 @@ class Sum_mhs extends CI_Controller {
 
   private function jml_sks($nim){
        
-         $tbstat = array("id" => "jml_sks",'width'=>'100%');
-         $header = array(array('SKS Konversi','SKS yg Sudah Di ambil','SKS yg Belum Di ambil','Total SKS'));
-         $data_table = array();
-
          $sks_konv = $this->Vw_tbtrnlptrnlmjnmtk_model->hitsks($nim,'00000');
          $sks_mbl  = $this->Vw_tbtrnlptrnlmjnmtk_model->sks_mbl($nim);
          $sks_nmbl = $this->Mtk_model->sksnmbl($nim);
          $sks_tot = $this->Mtk_model->hittotsks();
+         
+         $view['SKS Konversi']=(integer) $sks_konv;
+         $view['SKS yg Sudah Di ambil']=(integer) ($sks_mbl-$sks_konv);
+         $view['SKS yg Belum Di ambil']=(integer) $sks_nmbl;
+         $view['Total SKS']=(integer) $sks_tot;
 
-         $tmp=array();
-         $tmp[]=array($sks_konv,array('align'=>'right'));
-         $tmp[]=array($sks_mbl-$sks_konv,array('align'=>'right'));
-         $tmp[]=array($sks_nmbl,array('align'=>'right'));
-         $tmp[]=array($sks_tot,array('align'=>'right'));
-         $data_table[]=$tmp;
-
-         if(empty($data_table)){   
-            $data_table[]=array(array('Tidak ada data',array('colspan'=>4)));
-          }
-
-          $tbl = new mytable($tbstat,$header,$data_table,"");
-          return $tbl->display();  
+        $desc = new desc($view);
+        return $desc->display('dl-horizontal');
   }
 
   private function hit_ipk($nim){
        
-         $tbstat = array("id" => "hit_ipk",'width'=>'100%');
-         $header = array(array('SKS Kumulatif','NM Kumulatif','IPK'));
-         $data_table = array();
-
          $data = $this->Vw_tbtrnlptrnlmjnmtk_model->hitipk($nim);
 
-          $tmp=array();
-          $tmp[]=array((integer) $data['jml_sks'],array('align'=>'right'));
-          $tmp[]=array((integer) $data['jml_sksnm'],array('align'=>'right'));
-          $tmp[]=array($this->format_bagi($data['jml_sksnm'],$data['jml_sks']),array('align'=>'right'));
-          $data_table[]=$tmp;
+         $default=array(array('SKS Kumulatif','jml_sks',''),      
+                        array('NM Kumulatif','jml_sksnm', ''),
+                        array('IPK','jml_sksnm','jml_sks', ''));          
+         
+         if(!empty($data)){            
+            foreach ($default as $key=>$row) {
+               if($key<2){ 
+                 $view[$row[0]]=(integer) $data[$row[1]];  
+               }else{
+                 $view[$row[0]]=$this->format_bagi($data[$row[1]],$data[$row[2]]); 
+               }  
 
-          if(empty($data_table)){   
-            $data_table[]=array(array('Tidak ada data',array('colspan'=>4)));
-          }
-          $tbl = new mytable($tbstat,$header,$data_table,"");
-          return $tbl->display();  
+            }           
+          }else{
+            foreach ($default as $key=>$row) {
+              if($key<2){  
+                $view[$row[0]]=$row[2];
+              }else{
+                $view[$row[0]]=$row[3];
+              }
+            }
+          } 
+
+         $desc = new desc($view);
+         return $desc->display('dl-horizontal');
   }
 
   private function pos_keu($nim){
        
-         $tbstat = array("id" => "poskeu",'width'=>'100%');
-         $header = array(array('Kewajiban','Transaksi','Kekurangan','Kelebihan'));
-         $data_table = array();
-
          $data = $this->Vw_tbrekaptrkeumhs_model->getdata("nimhsmsmhs='".$nim."'");
 
          if(!empty($data))
          {
           foreach($data as $row)
-          {
-           $tmp=array();
-           $tmp[]=array(number_format($row['kewajiban'], 2, ',', '.') ,array('align'=>'right'));
-           $tmp[]=array(number_format($row['tran'], 2, ',', '.'),array('align'=>'right'));
-           $tmp[]=array(number_format($row['kewajiban']>$row['tran'] ? $kurang=$row['kewajiban']-$row['tran'] : $kurang=0.00 , 2, ',', '.'), array('align'=>'right'));
-           $tmp[]=array(number_format($row['kewajiban']<$row['tran'] ? $lebih=$row['tran']-$row['kewajiban'] : $lebih=0.00 , 2, ',', '.'), array('align'=>'right'));
-           $data_table[]=$tmp;
-           
+          {           
+           $view['Kewajiban']=number_format($row['kewajiban'], 2, ',', '.') ;
+           $view['Transaksi']=number_format($row['tran'], 2, ',', '.');
+           $view['Kekurangan']=number_format($row['kewajiban']>$row['tran'] ? $kurang=$row['kewajiban']-$row['tran'] : $kurang=0.00 , 2, ',', '.');
+           $view['Kelebihan']=number_format($row['kewajiban']<$row['tran'] ? $lebih=$row['tran']-$row['kewajiban'] : $lebih=0.00 , 2, ',', '.');
           }
-        }
-
-         
-         if(empty($data_table)){   
-            $data_table[]=array(array('Tidak ada data',array('colspan'=>4)));
-          }
+        }else{
+           $view['Kewajiban']=0.00;
+           $view['Transaksi']=0.00;
+           $view['Kekurangan']=0.00;
+           $view['Kelebihan']=0.00; 
+        }        
      
-          $tbl = new mytable($tbstat,$header,$data_table,"");
-          return $tbl->display();  
+         $desc = new desc($view);
+         return $desc->display('dl-horizontal'); 
   }
 
   private function riwayat_stat($nim){
        
          
-         $data1 = $this->Stat_mhs_model->getRStatMhs($nim); 
-
-         $tbstat = array("id" => "mstud",'width'=>'100%');
-         $header = array(array('Semester Awal','Semester Akhir','Batas Studi','Toleransi Semester Akhir','Toleransi Batas Studi'));
-         $data_table = array();
+         $data1 = $this->Stat_mhs_model->getRStatMhs($nim);          
+         $default=array(array('Semester Awal','sawal',''),      
+                        array('Semester Akhir','sakhir', ''),
+                        array('Batas Studi','bstd', ''),
+                        array('Toleransi Semester Akhir','tsakhir',''),
+                        array('Toleransi Batas Studi','tbstd', ''));          
          
-         if(isset($data1[$nim])){
-            $tmp=array();
-            $tmp[]=array($data1[$nim]['sawal'], array());
-            $tmp[]=array($data1[$nim]['sakhir'], array());
-            $tmp[]=array($data1[$nim]['bstd'], array());
-            $tmp[]=array($data1[$nim]['tsakhir'], array());
-            $tmp[]=array($data1[$nim]['tbstd'], array());
-            $data_table[]=$tmp;
-          }  
+         if(isset($data1[$nim])){            
+            foreach ($default as $key=>$row) {
+                 $view[$row[0]]=$data1[$nim][$row[1]];                  
+            }           
+          }else{
+            foreach ($default as $key=>$row) {
+               $view[$row[0]]=$row[2];
+            }
+          } 
 
-         if(empty($data_table)){   
-            $data_table[]=array(array('Tidak ada data',array('colspan'=>4)));
-          }
-
-         $tbl = new mytable($tbstat,$header,$data_table,"");
-         $table['mstud']=$tbl->display();         
+         $desc = new desc($view);
+         $table['mstud']=$desc->display('dl-horizontal');         
 
 
          $tbstat = array("id" => "rstat",'width'=>'100%');
@@ -430,7 +420,7 @@ class Sum_mhs extends CI_Controller {
           
           $dt_keu = $this->Vw_tbrekaptrkeumhs_model->getdata("nimhsmsmhs='".$row["nimstat_mhs"]."'");
           $rwkeu=$dt_keu[0];                   
-          $tmp_row[]='<div align="right">'.number_format($rwkeu['kewajiban']>$rwkeu['tran'] ? $kurang=$rwkeu['kewajiban']-$rwkeu['tran'] : $kurang=0.00).'</div>';
+          $tmp_row[]='<div align="right">'.number_format($rwkeu['kewajiban']>$rwkeu['tran'] ? $kurang=$rwkeu['kewajiban']-$rwkeu['tran'] : $kurang=0.00,2,',','.').'</div>';
         }           
           if($array_nmtb[$param['namatb']]==1){
             $tmp=${$param['namatb']}($ipk);

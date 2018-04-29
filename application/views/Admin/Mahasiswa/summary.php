@@ -196,10 +196,26 @@ function update_cmb_mhs(thnmsmshs, kelas) {
 
     init_tb("sumaktif1", 2, 0);
     init_tb("sumaktif2", 2, 0);
-    init_tb("sumnonaktif", 2, 0);
-    init_tb("sumcuti", 2, 0);
-    init_tb("sumlulus", 2, 0);
-    init_tb("sumkeluar", 2, 0);
+    
+
+    $('#tb3 a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+        $('#sumnonaktif').dataTable().fnDestroy();
+        $('#sumcuti').dataTable().fnDestroy();
+        $('#sumlulus').dataTable().fnDestroy();
+        $('#sumkeluar').dataTable().fnDestroy();
+        init_tb("sumnonaktif", 2, 0);
+        init_tb("sumcuti", 2, 0);
+        init_tb("sumlulus", 2, 0);
+        init_tb("sumkeluar", 2, 0);
+    }); 
+
+
+    $('#tb2 a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+        $('#sumaktif1').dataTable().fnDestroy();
+        $('#sumaktif2').dataTable().fnDestroy();
+        init_tb("sumaktif1", 2, 0);
+        init_tb("sumaktif2", 2, 0);
+    });
 
     $('#tb1 a[data-toggle="tab"]').on('shown.bs.tab', function(e){
        $('#tb_blm_amb').dataTable().fnDestroy();
@@ -252,160 +268,98 @@ function update_cmb_mhs(thnmsmshs, kelas) {
     <section class="content">
        <?php  
             
-            $box=array('class'=>'box-success');
-            $header_box = array('class'=>'with-border','title'=>'','tools'=>array(array('widget'=>'collapse','icon'=>'fa fa-minus'),array('widget'=>'remove','icon'=>'fa fa-times')));
+            $ftbl = function ($id){
+                      $header = array(array("Angkatan","NIM","Nama","Kelas","SKS","IPK","Batas Studi","Sisa Kewajiban"));
+                      $tbstat = array("id" => $id,'width'=>'100%');
+                      $tbl = new mytable($tbstat,$header,null,"");//$dataaktif1
+                      return $tbl->display();                      
+                    };
+
+
+            $fbox = function ($class1='',$class2='with-border',$title='',$icon='fa fa-minus',$body,$footer=''){
+                      $box=array('class'=>$class1);
+                      $header_box = array('class'=>$class2,
+                                          'title'=>$title,
+                                          'tools'=>array(
+                                                         array('widget'=>'collapse','icon'=>$icon),
+                                                         array('widget'=>'remove','icon'=>'fa fa-times')
+                                                        )
+                                          );
+                      $tempbox=new box($box,$header_box,$body,$footer); 
+                      return $tempbox->display();
+                    };
+
+            $fload=function ($id) use($box_loading){
+                   return "<div id='$id' style='height: 100%; width: 100%'>".$box_loading->display()."</div>";
+                  }; 
             
-            $header = array(array("Angkatan","NIM","Nama","Kelas","SKS","IPK","Batas Studi","Sisa Kewajiban"));
-            $tbstat = array("id" => "sumaktif1",'width'=>'100%');
-            $tbl = new mytable($tbstat,$header,null,"");//$dataaktif1
-
-            $body=$tbl->display();
-            $header_box['title']='IPK > 2.75';                   
-            $tempbox=new box($box,$header_box,$body); 
-            $content3=array(array($tempbox->display()));
-
-            $tbstat = array("id" => "sumaktif2",'width'=>'100%');
-            $tbl = new mytable($tbstat,$header,null,"");//$dataaktif
-
-            $body=$tbl->display();
-            $header_box['title']='IPK < 2.75';                 
-            $tempbox=new box($box,$header_box,$body); 
-            $content3[]=array($tempbox->display());
+            $fcmb = function ($label,$nama,$id,$data){
+                      $frm = new html_form();
+                      $form_group = new form_group($label,$frm->addSelectList($nama,$data,true,null,null,array('class'=>'form-control','id'=>$id)));
+                      return $form_group->display(); 
+                    };
+                                
+            
+            $content3=array($ftbl("sumaktif1"));
+            $content3[]=$ftbl("sumaktif2");
+  
+            $header = array('IPK > 2.75','IPK < 2.75');
+            $mytabs = new mytabs('tb2',$header,$content3);
+            $body=$mytabs->display(); 
 
             
-            $box=array('class'=>'');
-            $header_box = array('class'=>'with-border','title'=>'','tools'=>array(array('widget'=>'collapse','icon'=>'fa fa-minus'),array('widget'=>'remove','icon'=>'fa fa-times')));
+            $content2=array($body);
+            $content2[]=$ftbl("sumnonaktif"); 
+            $content2[]=$ftbl("sumcuti"); 
+            $content2[]=$ftbl("sumlulus"); 
+            $content2[]=$ftbl("sumkeluar"); 
 
-            $row = array('jml'=>2);
-            $col = array('jml'=>1,'class'=>array('col-xs-12'));
-            $divrowcol = new div_row_col($row,$col,$content3);
-            $body=$divrowcol->display(); 
+            $header = array('Mahasiswa Aktif','Mahasiswa Non Aktif','Mahasiswa Cuti','Mahasiswa Lulus','Mahasiswa Keluar');
+            $mytabs = new mytabs('tb3',$header,$content2);
+            $content1[]=$mytabs->display();
 
-            $header_box['title']='Mahasiswa Aktif';                   
-            $tempbox=new box($box,$header_box,$body); 
-            $content2=array(array($tempbox->display()));
-
-            $tbstat = array("id" => "sumnonaktif",'width'=>'100%');
-            $tbl = new mytable($tbstat,$header,null,"");//$datanonaktif
-
-            $body=$tbl->display();
-            $header_box['title']='Mahasiswa Non Aktif';      
-            $tempbox=new box($box,$header_box,$body); 
-            $content2[]=array($tempbox->display()); 
-
-            $tbstat = array("id" => "sumcuti",'width'=>'100%');
-            $tbl = new mytable($tbstat,$header,null,"");//$datacuti
-
-            $body=$tbl->display();  
-            $header_box['title']='Mahasiswa Cuti';           
-            $tempbox=new box($box,$header_box,$body); 
-            $content2[]=array($tempbox->display()); 
-
-            $tbstat = array("id" => "sumlulus",'width'=>'100%');
-            $tbl = new mytable($tbstat,$header,null,"");//$datalulus
-
-            $body=$tbl->display();  
-            $header_box['title']='Mahasiswa Lulus';          
-            $tempbox=new box($box,$header_box,$body); 
-            $content2[]=array($tempbox->display()); 
-
-            $tbstat = array("id" => "sumkeluar",'width'=>'100%');
-            $tbl = new mytable($tbstat,$header,null,"");//$datakeluar 
-
-            $body=$tbl->display();  
-            $header_box['title']='Mahasiswa Keluar';         
-            $tempbox=new box($box,$header_box,$body); 
-            $content2[]=array($tempbox->display()); 
-
-            $row = array('jml'=>5);
-            $col = array('jml'=>1,'class'=>array('col-xs-12'));
-            $divrowcol = new div_row_col($row,$col,$content2);
-            $content1[]=$divrowcol->display(); 
-
-                   $header_box['tools'][0]['icon']='fa fa-minus';
-                   $box['class']='';
-
-                   $frm = new html_form();
-                   $form_group = new form_group("Angkatan",$frm->addSelectList("Angkatan",$lst_ang,true,null,null,array('class'=>'form-control','id'=>'Angkatan')));
-                   $content2[0][0] = $form_group->display(); 
-
-                   $form_group = new form_group("Kelas",$frm->addSelectList("kls",$lst_kls,true,null,null,array('class'=>'form-control','id'=>'kls')));
-                   $content2[0][1] = $form_group->display();
-
-                   $form_group = new form_group("Mahasiswa",$frm->addSelectList("Mhs",$lst_mhs,true,null,null,array('class'=>'form-control','id'=>'Mhs')));
-                   $content2[0][2] = $form_group->display(); 
+                   
+                   $content2=array();                   
+                   $content2[0][0] = $fcmb("Angkatan","Angkatan","Angkatan",$lst_ang);
+                   $content2[0][1] = $fcmb("Kelas","kls","kls",$lst_kls);
+                   $content2[0][2] =  $fcmb("Mahasiswa","Mhs","Mhs",$lst_mhs);
 
                    $row = array('jml'=>1);
                    $col = array('jml'=>3,'class'=>array('col-xs-4','col-xs-4','col-xs-4'));
                    $divrowcol = new div_row_col($row,$col,$content2);
-                   $body=$divrowcol->display();
+                   $body=$divrowcol->display();                   
 
-                   $header_box['title']='Filter';                   
-                   $tempbox=new box($box,$header_box,$body,$frm->addInput('submit',"Filter","Filter",array('class'=>'btn btn-info pull-right','id'=>'filter'))); 
-                   $content4=array(array($tempbox->display())); 
-
+                   $frm = new html_form();
+                   $content4=array(array($fbox('','with-border','Filter','fa fa-minus',$body,$frm->addInput('submit',"Filter","Filter",array('class'=>'btn btn-info pull-right','id'=>'filter')))));                    
                    
-                   $body="<div id='sks_sem' style='height: 100%; width: 100%'>".$box_loading->display()."</div>";
-                   $header_box['title']='Jumlah IPK,IPS dan SKS Persemester';                   
-                   $header_box['tools'][0]['icon']='fa fa-minus';
-                   $box['class']='box-success';
-                   $tempbox=new box($box,$header_box,$body); 
-                   $content6=array(array($tempbox->display()));
-
-                   $body="<div id='jml_sks' style='height: 100%; width: 100%'>".$box_loading->display()."</div>";
-                   $header_box['title']='Jumlah SKS';                   
-                   $tempbox=new box($box,$header_box,$body); 
-                   $content6[]=array($tempbox->display());
-
-                   $body="<div id='hit_ipk' style='height: 100%; width: 100%'>".$box_loading->display()."</div>";
-                   $header_box['title']='IPK anda';
-                   $tempbox=new box($box,$header_box,$body); 
-                   $content6[]=array($tempbox->display());
+                   $content8[0][1]=$fbox('box-success','with-border','Jumlah IPK,IPS dan SKS Persemester','fa fa-minus',$fload('sks_sem'));
                    
+                   $content8[0][0]=$fbox('box-success','with-border','Jumlah SKS','fa fa-minus',$fload('jml_sks')).
+                                   $fbox('box-success','with-border','IPK anda','fa fa-minus',$fload('hit_ipk'));               
 
-                   $body="<div id='mstud' style='height: 100%; width: 100%'>".$box_loading->display()."</div>";
-                   $header_box['title']='Lama Masa Studi';
-                   $tempbox=new box($box,$header_box,$body); 
-                   $content7=array(array($tempbox->display()));
+                   $row = array('jml'=>1);
+                   $col = array('jml'=>2,'class'=>array('col-xs-4','col-xs-8'));
+                   $divrowcol = new div_row_col($row,$col,$content8);
+                                      
+                   $content6[]=array($divrowcol->display());
+                   
+                   $content7[0][0]=$fbox('box-success','with-border','Lama Masa Studi','fa fa-minus',$fload('mstud')).
+                                   $fbox('box-success','with-border','Posisi Keuangan','fa fa-minus',$fload('pos_keu'));                  
+                   $content7[0][1]=$fbox('box-success','with-border','Riwayat Status','fa fa-minus',$fload('rstat'));
 
-                   $body="<div id='rstat' style='height: 100%; width: 100%'>".$box_loading->display()."</div>";
-                   $header_box['title']='Riwayat Status';
-                   $tempbox=new box($box,$header_box,$body); 
-                   $content7[]=array($tempbox->display());
-
+                   $row = array('jml'=>1);
+                   $col = array('jml'=>2,'class'=>array('col-xs-4','col-xs-8'));
+                   $divrowcol = new div_row_col($row,$col,$content7);
+                                      
+                   $content6[]=array($divrowcol->display());                   
 
                    $row = array('jml'=>2);
-                   $col = array('jml'=>1,'class'=>array('col-xs-12'));
-                   $divrowcol = new div_row_col($row,$col,$content7);
-                   $body=$divrowcol->display();
-                   
-                   $header_box['title']='Riwayat Status';
-                   $tempbox=new box($box,$header_box,$body); 
-                   $content6[]=array($tempbox->display());
-
-                   $body="<div id='pos_keu' style='height: 100%; width: 100%'>".$box_loading->display()."</div>";
-                   $header_box['title']='Posisi Keuangan';
-                   $tempbox=new box($box,$header_box,$body); 
-                   $content6[]=array($tempbox->display());
-
-
-                   $row = array('jml'=>5);
                    $col = array('jml'=>1,'class'=>array('col-xs-12'));
                    $divrowcol = new div_row_col($row,$col,$content6);
                    $content5[]=$divrowcol->display();
                    
-                   
-                   $body="<div id='nilaiD' style='height: 100%; width: 100%'>".$box_loading->display()."</div>";
-                   $header_box['title']='Matakuliah dengan nilai D';                   
-                   $header_box['tools'][0]['icon']='fa fa-minus';
-                   $box['class']='box-success';
-                   $tempbox=new box($box,$header_box,$body); 
-                   $content6=array(array($tempbox->display()));
-
-                   $body="<div id='ulangD' style='height: 100%; width: 100%'>".$box_loading->display()."</div>";
-                   $header_box['title']='Nilai Awal/Mengulang dari matakuliah diatas';                   
-                   $tempbox=new box($box,$header_box,$body); 
-                   $content6[]=array($tempbox->display());
+                   $content6=array(array($fbox('box-success','with-border','Matakuliah dengan nilai D','fa fa-minus',$fload('nilaiD'))));
+                   $content6[]=array($fbox('box-success','with-border','Nilai Awal/Mengulang dari matakuliah diatas','fa fa-minus',$fload('ulangD')));
 
 
                    $row = array('jml'=>2);
@@ -413,15 +367,8 @@ function update_cmb_mhs(thnmsmshs, kelas) {
                    $divrowcol = new div_row_col($row,$col,$content6);
                    $content5[]=$divrowcol->display();                    
                    
-                   $body="<div id='nilaiE' style='height: 100%; width: 100%'>".$box_loading->display()."</div>";
-                   $header_box['title']='Matakuliah dengan nilai E';                                      
-                   $tempbox=new box($box,$header_box,$body); 
-                   $content6=array(array($tempbox->display()));
-
-                   $body="<div id='ulangE' style='height: 100%; width: 100%'>".$box_loading->display()."</div>";
-                   $header_box['title']='Nilai Awal/Mengulang dari matakuliah diatas';                   
-                   $tempbox=new box($box,$header_box,$body); 
-                   $content6[]=array($tempbox->display());
+                   $content6=array(array($fbox('box-success','with-border','Matakuliah dengan nilai E','fa fa-minus',$fload('nilaiE'))));
+                   $content6[]=array($fbox('box-success','with-border','Nilai Awal/Mengulang dari matakuliah diatas','fa fa-minus',$fload('ulangE')));
 
 
                    $row = array('jml'=>2);
@@ -429,15 +376,8 @@ function update_cmb_mhs(thnmsmshs, kelas) {
                    $divrowcol = new div_row_col($row,$col,$content6);
                    $content5[]=$divrowcol->display();
                    
-                   $body="<div id='nilaiT' style='height: 100%; width: 100%'>".$box_loading->display()."</div>";
-                   $header_box['title']='Matakuliah dengan nilai T';                                      
-                   $tempbox=new box($box,$header_box,$body); 
-                   $content6=array(array($tempbox->display()));
-
-                   $body="<div id='ulangT' style='height: 100%; width: 100%'>".$box_loading->display()."</div>";
-                   $header_box['title']='Nilai Awal/Mengulang dari matakuliah diatas';                   
-                   $tempbox=new box($box,$header_box,$body); 
-                   $content6[]=array($tempbox->display());
+                   $content6=array(array($fbox('box-success','with-border','Matakuliah dengan nilai T','fa fa-minus',$fload('nilaiT'))));
+                   $content6[]=array($fbox('box-success','with-border','Nilai Awal/Mengulang dari matakuliah diatas','fa fa-minus',$fload('ulangT')));
 
 
                    $row = array('jml'=>2);
@@ -445,7 +385,7 @@ function update_cmb_mhs(thnmsmshs, kelas) {
                    $divrowcol = new div_row_col($row,$col,$content6);
                    $content5[]=$divrowcol->display();
                    
-                   $content6=array(array("<div id='blm_amb' style='height: 100%; width: 100%'>".$box_loading->display()."</div>"));
+                   $content6=array(array($fload('blm_amb')));
                    $row = array('jml'=>1);
                    $col = array('jml'=>1,'class'=>array('col-xs-12'));
                    $divrowcol = new div_row_col($row,$col,$content6);
@@ -454,12 +394,8 @@ function update_cmb_mhs(thnmsmshs, kelas) {
                    $header = array('SKS,IPS,IPK,Status,Keuangan','Nilai D','Nilai E','Nilai T','Mata Kuliah Yg Belum Diambil');
                    $mytabs = new mytabs('tb1',$header,$content5);
                    $body=$mytabs->display();                   
-
-                   $header_box['title']='Summary : <div id="nmmhs"><div>';
-                   $header_box['tools'][0]['icon']='fa fa-minus';
-                   $box['class']='';  
-                   $tempbox=new box($box,$header_box,$body); 
-                   $content4[]=array($tempbox->display());
+                   
+                   $content4[]=array($fbox('','with-border','Summary : <div id="nmmhs"><div>','fa fa-minus',$body));
 
 
             $row = array('jml'=>2);
