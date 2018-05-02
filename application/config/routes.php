@@ -68,6 +68,7 @@ $route['Admin/dt_konversi'] = 'Admin/Admin/change_content/7/73';
 $route['Admin/dt_stat_mhs'] = 'Admin/Admin/change_content/7/74';
 $route['Admin/dt_khs_mhs'] = 'Admin/Admin/change_content/7/75';
 $route['Admin/dt_trans_mhs'] = 'Admin/Admin/change_content/7/76';
+$route['Admin/dt_krs_mhs'] = 'Admin/Admin/change_content/7/77';
 
 $route['Admin/dt_dosen'] = 'Admin/Admin/change_content/8/81';
 $route['Admin/dt_mtk'] = 'Admin/Admin/change_content/9/91';
@@ -125,6 +126,22 @@ $route['Admin/transambilkelas'] = 'Admin/Mahasiswa/Trans_mhs/ambilkelas';
 $route['Admin/transambilnm'] = 'Admin/Mahasiswa/Trans_mhs/ambilnm';
 $route['Admin/trans_ctk_excel/(:any)'] = 'Admin/Mahasiswa/Trans_mhs/ctk_excel/$1';
 $route['Admin/trans_ctk_pdf/(:any)'] = 'Admin/Mahasiswa/Trans_mhs/ctk_pdf/$1';
+
+$route['Admin/akrs'] = 'Admin/Mahasiswa/Krs_mhs/akrs';
+$route['Admin/atdkkrs'] = 'Admin/Mahasiswa/Krs_mhs/atdkkrs';
+$route['Admin/lkrs'] = 'Admin/Mahasiswa/Krs_mhs/lkrs';
+$route['Admin/ltdkkrs'] = 'Admin/Mahasiswa/Krs_mhs/ltdkkrs';
+$route['Admin/edt_dt_krs'] = 'Admin/Mahasiswa/Krs_mhs/edt_dt_krs';
+$route['Admin/ambil_mtk_krs'] = 'Admin/Mahasiswa/Krs_mhs/ambil_mtk_krs';
+$route['Admin/ulang_mtk_krs'] = 'Admin/Mahasiswa/Krs_mhs/ulang_mtk_krs';
+$route['Admin/kelas_mtk_krs'] = 'Admin/Mahasiswa/Krs_mhs/kelas_mtk_krs';
+$route['Admin/hapus_mtk_krs'] = 'Admin/Mahasiswa/Krs_mhs/hapus_mtk_krs';
+$route['Admin/save_ambil'] = 'Admin/Mahasiswa/Krs_mhs/save_ambil';
+$route['Admin/save_ulang'] = 'Admin/Mahasiswa/Krs_mhs/save_ulang';
+$route['Admin/save_kelas'] = 'Admin/Mahasiswa/Krs_mhs/save_kelas';
+$route['Admin/hapus_krs'] = 'Admin/Mahasiswa/Krs_mhs/hapus_krs';
+$route['Admin/pilih_mtk_krs'] = 'Admin/Mahasiswa/Krs_mhs/pilih_mtk_krs';
+$route['Admin/input_kls'] = 'Admin/Mahasiswa/Krs_mhs/input_kls';
 
 
 $route['Admin/get_dt_dosen'] = 'Admin/Dosen/Dosen/get_dt_dosen';

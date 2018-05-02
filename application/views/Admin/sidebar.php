@@ -210,7 +210,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                   ->setheader('01');                                  
         if(in_array('76', $menu_active)){ $mymenu->setactive(); }
                                   $mymenu->addmenuassubmenu('7');
-                  $mymenu->new_menu('77','Kartu Rencana Studi (KRS)',base_url().'Admin/#')
+                  $mymenu->new_menu('77','Kartu Rencana Studi (KRS)',base_url().'Admin/dt_krs_mhs')
                                   ->add_righticon('fa fa-circle-o')
                                   ->setheader('01');                                  
         if(in_array('77', $menu_active)){ $mymenu->setactive(); }

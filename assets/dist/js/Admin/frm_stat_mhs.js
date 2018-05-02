@@ -80,6 +80,7 @@ function add_call(data) {
     $("#btn").html(data.btn);
     initdatatable(1);
     btn_click("add_save", "insert_stat_mhs");
+    btn_close('cancel');
 }
 
 function edit_call(data) {
@@ -87,6 +88,7 @@ function edit_call(data) {
     $("#btn").html(data.btn);
     initdatatable(2);
     btn_click("edit_save", "save_stat_mhs");
+    btn_close('cancel');
 }
 
 function delete_call(data) {
@@ -94,6 +96,7 @@ function delete_call(data) {
     $("#btn").html(data.btn);
     initdatatable(3);
     btn_click("del_save", "delete_stat_mhs");
+    btn_close('cancel');
 }
 
 function gen_call(data) {
@@ -105,5 +108,12 @@ function btn_click(id_button, url_ajax) {
         $("#btn").html('');
         var sem = $("#sem").val();
         call_ajax(url_ajax, $(":input", oTable.fnGetNodes()).serialize() + "&sem=" + sem, 'html', gen_call);
+    });
+}
+
+function btn_close(id_button)
+{
+  $("#" + id_button).click(function() {
+       filter();
     });
 }

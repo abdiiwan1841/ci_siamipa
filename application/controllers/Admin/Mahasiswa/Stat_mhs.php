@@ -150,7 +150,7 @@ class Stat_mhs extends CI_Controller {
       
      $tbl = new mytable($tbstat,$header,$data_table,"");
      $json_data['form']=$frm->startForm(null,'post','entrystatmhs').$tbl->display().$frm->endForm();
-     $json_data['btn']=$frm->addInput('submit',"save","Save",array('class'=>'btn btn-info pull-left','id'=>'add_save'));
+     $json_data['btn']=$frm->addInput('submit',"save","Save",array('class'=>'btn btn-info pull-left','id'=>'add_save')).$frm->addInput('submit',"Cancel","Cancel",array('class'=>'btn btn-info pull-left','id'=>'cancel'));
      echo json_encode($json_data);
    }  
   }
@@ -190,7 +190,7 @@ class Stat_mhs extends CI_Controller {
    
      $tbl = new mytable($tbstat,$header,$data_table,"");
      $json_data['form']=$frm->startForm(null,'post','entrystatmhs').$tbl->display().$frm->endForm();
-     $json_data['btn']=$frm->addInput('submit',"save","Save",array('class'=>'btn btn-info pull-left','id'=>'edit_save'));
+     $json_data['btn']=$frm->addInput('submit',"save","Save",array('class'=>'btn btn-info pull-left','id'=>'edit_save')).$frm->addInput('submit',"Cancel","Cancel",array('class'=>'btn btn-info pull-left','id'=>'cancel'));
      echo json_encode($json_data);
    }
  }
@@ -230,7 +230,7 @@ class Stat_mhs extends CI_Controller {
        
    $tbl = new mytable($tbstat,$header,$data_table,"");
      $json_data['form']=$frm->startForm(null,'post','entrystatmhs').$tbl->display().$frm->endForm();
-     $json_data['btn']=$frm->addInput('submit',"del","Delete",array('class'=>'btn btn-info pull-left','id'=>'del_save'));
+     $json_data['btn']=$frm->addInput('submit',"del","Delete",array('class'=>'btn btn-info pull-left','id'=>'del_save')).$frm->addInput('submit',"Cancel","Cancel",array('class'=>'btn btn-info pull-left','id'=>'cancel'));
      echo json_encode($json_data);
    }
   } 

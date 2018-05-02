@@ -18,6 +18,12 @@ function cancel_click()
     });
   }
 
+  function btn_close(id,id2){
+    $(id).click(function () {
+        $(id2).html('');        
+    }); 
+  }
+
   function call_ajax(url, data, dataType, callback) {
      var vmyajax = new myajax();
      vmyajax.url = url;
@@ -51,6 +57,7 @@ function cancel_click()
          btn1_click("#edit","#data1","edit_mtk_konversi",'nim='+nim,'JSON',edit_call);
          btn1_click("#del","#data1","del_mtk_konversi",'nim='+nim,'JSON',del_call);
          btn1_click("#eksport","#data1","export_mtk_konversi",'nim='+nim,'html',gen_call);
+         btn_close("#close","#frmedt");
  }
 
  function add_call(data) {

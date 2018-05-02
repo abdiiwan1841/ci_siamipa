@@ -209,6 +209,35 @@ class vw_tbtrnlptrnlmjnmtk_model extends CI_Model {
       return $hsl;     
    }
 
+   function hitipk_krs($user,$thn="")
+   {
+      $sql_select = "nimhstrnlm,SUM(sksmktbkmk) AS jml_sks, SUM(sksmktbkmk*bobottrnlm) AS jml_sksnm"; 
+    
+      if($thn==""){
+          $where = "nimhstrnlm='$user' and nlakhtrnlm not in ('T','K')"; 
+      }else{
+         $where = "nimhstrnlm='$user' and nlakhtrnlm not in ('T','K') and thsmstrnlm in ($thn)";
+      }
+  
+
+     $sql_from = "(SELECT nimhstrnlm,kdkmktrnlm,sksmktbkmk,MAX(bobottrnlm) AS bobottrnlm FROM vw_tbtrnlptrnlmjnmtk WHERE $where GROUP BY nimhstrnlm,kdkmktrnlm) a";
+     $sql_orderby = '';
+    
+     $query = $this->db->query("select $sql_select from $sql_from");
+     $data=$query->result_array();
+  
+     $hsl=array('jml_sks'=>0,'jml_sksnm'=>0,'ipk'=>0);
+     if(!empty($data)){
+      
+        $hsl['jml_sks'] = $data[0]['jml_sks'];
+        $hsl['jml_sksnm'] = $data[0]['jml_sksnm']; 
+        $hsl['ipk'] = $hsl['jml_sks']!=0 ?   $hsl['jml_sksnm']/ $hsl['jml_sks'] :0;           
+   
+      }
+      return $hsl;
+     
+   }
+
 
    function get_rekapkhs($user='')
    {

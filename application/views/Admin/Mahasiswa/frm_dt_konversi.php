@@ -17,7 +17,7 @@ if($hak==1){
       $frm->addInput('submit',"Delete","Hapus Mtk",array('class'=>'btn btn-info pull-left','id'=>'del')).
       $frm->addInput('submit',"Eksport","Publikasi",array('class'=>'btn btn-info pull-left','id'=>'eksport'));
 } 
-$button .= '</div>';
+$button .= $frm->addInput('submit',"Close","Close",array('class'=>'btn btn-info pull-right','id'=>'close')).'</div>';
 
 $header_box['title']='Daftar Nilai Konversi : '.$nm.' ('.$nim.')';
 $tempbox= new box($box,$header_box,$body2,$button); 

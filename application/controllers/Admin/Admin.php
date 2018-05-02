@@ -149,6 +149,9 @@ class Admin extends CI_Controller {
                         case 76 :
                           $this->dt_trans_mhs();
                         break;
+                        case 77 :
+                          $this->dt_krs_mhs();
+                        break;
                       
                       default:
                         # code...
@@ -353,6 +356,24 @@ class Admin extends CI_Controller {
              $data['lst_kls']=$this->Msmhs_model->getCmbKelas($this->Msmhs_model->getAng1());
              $data['lst_mhs']=$this->Msmhs_model->getCmbMhs($this->Msmhs_model->getAng1(),$this->Msmhs_model->getKls1($this->Msmhs_model->getAng1()));
              $this->load->view('Admin/Mahasiswa/dt_trans_mhs',$data);
+      }else{
+             redirect('Admin/logout');
+      }
+    }else{
+      redirect('Admin/login');
+    }
+  }
+
+    private function dt_krs_mhs()
+  {
+     $id = $this->session->userdata('id');
+        $user = $this->session->userdata('user');
+        if($this->Log_model->islogin($user,1)){
+          if($this->Log_model->logintime($id)){
+             $data['nm_user']=$this->session->userdata('nm_user');
+             $data['hak']=$this->session->userdata('hak');
+             $data['menu_active']=array('7','77');
+             $this->load->view('Admin/Mahasiswa/dt_krs_mhs',$data);
       }else{
              redirect('Admin/logout');
       }

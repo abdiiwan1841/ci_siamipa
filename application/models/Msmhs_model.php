@@ -141,6 +141,17 @@ class Msmhs_model extends CI_Model {
     return $data[0]['shiftmsmhs'];
    }   
 
+   function getshiftmhs($nim)
+  { 
+    $data = $this->getdata("nimhsmsmhs='$nim'");   
+    $kls='R';
+    if(!empty($data))
+    {
+      $kls = $data[0]['shiftmsmhs'];           
+    }
+    return $kls;
+  }
+
    public function getCmbAngkatan($where)
    {
       $data = $this->getAngkatan($where);
