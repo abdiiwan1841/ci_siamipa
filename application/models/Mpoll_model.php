@@ -28,5 +28,31 @@ class Mpoll_model extends CI_Model {
       $this->db->insert('tbmpoll',$data);
    }
 
+   public function updatedata($data)
+   {
+     
+     foreach ($data as $key => $value) {
+      if(!in_array($key, array('thsmsmpoll','nimhsmpoll','kdkmkmpoll'))){ 
+        $this->db->set($key, $value);
+       } 
+     }
+       
+
+     $this->db->where('thsmsmpoll',$data['thsmsmpoll']);
+     $this->db->where('nimhsmpoll',$data['nimhsmpoll']);
+     $this->db->where('kdkmkmpoll',$data['kdkmkmpoll']);
+     $this->db->update('tbmpoll');
+
+   }
+
+   public function deletedata($data)
+   {
+     $this->db->where('thsmsmpoll',$data['thsmsmpoll']);
+     $this->db->where('nimhsmpoll',$data['nimhsmpoll']);
+     $this->db->where('kdkmkmpoll',$data['kdkmkmpoll']);
+     $this->db->delete('tbmpoll');
+     
+   }
+
 
  }

@@ -44,168 +44,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- AdminLTE for demo purposes 
 <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>-->
 <script type="text/javascript" src="<?php echo base_url();?>assets/dist/js/siamipa.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/dist/js/Admin/frm_krs_mhs.js"></script>
 <script type="text/javascript">
-
-function get_akrs(){
-     $("#akrs").html('<?php echo $box_loading->display(); ?>');
-     var vmyajax = new myajax();
-         vmyajax.url = "akrs";
-         vmyajax.data = "";
-         vmyajax.dataType = 'html';
-         vmyajax.success = function success(data) {
-          $("#akrs").html(data);
-          var vmydatatable = new mydatatable;
-              vmydatatable.id = "tb_krs";
-              vmydatatable.template = 1;
-              vmydatatable.title = 2;
-              mydatatable.bAutoWidth= false;
-              vmydatatable.aoColumns= [
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "10%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"}                                     
-                                     ];    
-              vmydatatable.settemplate();
-              vmydatatable.create();
-         }
-         vmyajax.getdata();
-}
-
-function get_atdkkrs(){
-     $("#atdkkrs").html('<?php echo $box_loading->display(); ?>');
-     var vmyajax = new myajax();
-         vmyajax.url = "atdkkrs";
-         vmyajax.data = "";
-         vmyajax.dataType = 'html';
-         vmyajax.success = function success(data) {
-          $("#atdkkrs").html(data);
-          var vmydatatable = new mydatatable;
-              vmydatatable.id = "tb_krs1";
-              vmydatatable.template = 1;
-              vmydatatable.title = 2;
-              mydatatable.bAutoWidth= false;
-              vmydatatable.aoColumns= [
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "10%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"}                                     
-                                     ];    
-              vmydatatable.settemplate();
-              vmydatatable.create();
-         }
-         vmyajax.getdata();
-}
-
-function get_lkrs(){
-     $("#lkrs").html('<?php echo $box_loading->display(); ?>');
-     var vmyajax = new myajax();
-         vmyajax.url = "lkrs";
-         vmyajax.data = "";
-         vmyajax.dataType = 'html';
-         vmyajax.success = function success(data) {
-          $("#lkrs").html(data);
-          var vmydatatable = new mydatatable;
-              vmydatatable.id = "tb_krs2";
-              vmydatatable.template = 1;
-              vmydatatable.title = 2;
-              mydatatable.bAutoWidth= false;
-              vmydatatable.aoColumns= [
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "10%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"}                                     
-                                     ];    
-              vmydatatable.settemplate();
-              vmydatatable.create();
-         }
-         vmyajax.getdata();
-}
-
-function get_ltdkkrs(){
-     $("#ltdkkrs").html('<?php echo $box_loading->display(); ?>');
-     var vmyajax = new myajax();
-         vmyajax.url = "ltdkkrs";
-         vmyajax.data = "";
-         vmyajax.dataType = 'html';
-         vmyajax.success = function success(data) {
-          $("#ltdkkrs").html(data);
-          var vmydatatable = new mydatatable;
-              vmydatatable.id = "tb_krs3";
-              vmydatatable.template = 1;
-              vmydatatable.title = 2;
-              mydatatable.bAutoWidth= false;
-              vmydatatable.aoColumns= [
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "10%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"}                                     
-                                     ];    
-              vmydatatable.settemplate();
-              vmydatatable.create();
-         }
-         vmyajax.getdata();
-}
-
- function pilih_mtk(kode){
-   
-   if($('#mk_'+kode).is(':checked'))
-     { 
-       $('#kls_'+kode).attr('disabled', false);    
-       cek=1;
-     }else{
-       $('#kls_'+kode).attr('disabled', true);     
-       cek=0;
-     }
-
-     var vmyajax = new myajax();
-     vmyajax.url = "pilih_mtk_krs";
-     vmyajax.data = 'kode='+kode+'&cek='+cek;
-     vmyajax.dataType = 'JSON';
-     vmyajax.success = function success(data) {
-        $("#jmlsks").html(data.jmlsks);
-     }
-     vmyajax.getdata();
- }
-
- function input_kls(kode){
-     
-     kls = $('#kls_'+kode).val();
-
-     var vmyajax = new myajax();
-     vmyajax.url = "input_kls";
-     vmyajax.data = 'kode='+kode+'&kls='+kls;
-     vmyajax.dataType = 'JSON';
-     vmyajax.success = function success(data) {
-        
-     }
-     vmyajax.getdata();
-
- }
-
+ var load = '<?php echo $box_loading->display(); ?>';
+ var nim;
 
  function edit(var_nim)
  {
-     $("#frmedt").html('<?php echo $box_loading->display(); ?>');
+     $("#frmedt").html(load);
      nim=var_nim;
      var vmyajax = new myajax();
          vmyajax.url = "edt_dt_krs";
@@ -213,21 +59,7 @@ function get_ltdkkrs(){
          vmyajax.dataType = 'html';
          vmyajax.success = function success(data) {
           $("#frmedt").html(data);
-          var vmydatatable = new mydatatable;
-              vmydatatable.id = "lst_krs";
-              vmydatatable.template = 1;
-              vmydatatable.title = 2;
-              mydatatable.bAutoWidth= false;
-              vmydatatable.aoColumns= [
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "10%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"}                                   
-                                     ];    
-              vmydatatable.settemplate();
-              vmydatatable.create();
+          init_tb("lst_krs",2);
 
                $('#close').click(function () {
                   $("#frmedt").html('');
@@ -235,184 +67,33 @@ function get_ltdkkrs(){
 
 
               $('#ambil').click(function () {
-                 $('#data1').html('<?php echo $box_loading->display(); ?>');
-                 var vmyajax = new myajax();
-                     vmyajax.url = "ambil_mtk_krs";
-                     vmyajax.data = "nim="+nim;
-                     vmyajax.dataType = 'json';
-                     vmyajax.success = function success(data) {
-                         $("#data1").html(data.lst_mtk);
-                         $("#btn").html(data.btn);
-                        var vmydatatable = new mydatatable;
-                            vmydatatable.id = "lst_mtk";
-                            vmydatatable.template = 1;
-                            vmydatatable.title = 2;
-                            mydatatable.bAutoWidth= false;
-                            vmydatatable.aoColumns= [
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "10%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"}                                  
-                                     ];    
-                            vmydatatable.settemplate();
-                            vmydatatable.create();
-
-                            $('#save_ambil').click(function () {
-                                var vmyajax = new myajax();
-                                    vmyajax.url = "save_ambil";
-                                    vmyajax.data = "nim="+nim;
-                                    vmyajax.dataType = 'json';
-                                    vmyajax.success = function success(data) {
-                                        if(data.msg!=''){
-                                           $("#ketkrs").html(data.msg);
-                                        }else{
-                                          edit(nim);
-                                        }                        
-
-                                    }
-                                    vmyajax.getdata();                 
-                            });
-
-
-                            $('#cancel').click(function () {
-                               edit(nim);
-                            });
-                     }
-                     vmyajax.getdata();
+                 $('#data1').html(load);
+                 call_ajax("ambil_mtk_krs","nim="+nim,'json',ambil_call);                                 
               });
 
               $('#ulang').click(function () {
-                 $('#data1').html('<?php echo $box_loading->display(); ?>');
-                 var vmyajax = new myajax();
-                     vmyajax.url = "ulang_mtk_krs";
-                     vmyajax.data = "nim="+nim;
-                     vmyajax.dataType = 'json';
-                     vmyajax.success = function success(data) {
-                         $("#data1").html(data.lst_mtk);
-                         $("#btn").html(data.btn);
-                        var vmydatatable = new mydatatable;
-                            vmydatatable.id = "lst_mtk";
-                            vmydatatable.template = 1;
-                            vmydatatable.title = 2;
-                            mydatatable.bAutoWidth= false;
-                            vmydatatable.aoColumns= [
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "10%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"}                                  
-                                     ];    
-                            vmydatatable.settemplate();
-                            vmydatatable.create();
-
-                            $('#save_ulang').click(function () {
-                                var vmyajax = new myajax();
-                                    vmyajax.url = "save_ulang";
-                                    vmyajax.data = "nim="+nim;
-                                    vmyajax.dataType = 'json';
-                                    vmyajax.success = function success(data) {
-                                       if(data.msg!=''){
-                                           $("#ketkrs").html(data.msg);
-                                        }else{
-                                          edit(nim);
-                                        }   
-                                    }
-                                    vmyajax.getdata();                 
-                            });
-
-                            $('#cancel').click(function () {
-                               edit(nim);
-                            });   
-                     }
-                     vmyajax.getdata();
+                 $('#data1').html(load);
+                 call_ajax("ulang_mtk_krs","nim="+nim,'json',ulang_call);
               });  
 
               $('#edit').click(function () {
-                 $('#data1').html('<?php echo $box_loading->display(); ?>');
-                 var vmyajax = new myajax();
-                     vmyajax.url = "kelas_mtk_krs";
-                     vmyajax.data = "nim="+nim;
-                     vmyajax.dataType = 'json';
-                     vmyajax.success = function success(data) {
-                         $("#data1").html(data.lst_mtk);
-                         $("#btn").html(data.btn);
-                        var vmydatatable = new mydatatable;
-                            vmydatatable.id = "lst_mtk";
-                            vmydatatable.template = 1;
-                            vmydatatable.title = 2;
-                            mydatatable.bAutoWidth= false;
-                            vmydatatable.aoColumns= [
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "10%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"}                                 
-                                     ];    
-                            vmydatatable.settemplate();
-                            vmydatatable.create();
-
-                            $('#save_kelas').click(function () {
-                                var vmyajax = new myajax();
-                                    vmyajax.url = "save_kelas";
-                                    vmyajax.data = "nim="+nim;
-                                    vmyajax.dataType = 'json';
-                                    vmyajax.success = function success(data) {
-                                      $("#ketkrs").html(data.msg);
-                                    }
-                                    vmyajax.getdata();                 
-                            });
-
-                            $('#cancel').click(function () {
-                               edit(nim);
-                            });
-                     }
-                     vmyajax.getdata();
+                 $('#data1').html(load);
+                 call_ajax("kelas_mtk_krs","nim="+nim,'json',edit_call);                 
               });
 
               $('#hapus').click(function () {
-                 $('#data1').html('<?php echo $box_loading->display(); ?>');
-                 var vmyajax = new myajax();
-                     vmyajax.url = "hapus_mtk_krs";
-                     vmyajax.data = "nim="+nim;
-                     vmyajax.dataType = 'json';
-                     vmyajax.success = function success(data) {
-                         $("#data1").html(data.lst_mtk);
-                         $("#btn").html(data.btn);
-                        var vmydatatable = new mydatatable;
-                            vmydatatable.id = "lst_mtk";
-                            vmydatatable.template = 1;
-                            vmydatatable.title = 2;
-                            mydatatable.bAutoWidth= false;
-                            vmydatatable.aoColumns= [
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "1%" },
-                                      { "sWidth": "10%"},
-                                      { "sWidth": "1%"},
-                                      { "sWidth": "1%"}                                 
-                                     ];    
-                            vmydatatable.settemplate();
-                            vmydatatable.create();
-
-                            $('#del_krs').click(function () {
-                                var vmyajax = new myajax();
-                                    vmyajax.url = "hapus_krs";
-                                    vmyajax.data = "nim="+nim;
-                                    vmyajax.dataType = 'json';
-                                    vmyajax.success = function success(data) {
-                                      $("#ketkrs").html(data.msg);
-                                    }
-                                    vmyajax.getdata();                 
-                            });
-
-                            $('#cancel').click(function () {
-                               edit(nim);
-                            });
-                     }
-                     vmyajax.getdata();
+                 $('#data1').html(load);
+                 call_ajax("hapus_mtk_krs","nim="+nim,'json',hapus_call);
               });  
+
+              $("#ctkexcel").click(function () {
+                 window.location = "krs_ctk_excel/"+nim;        
+              });
+
+             $("#ctkpdf").click(function () {
+                 window.location = "krs_ctk_pdf/"+nim; 
+             });
+
 
 
 

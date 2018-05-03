@@ -28,6 +28,32 @@ class Krs_model extends CI_Model {
       $this->db->insert('krs',$data);
    }
 
+   public function updatedata($data)
+   {
+     
+     foreach ($data as $key => $value) {
+      if(!in_array($key, array('thsmskrs','nimhskrs','kdkmkrs'))){ 
+        $this->db->set($key, $value);
+       } 
+     }
+       
+
+     $this->db->where('thsmskrs',$data['thsmskrs']);
+     $this->db->where('nimhskrs',$data['nimhskrs']);
+     $this->db->where('kdkmkkrs',$data['kdkmkkrs']);
+     $this->db->update('krs');
+
+   }
+
+   public function deletedata($data)
+   {
+     $this->db->where('thsmskrs',$data['thsmskrs']);
+     $this->db->where('nimhskrs',$data['nimhskrs']);
+     $this->db->where('kdkmkkrs',$data['kdkmkkrs']);
+     $this->db->delete('krs');
+     
+   }
+
   public function sks_blh($ipk)
   {
       $sks_blh=20;
@@ -80,7 +106,7 @@ class Krs_model extends CI_Model {
   public function getMtk($thsmskrs,$nim,$noprtk=1)
   {
     $sql_form = 'vw_krs_jn_mtk';
-    $sql_select  = 'thsmskrs,nimhskrs,kdkmkkrs,nakmktbkmk,sksmktbkmk,sksprtbkmk,shiftkrs,semkrs,kelaskrs,semestbkmk,wp,tgl_input';
+    $sql_select  = 'thsmskrs,nimhskrs,kdkmkkrs,nakmktbkmk,sksmktbkmk,sksprtbkmk,shiftkrs,semkrs,kelaskrs,semestbkmk,kdprtk,wp,tgl_input';
     $sql_orderby = 'semestbkmk,kdkmkkrs'; 
 
       if($noprtk==0){ 

@@ -256,7 +256,9 @@ class Krs_mhs extends CI_Controller {
                 }       
               }
 
-        $tbl = new mytable($tbstat,$header,$dataisi,"");
+        $footer ="<tr><th></th><th colspan='2' align='center'>Jumlah SKS</th><th>$jmlsks</th><th colspan='2'></th></tr>" ;
+
+        $tbl = new mytable($tbstat,$header,$dataisi,$footer);
         $data['lst_krs']= $tbl->display();    
        
 
@@ -291,6 +293,7 @@ class Krs_mhs extends CI_Controller {
          $tmpdt[]=array($this->ismrhitl($row['wp'],$row['nakmktbkmk']), array());
          $tmpdt[]=array($this->ismrhitl($row['wp'], $row['sksmktbkmk']), array()); 
          $smtk[$row['kdkmktbkmk']]=array('sks'=>$row['sksmktbkmk'],'kdprtk'=>$row['kdprtk'],'kls'=>$kls,'pilih'=>0);
+         
          $tmp_kd=$row['kdkmktbkmk'];
          $tmp_input = $frm->addInput('checkbox','mk[]',$tmp_kd,array('id'=>'mk_'.$row['kdkmktbkmk'],'onclick'=>'pilih_mtk("'.$row['kdkmktbkmk'].'")'));
          $tmpdt[]=array($tmp_input,array('align'=>'center')); 
@@ -300,10 +303,12 @@ class Krs_mhs extends CI_Controller {
          $isi_data[]=$tmpdt;
       }
     }
+       $footer ="<tr><th></th><th colspan='2' align='center'>Jumlah SKS</th><th><div id='jmlsks'>0</div></th><th colspan='2'></th></tr>" ;      
+
        $this->session->set_userdata('smtk',$smtk); 
        $this->session->set_userdata('jmlsks',0); 
-       $tbl = new mytable($tbstat,$header,$isi_data,''); 
-       $data['lst_mtk']=$frm->startForm(null,'post','entrykrs').$frm->addInput('hidden',"nim",$nim).$tbl->display().'<br>Jumlah SKS :<div id="jmlsks">0</div>'.$frm->endForm();
+       $tbl = new mytable($tbstat,$header,$isi_data,$footer); 
+       $data['lst_mtk']=$frm->startForm(null,'post','entrykrs').$frm->addInput('hidden',"nim",$nim).$tbl->display().$frm->endForm();
        $data['btn']=$frm->addInput('submit',"Save","Save",array('class'=>'btn btn-info pull-left','id'=>'save_ambil')).
                     $frm->addInput('submit',"Cancel","Cancel",array('class'=>'btn btn-info pull-left','id'=>'cancel'));  
        echo json_encode($data);
@@ -345,10 +350,12 @@ class Krs_mhs extends CI_Controller {
          $isi_data[]=$tmpdt;
       }
     }
+       $footer ="<tr><th></th><th colspan='2' align='center'>Jumlah SKS</th><th><div id='jmlsks'>0</div></th><th colspan='2'></th></tr>" ;
+
        $this->session->set_userdata('smtk',$smtk); 
        $this->session->set_userdata('jmlsks',0); 
-       $tbl = new mytable($tbstat,$header,$isi_data,''); 
-       $data['lst_mtk']=$frm->startForm(null,'post','entrykrs').$frm->addInput('hidden',"nim",$nim).$tbl->display().'<br>Jumlah SKS :<div id="jmlsks">0</div>'.$frm->endForm();
+       $tbl = new mytable($tbstat,$header,$isi_data,$footer); 
+       $data['lst_mtk']=$frm->startForm(null,'post','entrykrs').$frm->addInput('hidden',"nim",$nim).$tbl->display().$frm->endForm();
        $data['btn']=$frm->addInput('submit',"Save","Save",array('class'=>'btn btn-info pull-left','id'=>'save_ulang')).
                     $frm->addInput('submit',"Cancel","Cancel",array('class'=>'btn btn-info pull-left','id'=>'cancel'));  
        echo json_encode($data);
@@ -386,7 +393,7 @@ class Krs_mhs extends CI_Controller {
                    $jmlsks+=$row['sksmktbkmk'];          
         }
               
-         $smtk[$row['kdkmkkrs']]=array('sks'=>$row['sksmktbkmk'],'kls'=>$row['shiftkrs'],'pilih'=>0);
+         $smtk[$row['kdkmkkrs']]=array('sks'=>$row['sksmktbkmk'],'kdprtk'=>$row['kdprtk'],'kls'=>$row['shiftkrs'],'pilih'=>0);
          $tmpdt = array();
          $tmpdt[]=array('Semester '.$row['semestbkmk'], array());
          $tmpdt[]=array($row['kdkmkkrs'], array());
@@ -445,7 +452,7 @@ class Krs_mhs extends CI_Controller {
                    $jmlsks+=$row['sksmktbkmk'];          
         }
               
-         $smtk[$row['kdkmktbkmk']]=array('sks'=>$row['sksmktbkmk'],'kdprtk'=>$row['kdprtk'],'kls'=>$kls,'pilih'=>0);
+         $smtk[$row['kdkmkkrs']]=array('sks'=>$row['sksmktbkmk'],'kdprtk'=>$row['kdprtk'],'kls'=>$row['shiftkrs'],'pilih'=>0);
          $tmpdt = array();
          $tmpdt[]=array('Semester '.$row['semestbkmk'], array());
          $tmpdt[]=array($row['kdkmkkrs'], array());
@@ -453,8 +460,7 @@ class Krs_mhs extends CI_Controller {
          $tmpdt[]=array($this->ismrhitl($row['wp'],$sks), array()); 
             
           $tmp_kd=$row['kdkmkkrs'];
-          $tmp_input = $frm->addInput('checkbox','mk[]',$tmp_kd,array('id'=>'mk')); 
-         
+          $tmp_input = $frm->addInput('checkbox','mk[]',$tmp_kd,array('id'=>'mk_'.$tmp_kd,'onclick'=>'pilih_mtk("'.$tmp_kd.'")'));        
         
           $tmpdt[]=array($tmp_input, array());
           $isi_data[]=$tmpdt;  
@@ -483,8 +489,7 @@ class Krs_mhs extends CI_Controller {
          if($cek==1){ 
            $jmlsks+=$smtk[$kode]['sks'];
          }else{
-           $jmlsks-=$smtk[$kode]['sks'];
-           $smtk[$kode]['nilai']='';
+           $jmlsks-=$smtk[$kode]['sks'];           
          }
         $this->session->set_userdata('smtk',$smtk); 
         $this->session->set_userdata('jmlsks',$jmlsks); 
@@ -500,6 +505,7 @@ class Krs_mhs extends CI_Controller {
         $smtk = $this->session->userdata('smtk');
         $smtk[$kode]['pilih']=1;
         $smtk[$kode]['kls']=$kls;
+        print_r($smtk[$kode]);
         $this->session->set_userdata('smtk',$smtk);
     }
   }
@@ -523,7 +529,7 @@ class Krs_mhs extends CI_Controller {
           if(!empty($smtk)){ 
             foreach ($smtk as $key=>$val) {
                if($val['pilih']==1 ){
-                  
+
                   $mythnsem=new mythnsem;
                   $thnsms = $mythnsem->getthnsem();
 
@@ -546,16 +552,13 @@ class Krs_mhs extends CI_Controller {
                      $this->Mpoll_model->insertdata($data);
                   }
 
-                  if(!empty($val['kdprtk'])){
-
-                      $isinput=(($thnmsmhs<2016) or (($thnmsmhs>=2016) and ($val['kls']=='R')));
-                      if($isinput){  
+                  if(!empty($val['kdprtk'])){                      
+                      
                         $data1=array('thsmskrs'=> $thnsms,'nimhskrs'=>$nim,'kdkmkkrs'=>$val['kdprtk'],'shiftkrs'=>$val['kls'],'tgl_input'=>$today,'semkrs'=>$kls_mhs_txt);   
                         $this->Krs_model->insertdata($data1);
 
                         $data=array('thsmsmpoll'=>$thnsms,'kdkmkmpoll'=>$val['kdprtk'],'nimhsmpoll'=>$nim,'isimpoll'=>0,'semmpoll'=>$kls_mhs_txt,'kelasmpoll'=>'01','shiftmpoll'=>$val['kls'],'tgl_input'=>$today); 
-                        $this->Mpoll_model->insertdata($data);
-                      }  
+                        $this->Mpoll_model->insertdata($data);                        
                   }
                   
                }
@@ -616,14 +619,13 @@ class Krs_mhs extends CI_Controller {
 
                   if(!empty($val['kdprtk'])){
 
-                      $isinput=(($thnmsmhs<2016) or (($thnmsmhs>=2016) and ($val['kls']=='R')));
-                      if($isinput){  
+                      
                         $data1=array('thsmskrs'=> $thnsms,'nimhskrs'=>$nim,'kdkmkkrs'=>$val['kdprtk'],'shiftkrs'=>$val['kls'],'tgl_input'=>$today,'semkrs'=>$kls_mhs_txt);   
                         $this->Krs_model->insertdata($data1);
 
                         $data=array('thsmsmpoll'=>$thnsms,'kdkmkmpoll'=>$val['kdprtk'],'nimhsmpoll'=>$nim,'isimpoll'=>0,'semmpoll'=>$kls_mhs_txt,'kelasmpoll'=>'01','shiftmpoll'=>$val['kls'],'tgl_input'=>$today); 
                         $this->Mpoll_model->insertdata($data);
-                      }  
+                      
                   }
                   
                }
@@ -646,10 +648,29 @@ class Krs_mhs extends CI_Controller {
           if(!empty($smtk)){ 
             foreach ($smtk as $key=>$val) {
                if($val['pilih']==1 ){
-                
+                    
+                    $mythnsem=new mythnsem;
+                    $thnsms = $mythnsem->getthnsem();
 
+                    $today = date("Y-m-d H:i:s");
+                    $data1=array('thsmskrs'=> $thnsms,'nimhskrs'=>$nim,'kdkmkkrs'=>$key,'shiftkrs'=>$val['kls'],'tgl_input'=>$today);
+                    $this->Krs_model->updatedata($data1);
+        
+                    if(!in_array($key,array('UBB106','MAT352','MAT353')))
+                    {
+                        $data=array('thsmsmpoll'=>$thnsms,'kdkmkmpoll'=>$key,'nimhsmpoll'=>$nim,'shiftmpoll'=>$val['kls'],'tgl_input'=>$today);
+                        $this->Mpoll_model->updatedata($data);
+                    }
 
+                    if(!empty($val['kdprtk'])){
+                       
+                        $data1=array('thsmskrs'=> $thnsms,'nimhskrs'=>$nim,'kdkmkkrs'=>$val['kdprtk'],'shiftkrs'=>$val['kls'],'tgl_input'=>$today);
+                        $this->Krs_model->updatedata($data1);
 
+                        $data=array('thsmsmpoll'=>$thnsms,'kdkmkmpoll'=>$val['kdprtk'],'nimhsmpoll'=>$nim,'shiftmpoll'=>$val['kls'],'tgl_input'=>$today);
+                        $this->Mpoll_model->updatedata($data);
+                        
+                  }
                 
                }
 
@@ -665,11 +686,219 @@ class Krs_mhs extends CI_Controller {
   public function hapus_krs(){
      if($this->input->is_ajax_request()){
        $nim = $this->input->post('nim');
-       $data['msg']='hapus';
+
+       $smtk = $this->session->userdata('smtk');
+          if(!empty($smtk)){ 
+            foreach ($smtk as $key=>$val) {
+               if($val['pilih']==1 ){
+
+                $mythnsem=new mythnsem;
+                $thnsms = $mythnsem->getthnsem();
+
+                $data1=array('thsmskrs'=> $thnsms,'nimhskrs'=>$nim,'kdkmkkrs'=>$key);
+                $this->Krs_model->deletedata($data1);
+
+                $data=array('thsmsmpoll'=>$thnsms,'kdkmkmpoll'=>$key,'nimhsmpoll'=>$nim);
+                $this->Mpoll_model->deletedata($data);
+
+                if(!empty($val['kdprtk'])){
+                    $data1=array('thsmskrs'=> $thnsms,'nimhskrs'=>$nim,'kdkmkkrs'=>$val['kdprtk']);
+                    $this->Krs_model->deletedata($data1);
+
+                    $data=array('thsmsmpoll'=>$thnsms,'kdkmkmpoll'=>$val['kdprtk'],'nimhsmpoll'=>$nim);
+                    $this->Mpoll_model->deletedata($data);
+                }
+
+               }
+             }
+           }    
+
+       $data['msg']='';
        echo json_encode($data);
      }  
   }
 
+  public function ctk_excel($nim)
+  {
+      $mythnsem=new mythnsem;
+      $TA = $mythnsem->getthnsem();
 
+      $datamhs = $this->Msmhs_model->getdata("nimhsmsmhs='$nim'");     
+      $datamtk = $this->Krs_model->getMtk($TA,$nim,0);  
+      $dataprtk = $this->Krs_model->getMtk($TA,$nim,1);
+
+      $this->load->library('ctkkrs');
+      $this->ctkkrs->ctk_KRS($datamhs,$datamtk,$dataprtk);
+
+                $filename="KRS - ".$nim." - ".$TA.".xls"; //save our workbook as this file name
+                header('Content-Type: application/vnd.ms-excel'); //mime type
+                header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+                header('Cache-Control: max-age=0'); //no cache
+                $this->ctkkrs->download();
+  }
+
+  public function ctk_pdf($nim)
+  {
+    $mythnsem=new mythnsem;
+    $TA = $mythnsem->getthnsem();
+     
+     
+     $tbl4 = new HTML_Table(null, 'display', 0, 0, 0,array("id" => "tb_jdl",'cellpadding'=>'2'));
+     
+     $tbl4->addRow();     
+      $tbl4->addCell('<img src="'.dirname(dirname(dirname((dirname(dirname(__FILE__)))))).'/assets/img/logo_fak.jpg" alt="logo" width="55" height="55">','data');
+          $tbl4->addCell('<font face="Times New Roman" size="10pt">'.
+                       '<b>PROGRAM STUDI MATEMATIKA<br>'.
+                     'FAKULTAS MATEMATIKA DAN ILMU PENGETAHUAN ALAM<br>'.
+                   'UNIVERSITAS BALE BANDUNG'.
+                 '</b>'.
+                   '</font>',null,'data');
+     
+     $jdl = $tbl4->display().       
+        '<br><br>'.
+            '<center>'.
+                  '<font face="Times New Roman" size="10pt">'.
+                   '<b>KARTU RENCANA STUDI (KRS)</b>'.
+              '</font>'.
+        '</center><br><br>';
+  
+       
+     $data = $this->Msmhs_model->getdata("nimhsmsmhs='$nim'");
+  
+    $txt_sem = array(1=>'Ganjil',2=>'Genap');
+    foreach($data as $row)
+      {  
+     $tbl2 = new HTML_Table(null, 'display', 0, 0, 0,array("id" => "tb_mhs","width"=>"100%"));       
+     $tbl2->addRow();     
+      $tbl2->addCell('NIM','data');
+          $tbl2->addCell(':',null,'data');
+      $tbl2->addCell($nim,null,'data');
+      $tbl2->addCell('Sem. Awal','data');
+          $tbl2->addCell(':',null,'data');
+      $thn = str_split($row['smawlmsmhs'], 4);
+      $tbl2->addCell($txt_sem[$thn[1]]." ".$thn[0],null,'data');
+     $tbl2->addRow();     
+      $tbl2->addCell('Nama','data');
+          $tbl2->addCell(':',null,'data');
+      $tbl2->addCell($row['nmmhsmsmhs'],null,'data');
+      $tbl2->addCell('Tahun Ajaran','data');
+          $tbl2->addCell(':',null,'data');
+      $thn = str_split($TA, 4);
+      $tbl2->addCell( $thn[0].'/'.($thn[0]+1),null,'data');   
+     $tbl2->addRow();     
+      $tbl2->addCell('Dosen Wali','data');
+          $tbl2->addCell(':',null,'data');
+      $tbl2->addCell('',null,'data');
+      $tbl2->addCell('Semester','data');
+          $tbl2->addCell(':',null,'data');
+      $tbl2->addCell( $txt_sem[$thn[1]]." ".$thn[0],null,'data');
+    }
+    
+   
+    
+       $tbl = new HTML_Table(null, 'display', 0, 0, 0,array("id" => "tb_mtk","width"=>"100%",'border'=>'1','cellpadding'=>'2'));
+     
+     $tbl->addRow(); 
+     $tbl->addCell('NO',null,'header',array('width'=>'5%'));
+     $tbl->addCell('KODE',null,'header',array('width'=>'15%'));   
+     $tbl->addCell('NAMA',null,'header',array('width'=>'70%'));  
+     $tbl->addCell('SKS',null,'header',array('width'=>'10%'));
+     
+    $data = $this->Krs_model->getMtk($TA,$nim,0);
+    
+    $jml_mtk = 1;
+    $jml_sks = 0.00;
+    if(!empty($data)){
+       
+       foreach($data as $row){
+      $tbl->addRow();
+      
+      $tbl->addCell($jml_mtk,null,'data',array('align'=>'right'));
+          $tbl->addCell($row['kdkmkkrs'],null,'data',array('align'=>'center'));
+      $tbl->addCell($row['nakmktbkmk'],null,'data',array('align'=>'left'));
+      $tbl->addCell($row['sksmktbkmk'],null,'data',array('align'=>'center'));
+       
+      $jml_sks+=$row['sksmktbkmk'];  
+      $jml_mtk++;     
+     }  
+    } 
+        $tbl->addRow();     
+      $tbl->addCell('',null,'data',array('align'=>'right','height'=>'18px'));
+          $tbl->addCell('',null,'data',array('align'=>'center','height'=>'18px'));
+      $tbl->addCell('',null,'data',array('align'=>'left','height'=>'18px'));
+      $tbl->addCell('',null,'data',array('align'=>'center','height'=>'18px'));
+      
+      $tbl->addRow();
+      $tbl->addCell('Jumlah',null,'data',array('colspan'=>'3','align'=>'center'));
+      $tbl->addCell($jml_sks,null,'data',array('align'=>'center'));
+      
+     $tbl1 = new HTML_Table(null, 'display', 0, 0, 0,array("id" => "tb_prak",'border'=>'1','width'=>'90%','cellpadding'=>'2'));
+     
+     $tbl1->addRow(); 
+     $tbl1->addCell('NO',null,'header',array('width'=>'5%'));
+     $tbl1->addCell('KODE',null,'header',array('width'=>'15%'));    
+     $tbl1->addCell('NAMA',null,'header',array('width'=>'70%'));   
+     
+
+    $data = $this->Krs_model->getMtk($TA,$nim,1);
+      
+    $jml_mtk = 1;
+    
+    if(!empty($data)){
+       
+       foreach($data as $row){
+       $kd = str_split($row['kdkmkkrs'],4); 
+        if($kd[0]=='MATP'){  
+           $tbl1->addRow();
+           $tbl1->addCell($jml_mtk,null,'data',array('align'=>'right'));
+               $tbl1->addCell($row['kdkmkkrs'],null,'data',array('align'=>'center'));
+           $tbl1->addCell($row['nakmktbkmk'],null,'data',array('align'=>'left'));
+          $jml_mtk++;
+            }       
+     }  
+    }      
+     
+      $tbl1->addRow();
+    $tbl1->addCell('',null,'data',array('align'=>'right','height'=>'18px'));
+        $tbl1->addCell('',null,'data',array('align'=>'center','height'=>'18px'));
+    $tbl1->addCell('',null,'data',array('align'=>'left','height'=>'18px'));
+     
+     $tbl3 = new HTML_Table(null, 'display', 0, 0, 0,array("id" => "tb_ttd",'border'=>'1','width'=>'60%','cellpadding'=>'2'));
+     
+     $tbl3->addRow(); 
+     $tbl3->addCell('MAHASISWA',null,'header',array('width'=>'50%'));
+     $tbl3->addCell('DOSEN WALI',null,'header',array('width'=>'50%'));    
+     $tbl3->addRow(); 
+     $tbl3->addCell(' ',null,'data',array('height'=>'50px'));
+     $tbl3->addCell(' ',null,'data',array('height'=>'50px'));
+     
+     
+     $html =
+            '<html>'.
+      '<style type="text/css">'.
+      'table{font-family: Calibri; font-size: 9pt;}'.
+      '</style>'.
+      '<body>'.
+       $jdl.$tbl2->display().             
+      '<br>Matakuliah : <br>'.$tbl->display().
+      '<br>Praktikum : <br>'.$tbl1->display().
+      '<br><br>'.$tbl3->display().
+      '<br><br>'.'<font face="Calibri" size="9pt">Dicetak dari Sistem Informasi Akademik FMIPA UNIBBA pada tanggal '.date("d-m-Y H:i:s").'</font>'.
+            '</body>'.
+      '</html>';          
+      //echo $html;
+     
+        
+      
+      
+      $this->load->library('pdf');
+      $filename="KRS - ".$nim." - ".$TA.".pdf";
+      $this->pdf->load_html($html);
+      $this->pdf->set_paper('a4', 'portrait');
+      $this->pdf->render();
+      $this->pdf->stream($filename);
+     
+     
+  } 
 
 }
