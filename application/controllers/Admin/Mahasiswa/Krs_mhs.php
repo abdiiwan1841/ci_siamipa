@@ -901,4 +901,37 @@ class Krs_mhs extends CI_Controller {
      
   } 
 
+  public function mig_krs()
+  {
+       if($this->input->is_ajax_request()){ 
+
+          $mythnsem=new mythnsem;
+          //$TA = $mythnsem->getthnsem();
+          $semester = $mythnsem->substhnsem('',1);
+
+          $this->Krs_model->export_record('trnlm',"thsmstrnlm,nimhstrnlm,kdkmktrnlm,kelastrnlm,shifttrnlm,tgl_input,semestrnlm","thsmskrs,nimhskrs,kdkmkkrs,kelaskrs,shiftkrs,tgl_input,semkrs","thsmskrs=".$semester); 
+          $this->Krs_model->export_record('trnlm_trnlp',"thsmstrnlm,nimhstrnlm,kdkmktrnlm,kelastrnlm","thsmskrs,nimhskrs,kdkmkkrs,kelaskrs","(kdkmkkrs not like 'MATP%') and (thsmskrs=".$semester.")"); 
+
+          $data['msg']='';
+          echo json_encode($data);
+
+       }
+  }
+
+  public function del_krs()
+  {
+       if($this->input->is_ajax_request()){ 
+
+          $mythnsem=new mythnsem;
+          //$TA = $mythnsem->getthnsem();
+          $semester = $mythnsem->substhnsem('',1);
+          
+          $this->Krs_model->deleteAllRecord("thsmskrs=".$semester);
+
+          $data['msg']='';
+          echo json_encode($data);
+
+       }
+  }
+
 }

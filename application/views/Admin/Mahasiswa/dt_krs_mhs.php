@@ -48,11 +48,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript">
  var load = '<?php echo $box_loading->display(); ?>';
  var nim;
+ var tb_idx=2;
 
  function edit(var_nim)
  {
      $("#frmedt").html(load);
      nim=var_nim;
+
+        
+        switch(tb_idx)
+        {
+           case 1 : 
+                    get_lkrs(); 
+                    get_ltdkkrs();
+                    break;
+           case 2 : 
+                    get_akrs(); 
+                    get_atdkkrs();
+                    break;           
+        }
+
+
      var vmyajax = new myajax();
          vmyajax.url = "edt_dt_krs";
          vmyajax.data = "nim="+nim;
@@ -94,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                  window.location = "krs_ctk_pdf/"+nim; 
              });
 
-
+             
 
 
         }
@@ -107,11 +123,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
    get_akrs();
 
     $('#tb2 a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+       tb_idx=2;
        get_akrs(); 
        get_atdkkrs();       
     });
 
     $('#tb1 a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+       tb_idx=1;
        get_lkrs(); 
        get_ltdkkrs();       
     });
@@ -119,6 +137,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $('#tb a[data-toggle="tab"]').on('shown.bs.tab', function(e){
        get_lkrs();
     });
+
+    $('#Mig').click(function () {
+        $('#akrs').html(load);
+        call_ajax("mig_krs",'','json',Mig_krs_call);                 
+    });
+
+    $('#Del').click(function () {
+         $('#akrs').html(load);
+         call_ajax("del_krs",'','json',Del_krs_call);
+     });  
 
 
 

@@ -88,6 +88,16 @@ function ltdkkrs_call(data) {
     init_tb("tb_krs3", 1);
 }
 
+function Mig_krs_call(data)
+{
+  get_akrs();
+}
+
+function Del_krs_call(data)
+{
+  get_akrs();  
+}
+
 function get_akrs() {
     $("#akrs").html(load);
     call_ajax("akrs", "", 'html', akrs_call);
@@ -141,7 +151,7 @@ function save_call(data) {
     if (data.msg != '') {
         $("#ketkrs").html(data.msg);
     } else {
-        edit(nim);
+        edit(nim);        
     }
 }
 

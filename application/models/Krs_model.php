@@ -198,7 +198,31 @@ class Krs_model extends CI_Model {
     return $data3;
   }
 
+  function export_record($tb,$field,$field1,$where)
+  {    
+    
+    if(!empty($where)){
+      $sql = "INSERT INTO $tb ($field) select $field1 from krs where $where";
+    }else
+    {
+      $sql = "INSERT INTO $tb ($field) select $field1 from krs";
+    }
+    
+    $query = $this->db->query($sql);
+   
+  }
 
+  function deleteAllRecord($where)
+  {
+    
+    if(!empty($where)){
+      $sql = "DELETE FROM krs WHERE $where";
+    }else{
+      $sql = "DELETE FROM krs";
+    }   
+      
+    $query = $this->db->query($sql);
+  } 
 
 
  }
