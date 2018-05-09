@@ -32,4 +32,37 @@ class trnlm_model extends CI_Model {
      }
      return $txt;
    }
+
+  function getriwayatsks($thn,$nim)
+  {
+    
+    $select = 'thsmstrnlm,nimhstrnlm,kdkmktrnlm,nakmktbkmk,sksmktbkmk,sksprtbkmk,shifttrnlm,semestbkmk,wp';
+    $from  = 'trnlm INNER JOIN tbkmk ON kdkmktrnlm=kdkmktbkmk';
+
+    $sql ="select sum(sksmktbkmk) as jml from (select $select from $from) a where thsmstrnlm='$thn' and nimhstrnlm='$nim' and kdkmktrnlm not like 'MATP%'";    
+    $query = $this->db->query($sql);
+    $data = $query->result_array();
+    
+    $jml_sks=0;
+    if(!empty($data))
+    {      
+        $jml_sks=$data[0]['jml']; 
+    }
+    
+    return $jml_sks;
+  }
+
+  function getmtk1($thnsms,$nim)
+  { 
+    $select = 'thsmstrnlm,nimhstrnlm,kdkmktrnlm,nakmktbkmk,sksmktbkmk,sksprtbkmk,shifttrnlm,semestbkmk,wp,semestrnlm,kelastrnlm,tgl_input';
+    $from  = 'trnlm INNER JOIN tbkmk ON kdkmktrnlm=kdkmktbkmk';    
+
+    $sql  = "select thsmstrnlm,nimhstrnlm,kdkmktrnlm,nakmktbkmk,sksmktbkmk,sksprtbkmk,shifttrnlm,semestrnlm,kelastrnlm,semestbkmk,wp,tgl_input from (select $select from $from) a where thsmstrnlm='$thnsms' and nimhstrnlm='$nim' order by semestbkmk,kdkmktrnlm";
+    
+    $query = $this->db->query($sql);
+    $data = $query->result_array();
+    return $data;     
+  } 
+
+
 }

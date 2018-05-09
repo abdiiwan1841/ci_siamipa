@@ -69,6 +69,7 @@ $route['Admin/dt_stat_mhs'] = 'Admin/Admin/change_content/7/74';
 $route['Admin/dt_khs_mhs'] = 'Admin/Admin/change_content/7/75';
 $route['Admin/dt_trans_mhs'] = 'Admin/Admin/change_content/7/76';
 $route['Admin/dt_krs_mhs'] = 'Admin/Admin/change_content/7/77';
+$route['Admin/dt_rkrs_mhs'] = 'Admin/Admin/change_content/7/78';
 
 $route['Admin/dt_dosen'] = 'Admin/Admin/change_content/8/81';
 $route['Admin/dt_mtk'] = 'Admin/Admin/change_content/9/91';
@@ -146,6 +147,25 @@ $route['Admin/krs_ctk_excel/(:any)'] = 'Admin/Mahasiswa/Krs_mhs/ctk_excel/$1';
 $route['Admin/krs_ctk_pdf/(:any)'] = 'Admin/Mahasiswa/Krs_mhs/ctk_pdf/$1';
 $route['Admin/mig_krs'] = 'Admin/Mahasiswa/Krs_mhs/mig_krs';
 $route['Admin/del_krs'] = 'Admin/Mahasiswa/Krs_mhs/del_krs';
+
+$route['Admin/filter_rkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/filter_rkrs';
+$route['Admin/arkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/akrs';
+$route['Admin/atdkrkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/atdkkrs';
+$route['Admin/lrkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/lkrs';
+$route['Admin/ltdkrkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/ltdkkrs';
+$route['Admin/edt_dt_rkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/edt_dt_krs';
+$route['Admin/ambil_mtk_rkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/ambil_mtk_krs';
+$route['Admin/ulang_mtk_rkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/ulang_mtk_krs';
+$route['Admin/kelas_mtk_rkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/kelas_mtk_krs';
+$route['Admin/hapus_mtk_rkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/hapus_mtk_krs';
+$route['Admin/save_ambil_rkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/save_ambil';
+$route['Admin/save_ulang_rkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/save_ulang';
+$route['Admin/save_kelas_rkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/save_kelas';
+$route['Admin/hapus_rkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/hapus_krs';
+$route['Admin/pilih_mtk_rkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/pilih_mtk_krs';
+$route['Admin/input_kls_rkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/input_kls';
+$route['Admin/rkrs_ctk_excel/(:any)'] = 'Admin/Mahasiswa/Rkrs_mhs/ctk_excel/$1';
+$route['Admin/rkrs_ctk_pdf/(:any)'] = 'Admin/Mahasiswa/Rkrs_mhs/ctk_pdf/$1';
 
 
 $route['Admin/get_dt_dosen'] = 'Admin/Dosen/Dosen/get_dt_dosen';
