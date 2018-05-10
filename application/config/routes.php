@@ -164,8 +164,8 @@ $route['Admin/save_kelas_rkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/save_kelas';
 $route['Admin/hapus_rkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/hapus_krs';
 $route['Admin/pilih_mtk_rkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/pilih_mtk_krs';
 $route['Admin/input_kls_rkrs'] = 'Admin/Mahasiswa/Rkrs_mhs/input_kls';
-$route['Admin/rkrs_ctk_excel/(:any)'] = 'Admin/Mahasiswa/Rkrs_mhs/ctk_excel/$1';
-$route['Admin/rkrs_ctk_pdf/(:any)'] = 'Admin/Mahasiswa/Rkrs_mhs/ctk_pdf/$1';
+$route['Admin/rkrs_ctk_excel/(:any)/(:any)'] = 'Admin/Mahasiswa/Rkrs_mhs/ctk_excel/$1/$2';
+$route['Admin/rkrs_ctk_pdf/(:any)/(:any)'] = 'Admin/Mahasiswa/Rkrs_mhs/ctk_pdf/$1/$2';
 
 
 $route['Admin/get_dt_dosen'] = 'Admin/Dosen/Dosen/get_dt_dosen';

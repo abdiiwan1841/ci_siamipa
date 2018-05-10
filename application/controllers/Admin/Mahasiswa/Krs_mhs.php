@@ -284,6 +284,7 @@ class Krs_mhs extends CI_Controller {
        $this->session->unset_userdata('smtk');
        $this->session->unset_userdata('jmlsks');
 
+       $smtk=array();
        if(!empty($data)){
        $i=0;
       foreach($data as $row){
@@ -332,6 +333,7 @@ class Krs_mhs extends CI_Controller {
        $this->session->unset_userdata('smtk');
        $this->session->unset_userdata('jmlsks');
 
+       $smtk=array();
        if(!empty($data)){
        $i=0;
       foreach($data as $row){
@@ -382,6 +384,7 @@ class Krs_mhs extends CI_Controller {
      
       $data = $this->Krs_model->getMtk($thnsms,$nim,0);
         $jmlsks=0;
+        $smtk=array();
       if(!empty($data)){ 
         foreach($data as $row){
         
@@ -441,6 +444,7 @@ class Krs_mhs extends CI_Controller {
      
       $data = $this->Krs_model->getMtk($thnsms,$nim,0);
         $jmlsks=0;
+        $smtk=array();
       if(!empty($data)){ 
         foreach($data as $row){
         
@@ -505,7 +509,6 @@ class Krs_mhs extends CI_Controller {
         $smtk = $this->session->userdata('smtk');
         $smtk[$kode]['pilih']=1;
         $smtk[$kode]['kls']=$kls;
-        print_r($smtk[$kode]);
         $this->session->set_userdata('smtk',$smtk);
     }
   }
@@ -565,11 +568,10 @@ class Krs_mhs extends CI_Controller {
             }
           }
          $data['msg']="";
-       }else{
-         $data['msg']="IPK = ".number_format($ipk, 2, '.', '')." Hanya diperkenankan mengambil ".$sks_blh." sks !!!";
+       }else{        
+          
+         $data['msg']='<div class="callout callout-danger"><h4>Pemberitahuan</h4><p>IPK = '.number_format($ipk, 2, '.', '').' Hanya diperkenankan mengambil '.$sks_blh.' sks !!!</p> </div>';
        }
-       
-
        
        echo json_encode($data);
      }  
@@ -633,7 +635,7 @@ class Krs_mhs extends CI_Controller {
           }
          $data['msg']="";
        }else{
-         $data['msg']="IPK = ".number_format($ipk, 2, '.', '')." Hanya diperkenankan mengambil ".$sks_blh." sks !!!";
+         $data['msg']=$data['msg']='<div class="callout callout-danger"><h4>Pemberitahuan</h4><p>IPK = '.number_format($ipk, 2, '.', '').' Hanya diperkenankan mengambil '.$sks_blh.' sks !!!</p> </div>';;
        }
 
        echo json_encode($data);

@@ -92,25 +92,25 @@ function ltdkkrs_call(data) {
 
 function get_akrs() {
     $("#akrs").html(load);
-    var sem = $("#sem").val();
+    //var sem = $("#sem").val();
     call_ajax("arkrs", "sem=" + sem, 'html', akrs_call);
 }
 
 function get_atdkkrs() {
     $("#atdkkrs").html(load);
-    var sem = $("#sem").val();
+    //var sem = $("#sem").val();
     call_ajax("atdkrkrs", "sem=" + sem, 'html', atdkkrs_call);
 }
 
 function get_lkrs() {
     $("#lkrs").html(load);
-    var sem = $("#sem").val();
+    //var sem = $("#sem").val();
     call_ajax("lrkrs", "sem=" + sem, 'html', lkrs_call);
 }
 
 function get_ltdkkrs() {
     $("#ltdkkrs").html(load);
-    var sem = $("#sem").val();
+    //var sem = $("#sem").val();
     call_ajax("ltdkrkrs", "sem=" + sem, 'html', ltdkkrs_call);
 }
 
@@ -155,7 +155,7 @@ function ambil_call(data) {
     $("#data1").html(data.lst_mtk);
     $("#btn").html(data.btn);
     init_tb("lst_mtk", 2);
-    btn_ajax('save_ambil', "save_ambil_rkrs", "nim=" + nim, 'json', save_call);
+    btn_ajax('save_ambil', "save_ambil_rkrs", "nim=" + nim+'&sem='+sem, 'json', save_call);
     btn_cancel();
 }
 
@@ -163,7 +163,7 @@ function ulang_call(data) {
     $("#data1").html(data.lst_mtk);
     $("#btn").html(data.btn);
     init_tb("lst_mtk", 2);
-    btn_ajax('save_ulang', "save_ulang_rkrs", "nim=" + nim, 'json', save_call);
+    btn_ajax('save_ulang', "save_ulang_rkrs", "nim=" + nim+'&sem='+sem, 'json', save_call);
     btn_cancel();
 }
 
@@ -171,7 +171,7 @@ function edit_call(data) {
     $("#data1").html(data.lst_mtk);
     $("#btn").html(data.btn);
     init_tb("lst_mtk", 3);
-    btn_ajax('save_kelas', "save_kelas_rkrs", "nim=" + nim, 'json', save_call);
+    btn_ajax('save_kelas', "save_kelas_rkrs", "nim=" + nim+'&sem='+sem, 'json', save_call);
     btn_cancel();
 }
 
@@ -179,7 +179,7 @@ function hapus_call(data) {
     $("#data1").html(data.lst_mtk);
     $("#btn").html(data.btn);
     init_tb("lst_mtk", 3);
-    btn_ajax('del_krs', "hapus_rkrs", "nim=" + nim, 'json', save_call);
+    btn_ajax('del_krs', "hapus_rkrs", "nim=" + nim+'&sem='+sem, 'json', save_call);
     btn_cancel();
 }
 

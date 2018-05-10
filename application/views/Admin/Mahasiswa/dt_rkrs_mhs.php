@@ -49,12 +49,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  var load = '<?php echo $box_loading->display(); ?>';
  var nim;
  var tb_idx=2;
+ var sem;
 
  function edit(var_nim)
  {
      $("#frmedt").html(load);
      nim=var_nim;
-     var sem = $("#sem").val();
+     //sem = $("#sem").val();
 
         
         switch(tb_idx)
@@ -104,11 +105,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               });  
 
               $("#ctkexcel").click(function () {
-                 window.location = "rkrs_ctk_excel/"+nim;        
+                 window.location = "rkrs_ctk_excel/"+nim+"/"+sem;        
               });
 
              $("#ctkpdf").click(function () {
-                 window.location = "rkrs_ctk_pdf/"+nim; 
+                 window.location = "rkrs_ctk_pdf/"+nim+"/"+sem; 
              });
 
              
@@ -121,7 +122,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   function filter()
   {
-     var sem = $("#sem").val();
+     sem = $("#sem").val();
      call_ajax("filter_rkrs","sem=" + sem,'JSON',filter_call);     
   }
 
@@ -129,6 +130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
    FastClick.attach(document.body);
    filter();
      $("#filter").click(function () {
+       $("#frmedt").html('');
        filter();
      });
 
@@ -146,6 +148,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     $('#tb a[data-toggle="tab"]').on('shown.bs.tab', function(e){
        get_lkrs();
+       get_akrs(); 
     });
 
     

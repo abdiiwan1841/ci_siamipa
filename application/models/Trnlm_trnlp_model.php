@@ -31,6 +31,15 @@ class Trnlm_trnlp_model extends CI_Model {
      
    }
 
+   public function deletedatamtk($nim,$ta,$kd)
+   {
+     $this->db->where('nimhstrnlm', $nim);
+     $this->db->where('thsmstrnlm', $ta);
+     $this->db->where('kdkmktrnlm', $kd);
+     $this->db->delete('trnlm_trnlp');
+     
+   }
+
    public function insertdata($data)
    {
       $this->db->insert('trnlm_trnlp',$data);
